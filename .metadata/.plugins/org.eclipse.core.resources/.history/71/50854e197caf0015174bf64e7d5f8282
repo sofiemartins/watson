@@ -28,7 +28,7 @@ public class LessonOverview {
 		
 	}
 	
-	protected void loadLessons(){}
+	private void load(){}
 	
 	private void save(){}
 	
@@ -68,22 +68,18 @@ public class LessonOverview {
 	private JScrollPane getOverviewList(){
 		JList<Lesson> list = new JList<Lesson>();
 		setBasicProperties(list);
-		addElementsTo(list);
-		return new JScrollPane(list);
+		JScrollPane container = new JScrollPane(list);
 	}
 	
-	private void setBasicProperties(JList<Lesson> list){
+	private void setBasicProperties(JList list){
 		list.setSelectionMode(ListSelectionModel.SINGLE_INTERVAL_SELECTION);
 		list.setLayoutOrientation(JList.HORIZONTAL_WRAP);
 		list.setVisibleRowCount(-1);
 	}
 	
-	private void addElementsTo(JList<Lesson> list){
-		DefaultListModel<Lesson> listModel = new DefaultListModel<Lesson>();
-		for(Lesson lesson : Lesson.allLessons){
-			listModel.addElement(lesson);
-		}
-		list.setModel(listModel);
+	private void addElementsTo(JList list){
+		DefaultListModel listModel = new DefaultListModel();
 	}
+	private JScrollPane putIntoContainer(JList list){}
 
 }

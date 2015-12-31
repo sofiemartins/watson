@@ -20,7 +20,7 @@ public class TestFileManager {
 	 */
 	@BeforeClass
 	public static void changeFilename(){
-		FileManager.filename = "testLessons.watson";
+		FileManager.dryRun();
 	}
 	
 	/*

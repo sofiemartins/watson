@@ -28,7 +28,7 @@ public class LessonOverview {
 		
 	}
 	
-	protected void loadLessons(){}
+	private void load(){}
 	
 	private void save(){}
 	
