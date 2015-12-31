@@ -19,8 +19,8 @@ import util.Lesson;
 public class FileManager {
 	
 	public static ArrayList<Lesson> getLessons() throws IOException{
-		//ObjectInputStream stream = new ObjectInputStream(new FileInputStream("lessons.watson"));
-		//stream.close();
+		ObjectInputStream stream = new ObjectInputStream(new FileInputStream("lessons.watson"));
+		stream.close();
 		return null;
 	}
 	

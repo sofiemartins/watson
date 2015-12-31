@@ -5,8 +5,6 @@ import static org.junit.Assert.*;
 import org.junit.Test;
 //java lib
 import java.util.ArrayList;
-import java.io.IOException;
-import java.io.File;
 //local
 import util.Card;
 import util.Lesson;
@@ -29,20 +27,12 @@ public class TestFileManager {
 		try{
 			FileManager.save(lessons);
 			loadedLessons = FileManager.getLessons();
-		}catch(IOException e){
-			fail("Unexpected Exception");
 		}
 		assertEquals(loadedLessons.size(), lessons.size());
 	}
 	
 	@Test
 	public void AfterWriteAFileExists(){
-		try{
-			FileManager.save(getExampleLessons());
-		}catch(IOException e){
-			fail("Unexpected Exception");
-		}
-		File file = new File("lessons.watson");
-		assertTrue(file.exists());
+		
 	}
 }
