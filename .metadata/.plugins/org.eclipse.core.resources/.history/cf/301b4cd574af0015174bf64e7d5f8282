@@ -28,7 +28,7 @@ public class FileManager {
 	}
 	
 	public static void save(ArrayList<Lesson> lessons) throws IOException{
-		ObjectOutputStream stream = new ObjectOutputStream(new FileOutputStream(filename));
+		ObjectOutputStream stream = new ObjectOutputStream(new FileOutputStream("lessons.watson"));
 		stream.writeObject(lessons);
 		stream.close();
 	}

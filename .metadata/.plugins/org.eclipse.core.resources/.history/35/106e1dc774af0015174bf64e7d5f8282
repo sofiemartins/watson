@@ -62,7 +62,7 @@ public class TestFileManager {
 		}catch(IOException e){
 			fail("Unexpected Exception");
 		}
-		File file = new File("testLessons.watson");
+		File file = new File("lessons.watson");
 		assertTrue(file.exists());
 	}
 }
