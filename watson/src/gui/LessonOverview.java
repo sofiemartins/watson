@@ -135,5 +135,4 @@ public class LessonOverview extends JFrame{
 		}
 		list.setModel(listModel);
 	}
-
 }
