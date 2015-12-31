@@ -21,10 +21,15 @@ public class FileManager {
 	// default filename that can be saved for testing the program without destroying data.
 	protected static String filename = "lessons.watson"; 
 	
-	public static ArrayList<Lesson> getLessons() throws Exception{
+	public static ArrayList<Lesson> getLessons() throws IOException{
+		try{
 		ObjectInputStream stream = new ObjectInputStream(new FileInputStream("lessons.watson"));
 		ArrayList<Lesson> lessons = (ArrayList<Lesson>) stream.readObject();
 		stream.close();
+		}catch(ClassNotFoundException e){
+			//this should never happen!
+			e.printStackTrace();
+		}
 		return null;
 	}
 	

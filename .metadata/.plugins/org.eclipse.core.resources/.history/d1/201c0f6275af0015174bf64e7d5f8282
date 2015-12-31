@@ -49,7 +49,7 @@ public class TestFileManager {
 		try{
 			FileManager.save(lessons);
 			loadedLessons = FileManager.getLessons();
-		}catch(Exception e){
+		}catch(IOException e){
 			fail("Unexpected Exception");
 		}
 		assertEquals(loadedLessons.size(), lessons.size());
