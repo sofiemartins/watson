@@ -19,7 +19,7 @@ import util.Lesson;
 public class FileManager {
 	
 	// default filename that can be saved for testing the program without destroying data.
-	protected static String filename = "lessons.watson"; 
+	private static String filename = "lessons.watson"; 
 	
 	public static ArrayList<Lesson> getLessons() throws Exception{
 		ObjectInputStream stream = new ObjectInputStream(new FileInputStream("lessons.watson"));
@@ -38,6 +38,6 @@ public class FileManager {
 	 * Creates the environment for test cases
 	 */
 	public static void dryRun(){
-		//filename = "test.watson";
+		filename = "test.watson";
 	}
 }

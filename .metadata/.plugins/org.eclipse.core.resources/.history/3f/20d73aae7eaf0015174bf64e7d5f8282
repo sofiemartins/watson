@@ -2,7 +2,6 @@ package gui;
 
 import static org.junit.Assert.*;
 import org.junit.Test;
-import org.junit.BeforeClass;
 
 import io.FileManager;
 
@@ -34,6 +33,7 @@ public class TestLessonOverview {
 	}
 	
 	private void createExampleSaveStatus(){
+		FileManager
 	}
 	
 	private void emptyLoadedLessons(){}

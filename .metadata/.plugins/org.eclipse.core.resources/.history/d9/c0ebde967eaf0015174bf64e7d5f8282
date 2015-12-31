@@ -29,7 +29,7 @@ public class TestFileManager {
 	 */
 	@After
 	public void removeFile(){
-		File file = new File("test.watson");
+		File file = new File("testLessons.watson");
 		file.delete();
 	}
 	
@@ -62,13 +62,7 @@ public class TestFileManager {
 		}catch(IOException e){
 			fail("Unexpected Exception");
 		}
-		File file = new File("test.watson");
+		File file = new File("testLessons.watson");
 		assertTrue(file.exists());
-	}
-	
-	@Test 
-	public void testDryRun(){
-		FileManager.dryRun();
-		assertEquals(FileManager.filename,"test.watson");
 	}
 }
