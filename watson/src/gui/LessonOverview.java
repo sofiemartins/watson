@@ -65,7 +65,7 @@ public class LessonOverview extends JFrame{
 	private JPanel getButtonPanel(){
 		JPanel container = new JPanel();
 		container.setLayout(new GridLayout(1,3));
-		container.setBorder(new EmptyBorder(5,350,5,350));
+		container.setBorder(new EmptyBorder(5,320,5,320));
 		container.add(getNewButton());
 		container.add(getRemoveButton());
 		container.add(getEditButton());
@@ -74,7 +74,7 @@ public class LessonOverview extends JFrame{
 		
 	private JButton getNewButton(){
 		JButton button = new JButton(); 
-		button.setIcon(new ImageIcon("../add.png"));
+		setIcon(button, "add.png");
 		button.addActionListener(new ActionListener(){
 			@Override
 			public void actionPerformed(ActionEvent e){
@@ -88,7 +88,7 @@ public class LessonOverview extends JFrame{
 	
 	private JButton getRemoveButton(){
 		JButton button = new JButton();
-		button.setIcon(new ImageIcon(getClass().getResource("/res/delete.png")));
+		setIcon(button, "remove.png");
 		button.addActionListener(new ActionListener(){
 			@Override
 			public void actionPerformed(ActionEvent e){
@@ -100,7 +100,7 @@ public class LessonOverview extends JFrame{
 	
 	private JButton getEditButton(){
 		JButton button = new JButton();
-		button.setIcon(new ImageIcon("../edit.png"));
+		setIcon(button, "edit.png");
 		button.addActionListener(new ActionListener(){
 			@Override
 			public void actionPerformed(ActionEvent e){
@@ -110,23 +110,8 @@ public class LessonOverview extends JFrame{
 		return button;
 	}
 	
-	private ImageIcon getIcon(ActionType type){//TODO: make this less terrible
-		try{
-			if(type==ActionType.ADD){
-				Image img = ImageIO.read(getClass().getResource("add.png"));
-				return new ImageIcon(img);
-			}else if(type==ActionType.DELETE){
-				Image img = ImageIO.read(getClass().getResource("delete.png"));
-				return new ImageIcon(img);
-			}else{
-				Image img = ImageIO.read(getClass().getResource("edit.png"));
-				return new ImageIcon(img);
-			}
-		}catch(IOException e){
-			JOptionPane.showMessageDialog(this, "A severe file reading error occurred, please reinstall the program!", 
-					"Error", JOptionPane.ERROR_MESSAGE);
-		}
-		return null;
+	private void setIcon(JButton button, String filepath){
+		button.setIcon(new ImageIcon(getClass().getResource(filepath)));
 	}
 	
 	
