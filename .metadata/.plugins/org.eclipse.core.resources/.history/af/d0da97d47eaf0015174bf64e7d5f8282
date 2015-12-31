@@ -38,6 +38,6 @@ public class FileManager {
 	 * Creates the environment for test cases
 	 */
 	public static void dryRun(){
-		filename = "test.watson";
+		//filename = "test.watson";
 	}
 }
