@@ -10,10 +10,8 @@ import java.util.ArrayList;
 
 public class FileManager {
 	
-	public static ArrayList<Lesson> getLessons(){
-		return new ArrayList<Lesson>();
-	}
+	public static ArrayList<Lesson> getLessons(){}
 	
-	public static void save(ArrayList<Lesson> lessons){}
+	public static void saveLessons(ArrayList<Lesson> lessons){}
 
 }
