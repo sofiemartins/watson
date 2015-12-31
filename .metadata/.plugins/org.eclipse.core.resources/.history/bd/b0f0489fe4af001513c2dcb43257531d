@@ -73,8 +73,8 @@ public class LessonOverview extends JFrame{
 	}
 		
 	private JButton getNewButton(){
-		JButton button = new JButton(); 
-		button.setIcon(new ImageIcon("../add.png"));
+		JButton button = new JButton("New"); 
+		button.setIcon(getIcon(ActionType.ADD));
 		button.addActionListener(new ActionListener(){
 			@Override
 			public void actionPerformed(ActionEvent e){
@@ -87,8 +87,8 @@ public class LessonOverview extends JFrame{
 	
 	
 	private JButton getRemoveButton(){
-		JButton button = new JButton();
-		button.setIcon(new ImageIcon("../delete.png"));
+		JButton button = new JButton("Remove");
+		button.setIcon(getIcon(ActionType.DELETE));
 		button.addActionListener(new ActionListener(){
 			@Override
 			public void actionPerformed(ActionEvent e){
@@ -99,8 +99,8 @@ public class LessonOverview extends JFrame{
 	}
 	
 	private JButton getEditButton(){
-		JButton button = new JButton();
-		button.setIcon(new ImageIcon("../edit.png"));
+		JButton button = new JButton("Edit");
+		button.setIcon(getIcon(ActionType.EDIT));
 		button.addActionListener(new ActionListener(){
 			@Override
 			public void actionPerformed(ActionEvent e){
@@ -113,13 +113,13 @@ public class LessonOverview extends JFrame{
 	private ImageIcon getIcon(ActionType type){//TODO: make this less terrible
 		try{
 			if(type==ActionType.ADD){
-				Image img = ImageIO.read(getClass().getResource("add.png"));
+				Image img = ImageIO.read(getClass().getResource("res/add.png"));
 				return new ImageIcon(img);
 			}else if(type==ActionType.DELETE){
-				Image img = ImageIO.read(getClass().getResource("delete.png"));
+				Image img = ImageIO.read(getClass().getResource("res/delete.png"));
 				return new ImageIcon(img);
 			}else{
-				Image img = ImageIO.read(getClass().getResource("edit.png"));
+				Image img = ImageIO.read(getClass().getResource("res/edit.png"));
 				return new ImageIcon(img);
 			}
 		}catch(IOException e){

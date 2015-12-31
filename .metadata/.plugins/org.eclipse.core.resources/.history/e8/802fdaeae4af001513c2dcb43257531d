@@ -73,8 +73,8 @@ public class LessonOverview extends JFrame{
 	}
 		
 	private JButton getNewButton(){
-		JButton button = new JButton(); 
-		button.setIcon(new ImageIcon("../add.png"));
+		JButton button = new JButton("New"); 
+		button.setIcon(getIcon("add.png");
 		button.addActionListener(new ActionListener(){
 			@Override
 			public void actionPerformed(ActionEvent e){
@@ -87,8 +87,8 @@ public class LessonOverview extends JFrame{
 	
 	
 	private JButton getRemoveButton(){
-		JButton button = new JButton();
-		button.setIcon(new ImageIcon("../delete.png"));
+		JButton button = new JButton("Remove");
+		button.setIcon(getIcon(new ImageIcon("delete.png"));
 		button.addActionListener(new ActionListener(){
 			@Override
 			public void actionPerformed(ActionEvent e){
@@ -99,8 +99,8 @@ public class LessonOverview extends JFrame{
 	}
 	
 	private JButton getEditButton(){
-		JButton button = new JButton();
-		button.setIcon(new ImageIcon("../edit.png"));
+		JButton button = new JButton("Edit");
+		button.setIcon(new ImageIcon("edit.png"));
 		button.addActionListener(new ActionListener(){
 			@Override
 			public void actionPerformed(ActionEvent e){
