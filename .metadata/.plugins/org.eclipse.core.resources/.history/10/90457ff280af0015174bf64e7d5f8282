@@ -12,33 +12,25 @@
 package gui;
 
 // java lib
-import javax.swing.JFrame;
 import javax.swing.JButton;
 import javax.swing.JList;
 import javax.swing.JScrollPane;
 import javax.swing.DefaultListModel;
 import javax.swing.ListSelectionModel;
-import javax.swing.JOptionPane;
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
-import java.io.IOException;
 //local
 import util.Lesson;
 import io.FileManager;
 
-public class LessonOverview extends JFrame{
+public class LessonOverview {
 	
 	public LessonOverview(){
 		
 	}
 	
 	protected void loadLessons(){
-		try{
-			Lesson.allLessons = FileManager.getLessons();
-		}catch(Exception e){
-			JOptionPane.showMessageDialog(this, "A severe error occurred. To fix this, please reinstall the program.", 
-					"Error", JOptionPane.ERROR_MESSAGE);
-		}
+		Lesson.allLessons = FileManager.getLessons();
 	}
 	
 	private void save(){}
