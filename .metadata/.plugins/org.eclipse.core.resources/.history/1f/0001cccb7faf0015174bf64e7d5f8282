@@ -13,7 +13,7 @@ import util.Lesson;
 public class TestLessonOverview {
 	
 	@BeforeClass
-	public static void changeTestFilename(){
+	public void changeTestFilename(){
 		FileManager.dryRun();
 	}
 

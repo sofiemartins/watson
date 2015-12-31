@@ -5,7 +5,6 @@ import org.junit.Test;
 import org.junit.BeforeClass;
 
 import java.util.ArrayList;
-import java.io.IOException;
 
 import io.FileManager;
 import util.Lesson;
@@ -13,18 +12,16 @@ import util.Lesson;
 public class TestLessonOverview {
 	
 	@BeforeClass
-	public static void changeTestFilename(){
+	public void changeTestFilename(){
 		FileManager.dryRun();
 	}
 
 	@Test
 	public void testLoadLessons(){
-		LessonOverview lessonOverview = new LessonOverview();
+		new LessonOverview();
 		createExampleSaveStatus();
-		unloadLessons();
-		assertTrue(Lesson.allLessons.isEmpty());
-		lessonOverview.loadLessons();
-		assertFalse(Lesson.allLessons.isEmpty());
+		emptyLoadedLessons();
+		
 	}
 	
 	private ArrayList<Lesson> getExampleLessonList(){
@@ -43,8 +40,5 @@ public class TestLessonOverview {
 		}
 	}
 	
-	private void unloadLessons(){
-		Lesson.allLessons = new ArrayList<Lesson>();
-		assertTrue(Lesson.allLessons.isEmpty());
-	}
+	private void emptyLoadedLessons(){}
 }

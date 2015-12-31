@@ -13,18 +13,16 @@ import util.Lesson;
 public class TestLessonOverview {
 	
 	@BeforeClass
-	public static void changeTestFilename(){
+	public void changeTestFilename(){
 		FileManager.dryRun();
 	}
 
 	@Test
 	public void testLoadLessons(){
-		LessonOverview lessonOverview = new LessonOverview();
+		new LessonOverview();
 		createExampleSaveStatus();
-		unloadLessons();
-		assertTrue(Lesson.allLessons.isEmpty());
-		lessonOverview.loadLessons();
-		assertFalse(Lesson.allLessons.isEmpty());
+		emptyLoadedLessons();
+		
 	}
 	
 	private ArrayList<Lesson> getExampleLessonList(){
@@ -43,7 +41,7 @@ public class TestLessonOverview {
 		}
 	}
 	
-	private void unloadLessons(){
+	private void emptyLoadedLessons(){
 		Lesson.allLessons = new ArrayList<Lesson>();
 		assertTrue(Lesson.allLessons.isEmpty());
 	}
