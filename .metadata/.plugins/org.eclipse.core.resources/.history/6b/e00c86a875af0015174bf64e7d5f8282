@@ -23,9 +23,9 @@ public class FileManager {
 	
 	public static ArrayList<Lesson> getLessons() throws Exception{
 		ObjectInputStream stream = new ObjectInputStream(new FileInputStream("lessons.watson"));
-		ArrayList<Lesson> lessons = (ArrayList<Lesson>) stream.readObject(); // TODO:Fix this so the warning disappears
+		ArrayList<Lesson> lessons = (ArrayList<Lesson>) stream.readObject();
 		stream.close();
-		return lessons;
+		return null;
 	}
 	
 	public static void save(ArrayList<Lesson> lessons) throws IOException{
