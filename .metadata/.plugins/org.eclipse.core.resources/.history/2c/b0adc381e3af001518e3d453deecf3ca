@@ -73,8 +73,7 @@ public class LessonOverview extends JFrame{
 	}
 		
 	private JButton getNewButton(){
-		JButton button = new JButton("New"); 
-		button.setIcon(getIcon(ActionType.ADD));
+		JButton button = new JButton("New"); // TODO: add icon
 		button.addActionListener(new ActionListener(){
 			@Override
 			public void actionPerformed(ActionEvent e){
@@ -84,11 +83,19 @@ public class LessonOverview extends JFrame{
 		return button;
 	}
 	
-	
+	private ImageIcon getNewIcon(){
+		try{
+			Image img = ImageIO.read(getClass().getResource("red/add"));
+			return new ImageIcon(img);
+		}catch(IOException e){
+			JOptionPane.showMessageDialog(this, "A severe file reading error occurred, please reinstall the program!", 
+					"Error", JOptionPane.ERROR_MESSAGE);
+		}
+		return null;
+	}
 	
 	private JButton getRemoveButton(){
 		JButton button = new JButton("Remove");
-		button.setIcon(getIcon(ActionType.DELETE));
 		button.addActionListener(new ActionListener(){
 			@Override
 			public void actionPerformed(ActionEvent e){
@@ -100,7 +107,6 @@ public class LessonOverview extends JFrame{
 	
 	private JButton getEditButton(){
 		JButton button = new JButton("Edit");
-		button.setIcon(getIcon(ActionType.EDIT));
 		button.addActionListener(new ActionListener(){
 			@Override
 			public void actionPerformed(ActionEvent e){
@@ -109,26 +115,6 @@ public class LessonOverview extends JFrame{
 		});
 		return button;
 	}
-	
-	private ImageIcon getIcon(ActionType type){//TODO: make this less terrible
-		try{
-			if(type==ActionType.ADD){
-				Image img = ImageIO.read(getClass().getResource("res/add.png"));
-				return new ImageIcon(img);
-			}else if(type==ActionType.DELETE){
-				Image img = ImageIO.read(getClass().getResource("res/delete.png"));
-				return new ImageIcon(img);
-			}else{
-				Image img = ImageIO.read(getClass().getResource("res/edit.png"));
-				return new ImageIcon(img);
-			}
-		}catch(IOException e){
-			JOptionPane.showMessageDialog(this, "A severe file reading error occurred, please reinstall the program!", 
-					"Error", JOptionPane.ERROR_MESSAGE);
-		}
-		return null;
-	}
-	
 	
 	private JScrollPane getOverviewList(){
 		JList<Lesson> list = new JList<Lesson>();

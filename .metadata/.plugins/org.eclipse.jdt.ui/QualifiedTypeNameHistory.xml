@@ -7,4 +7,5 @@
 <fullyQualifiedTypeName name="io.FileManager"/>
 <fullyQualifiedTypeName name="gui.LessonOverview"/>
 <fullyQualifiedTypeName name="java.awt.BorderLayout"/>
+<fullyQualifiedTypeName name="javax.swing.JOptionPane"/>
 </qualifiedTypeNameHistroy>
