@@ -20,7 +20,7 @@ public class TestLessonOverview {
 	}
 	
 	@After
-	public void removeTestFile(){
+	public static void removeTestFile(){
 		File file = new File("test.watson");
 		file.delete();
 	}

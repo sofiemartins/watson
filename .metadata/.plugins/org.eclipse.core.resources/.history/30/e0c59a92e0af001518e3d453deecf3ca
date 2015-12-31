@@ -3,11 +3,9 @@ package gui;
 import static org.junit.Assert.*;
 import org.junit.Test;
 import org.junit.BeforeClass;
-import org.junit.After;
 
 import java.util.ArrayList;
 import java.io.IOException;
-import java.io.File;
 
 import io.FileManager;
 import util.Lesson;
@@ -17,12 +15,6 @@ public class TestLessonOverview {
 	@BeforeClass
 	public static void changeTestFilename(){
 		FileManager.dryRun();
-	}
-	
-	@After
-	public void removeTestFile(){
-		File file = new File("test.watson");
-		file.delete();
 	}
 
 	@Test
