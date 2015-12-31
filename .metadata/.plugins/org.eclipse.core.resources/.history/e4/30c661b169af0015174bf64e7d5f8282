@@ -1,0 +1,11 @@
+package util;
+
+import gui.LessonOverview;
+
+public class Main {
+	
+	public static void (String[] args){
+		new LessonOverview();
+	}
+
+}
