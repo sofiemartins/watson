@@ -88,7 +88,7 @@ public class LessonOverview extends JFrame{
 	
 	private JButton getRemoveButton(){
 		JButton button = new JButton();
-		button.setIcon(new ImageIcon("../delete.png"));
+		button.setIcon(new ImageIcon(getClass().getResource("/res/delete.png")));
 		button.addActionListener(new ActionListener(){
 			@Override
 			public void actionPerformed(ActionEvent e){
