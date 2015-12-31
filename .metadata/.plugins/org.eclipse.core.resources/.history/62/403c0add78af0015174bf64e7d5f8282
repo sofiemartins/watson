@@ -30,7 +30,7 @@ public class LessonOverview {
 		button.addActionListener(new ActionListener(){
 			@Override
 			public void actionPerformed(ActionEvent e){
-				new EditLessonDialog();
+				new NewLessonDialog();
 			}
 		});
 		return button;
