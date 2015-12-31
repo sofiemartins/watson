@@ -11,13 +11,9 @@
 
 package gui;
 
-// java lib
 import javax.swing.JButton;
-import javax.swing.JList;
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
-//local
-import util.Lesson;
 
 public class LessonOverview {
 	
@@ -34,7 +30,7 @@ public class LessonOverview {
 		button.addActionListener(new ActionListener(){
 			@Override
 			public void actionPerformed(ActionEvent e){
-				new EditLessonDialog(new Lesson());
+				new EditLessonDialog();
 			}
 		});
 		return button;
@@ -61,12 +57,6 @@ public class LessonOverview {
 		});
 		return button;
 	}
-	
-	public JList getOverviewList(){
-		JList<Lesson> list = new JList<Lesson>();
-	}
-	
-	
 	
 	
 
