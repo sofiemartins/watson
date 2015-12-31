@@ -14,13 +14,21 @@ public class EditLessonDialog extends JFrame{
 	public static final long serialVersionUID = 4332554321662211089L;
 	
 	public EditLessonDialog(Lesson lesson){
+		basicFrameSetup();
+		addComponents();
+		setVisible(true);
+	}
+	
+	private void basicFrameSetup(){
 		setSize(800,500);
 		setDefaultCloseOperation(EXIT_ON_CLOSE);
 		setLayout(new BorderLayout());
+	}
+	
+	private void addComponents(){
 		add(getTopPanel(), NORTH);
 		add(new CardEditor(), CENTER);
 		add(getBottomPanel(), SOUTH);
-		setVisible(true);
 	}
 	
 	private JPanel getTopPanel(){}
