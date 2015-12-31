@@ -32,6 +32,15 @@ public class EditLessonDialog extends JFrame{
 	}
 	
 	private JPanel getTopPanel(){}
+	
+	private JButton nextButton(){
+	}
+	private JButton backButton(){}
+	private JButton otherSideButton(){}
+	
 	private JPanel getBottomPanel(){}
+	
+	private JButton deleteButton(){}
+	private JButton addButton(){}
 
 }
