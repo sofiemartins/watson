@@ -8,6 +8,7 @@ import java.awt.Shape;
 import java.awt.Rectangle;
 import java.awt.Point;
 import java.awt.Color;
+import java.awt.geom.Line2D;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.event.MouseEvent;
@@ -72,15 +73,17 @@ public class PaintingArea extends JPanel implements MouseListener, MouseMotionLi
 	@Override
 	public void mousePressed(MouseEvent e) {
 		paint(e.getPoint());
-		if(Editor.currentPen.getMode()==RULER){
+		if(Editor.currentPen.getMode()==RULER || Editor.currentPen.getMode()==SQUARE){
 			previewStart = new Point(e.getX(), e.getY());
 		}
+		repaint();
 	}
 
 	@Override
 	public void mouseReleased(MouseEvent e) {
 		preview = null;
 		previewStart = null;
+		repaint();
 	}
 
 	@Override
@@ -88,10 +91,13 @@ public class PaintingArea extends JPanel implements MouseListener, MouseMotionLi
 		if(Editor.currentPen.getMode()==NONE){
 			paint(e.getPoint());
 		}else if(Editor.currentPen.getMode()==RULER){
+			preview = new Line2D.Double(previewStart.getX(), previewStart.getY(), e.getX(), e.getY());
+		}else if(Editor.currentPen.getMode()==SQUARE){
 			int dx = (int)(e.getX() - previewStart.getX());
 			int dy = (int)(e.getY() - previewStart.getY());
 			preview = new Rectangle((int)previewStart.getX(),(int) previewStart.getY(), dx, dy);
 		}
+		repaint();
 	}
 	
 	@Override
@@ -102,7 +108,6 @@ public class PaintingArea extends JPanel implements MouseListener, MouseMotionLi
 				(int)(point.getY()-0.5*Editor.currentPen.getSize()),
 				Editor.currentPen.getSize(),
 				Editor.currentPen.getSize());
-		repaint();
 	}
 	
 	public void updateColor(){//TODO: make this better
