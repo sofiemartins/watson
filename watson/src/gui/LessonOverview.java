@@ -36,6 +36,8 @@ import io.FileManager;
 
 public class LessonOverview extends JFrame{
 	
+	//TODO: Make it possible to maximize the frame!
+	
 	public static final long serialVersionUID = 5543266543547765465L;
 	
 	public LessonOverview(){

@@ -15,6 +15,8 @@ import util.Lesson;
 
 public class EditLessonDialog extends JFrame{
 	
+	//TODO: Save button
+	
 	public static final long serialVersionUID = 4332554321662211089L;
 	
 	public EditLessonDialog(Lesson lesson){
