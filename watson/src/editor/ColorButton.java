@@ -1,17 +1,24 @@
 package editor;
 
 import javax.swing.JButton;
+
+import gui.Editor;
+
 import java.awt.Color;
 import java.awt.Graphics;
+import java.awt.event.ActionListener;
+import java.awt.event.ActionEvent;
 
-public class ColorButton extends JButton{
+public class ColorButton extends JButton implements ActionListener{
 	
 	public static final long serialVersionUID = 366547611232432597L;
+	private ActionListener actionListener;
 	
 	private Color buttonColor;
 	
 	public ColorButton(Color color){
 		buttonColor = color;
+		super.addActionListener(this);
 	}
 	
 	@Override
@@ -24,5 +31,18 @@ public class ColorButton extends JButton{
 	
 	public Color getButtonColor(){
 		return buttonColor;
+	}
+	
+	public void addActionListener(ActionListener al){
+		actionListener = al;
+	}
+	
+	public void actionPerformed(ActionEvent e){
+		Pen currentPen = Editor.currentPen;
+		Pen newPen = new Pen(currentPen.getSize(), buttonColor, currentPen.getMode());
+		actionListener.actionPerformed(new ToolbarEvent(this,
+				ActionEvent.ACTION_PERFORMED,
+				"color button was pressed",
+				newPen));
 	}
 }

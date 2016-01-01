@@ -148,21 +148,13 @@ public class Toolbar extends JPanel{
 		container.add(getColorButton(Color.red));
 		return container;
 	}
-	
-	private Color currentColorButtonColor; //TODO: This is VERY ugly, but I currently don't have another idea ...
-	
+		
 	private ColorButton getColorButton(Color color){
 		ColorButton button = new ColorButton(color);
-		currentColorButtonColor = button.getButtonColor();
 		button.addActionListener(new ActionListener(){
 			@Override
 			public void actionPerformed(ActionEvent e){
-				Pen currentPen = Editor.currentPen;
-				Pen newPen = new Pen(currentPen.getSize(), Toolbar.this.currentColorButtonColor, currentPen.getMode());
-				Toolbar.this.actionListener.actionPerformed(new ToolbarEvent(this,
-						ActionEvent.ACTION_PERFORMED,
-						"color changed",
-						newPen));
+				Toolbar.this.actionListener.actionPerformed(e);
 			}
 		});
 		return button;
@@ -178,20 +170,12 @@ public class Toolbar extends JPanel{
 		return container;
 	}
 	
-	private int penSizeButtonSize;
-	
 	private PenSizeButton getPenSizeButton(int penSize){
 		PenSizeButton button = new PenSizeButton(penSize);
-		penSizeButtonSize = penSize;
 		button.addActionListener(new ActionListener(){
 			@Override
 			public void actionPerformed(ActionEvent e){
-				Pen currentPen = Editor.currentPen;
-				Pen newPen = new Pen(Toolbar.this.penSizeButtonSize, currentPen.getColor(), currentPen.getMode());
-				Toolbar.this.actionListener.actionPerformed(new ToolbarEvent(this, 
-						ActionEvent.ACTION_PERFORMED,
-						"size changed",
-						newPen));
+				Toolbar.this.actionListener.actionPerformed(e);
 			}
 		});
 		return button;
