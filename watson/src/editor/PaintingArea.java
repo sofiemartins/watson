@@ -30,7 +30,7 @@ public class PaintingArea extends JPanel implements MouseListener, MouseMotionLi
 	 * TODO: Maybe TYPE_INT_ARGB is overkill and we should use TYPE_4BYTE_AGBR
 	 * we definitely need alpha for the usage of yellow markers or similar.
 	 */
-	private BufferedImage image = new BufferedImage(1600,1000,BufferedImage.TYPE_INT_ARGB);
+	private BufferedImage image = new BufferedImage(800,500,BufferedImage.TYPE_INT_ARGB);
 	private Graphics2D imageGraphics = image.createGraphics();
 		
 	/**
