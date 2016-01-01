@@ -1,4 +1,4 @@
-package gui;
+package editor;
 
 import javax.swing.JPanel;
 import javax.imageio.ImageIO;
@@ -15,10 +15,8 @@ import java.awt.image.BufferedImage;
 
 import static editor.PenType.*;
 import static editor.PenMode.*;
-import editor.PenType;
-import editor.PenMode;
 
-public class CardEditor extends JPanel implements MouseListener, MouseMotionListener{
+public class PaintingArea extends JPanel implements MouseListener, MouseMotionListener{
 	
 	public static final long serialVersionUID = 960493968771821243L;
 	
@@ -48,7 +46,7 @@ public class CardEditor extends JPanel implements MouseListener, MouseMotionList
 	private Point previewStart; // TODO: find a better name
 	
 		
-	public CardEditor(){
+	public PaintingArea(){
 		addMouseListener(this);
 		addMouseMotionListener(this);
 		setBackground(Color.white);

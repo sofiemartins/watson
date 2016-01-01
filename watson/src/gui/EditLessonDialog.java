@@ -5,6 +5,7 @@ import javax.swing.JPanel;
 import javax.swing.JButton;
 import javax.swing.ImageIcon;
 import javax.swing.border.EmptyBorder;
+
 import static java.awt.BorderLayout.*;
 import java.awt.BorderLayout;
 import java.awt.GridLayout;
@@ -33,7 +34,7 @@ public class EditLessonDialog extends JFrame{
 	
 	private void addComponents(){
 		add(getTopPanel(), NORTH);
-		add(new CardEditor(), CENTER);
+		add(new Editor(), CENTER);
 		add(getBottomPanel(), SOUTH);
 	}
 	
