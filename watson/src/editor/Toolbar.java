@@ -18,11 +18,11 @@ public class Toolbar extends JPanel{
 	public static final long serialVersionUID = 8724543215436543876L;
 	
 	public Toolbar(){
-		setLayout(new GridLayout(1,4));
 		addComponents();
 	}
 	
 	private void addComponents(){
+		setLayout(new GridLayout(1,4));
 		add(getPenTypePanel());
 		add(getPenModePanel());
 		add(getColorPanel());
