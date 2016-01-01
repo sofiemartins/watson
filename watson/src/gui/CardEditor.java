@@ -45,6 +45,7 @@ public class CardEditor extends JPanel implements MouseListener, MouseMotionList
 	 * Sometimes a shape shows up while drawing that shouldn't be on the image later
 	 */
 	private Shape preview;
+	private Point previewStart; // TODO: find a better name
 	
 		
 	public CardEditor(){
@@ -81,6 +82,9 @@ public class CardEditor extends JPanel implements MouseListener, MouseMotionList
 	@Override
 	public void mousePressed(MouseEvent e) {
 		paint(e.getPoint());
+		if(penMode==RULER){
+			previewStart = new Point(e.getX(), e.getY());
+		}
 	}
 
 	@Override
@@ -90,6 +94,10 @@ public class CardEditor extends JPanel implements MouseListener, MouseMotionList
 	public void mouseDragged(MouseEvent e) {
 		if(penMode==NONE){
 			paint(e.getPoint());
+		}else if(penMode==RULER){
+			int dx = (int)(e.getX() - previewStart.getX());
+			int dy = (int)(e.getY() - previewStart.getY());
+			preview = new Rectangle((int)previewStart.getX(),(int) previewStart.getY(), dx, dy);
 		}
 	}
 	
