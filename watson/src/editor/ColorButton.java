@@ -21,5 +21,4 @@ public class ColorButton extends JButton{
 		g.setColor(Color.black);
 		g.drawRect(5, 5, getWidth()-10, getHeight()-10);
 	}
-
 }
