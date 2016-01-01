@@ -1,7 +1,6 @@
 package editor;
 
 import javax.swing.JPanel;
-import javax.imageio.ImageIO;
 import java.awt.Shape;
 import java.awt.Rectangle;
 import java.awt.Point;
@@ -42,7 +41,7 @@ public class PaintingArea extends JPanel implements MouseListener, MouseMotionLi
 		addMouseListener(this);
 		addMouseMotionListener(this);
 		setBackground(Color.white);
-		imageGraphics.setColor(Color.blue);
+		imageGraphics.setColor(pen.getColor());
 	}
 	
 	@Override 
