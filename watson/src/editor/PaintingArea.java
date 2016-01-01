@@ -13,7 +13,6 @@ import java.awt.event.MouseListener;
 import java.awt.event.MouseMotionListener;
 import java.awt.image.BufferedImage;
 
-import static editor.PenType.*;
 import static editor.PenMode.*;
 
 public class PaintingArea extends JPanel implements MouseListener, MouseMotionListener{
@@ -30,14 +29,7 @@ public class PaintingArea extends JPanel implements MouseListener, MouseMotionLi
 	private BufferedImage image = new BufferedImage(1600,1000,BufferedImage.TYPE_INT_ARGB);
 	private Graphics2D imageGraphics = image.createGraphics();
 	
-	//pen properties
-	private int penSize = 2; //px
-	private Color penColor = Color.black;
-	private PenType penType = PEN;
-	private PenMode penMode = NONE;
-	
-	private static final Color markerColor = new Color(255,240,0,100);
-	private static final int markerSize = 6; //px
+	private Pen pen = Pen.PEN; //default pen
 	
 	/**
 	 * Sometimes a shape shows up while drawing that shouldn't be on the image later
@@ -80,19 +72,22 @@ public class PaintingArea extends JPanel implements MouseListener, MouseMotionLi
 	@Override
 	public void mousePressed(MouseEvent e) {
 		paint(e.getPoint());
-		if(penMode==RULER){
+		if(pen.getMode()==RULER){
 			previewStart = new Point(e.getX(), e.getY());
 		}
 	}
 
 	@Override
-	public void mouseReleased(MouseEvent e) {}
+	public void mouseReleased(MouseEvent e) {
+		preview = null;
+		previewStart = null;
+	}
 
 	@Override
 	public void mouseDragged(MouseEvent e) {
-		if(penMode==NONE){
+		if(pen.getMode()==NONE){
 			paint(e.getPoint());
-		}else if(penMode==RULER){
+		}else if(pen.getMode()==RULER){
 			int dx = (int)(e.getX() - previewStart.getX());
 			int dy = (int)(e.getY() - previewStart.getY());
 			preview = new Rectangle((int)previewStart.getX(),(int) previewStart.getY(), dx, dy);
@@ -103,10 +98,10 @@ public class PaintingArea extends JPanel implements MouseListener, MouseMotionLi
 	public void mouseMoved(MouseEvent e) {}
 	
 	private void paint(Point point){
-		imageGraphics.fillRect((int)(point.getX()-0.5*penSize),
-				(int)(point.getY()-0.5*penSize),
-				penSize,
-				penSize);
+		imageGraphics.fillRect((int)(point.getX()-0.5*pen.getSize()),
+				(int)(point.getY()-0.5*pen.getSize()),
+				pen.getSize(),
+				pen.getSize());
 		repaint();
 	}
 }
