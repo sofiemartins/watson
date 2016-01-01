@@ -75,15 +75,25 @@ public class PaintingArea extends JPanel implements MouseListener, MouseMotionLi
 
 	@Override
 	public void mousePressed(MouseEvent e) {
-		paint(e.getPoint());
 		if(Editor.currentPen.getMode()==RULER || Editor.currentPen.getMode()==SQUARE){
 			previewStart = new Point(e.getX(), e.getY());
+		}else{
+			paint(e.getPoint());
 		}
 		repaint();
 	}
 
 	@Override
 	public void mouseReleased(MouseEvent e) {
+		imageGraphics.setStroke(new BasicStroke(Editor.currentPen.getSize()));
+		if(Editor.currentPen.getMode()==RULER){
+			imageGraphics.setStroke(new BasicStroke(Editor.currentPen.getSize()));
+			imageGraphics.drawLine((int)previewStart.getX(), (int)previewStart.getY(), (int)e.getX(), (int)e.getY());
+		}else if(Editor.currentPen.getMode()==SQUARE){
+			int dx = (int)(e.getX() - previewStart.getX());
+			int dy = (int)(e.getY() - previewStart.getY());
+			imageGraphics.drawRect((int)previewStart.getX(), (int)previewStart.getY(), dx, dy);
+		}
 		preview = null;
 		previewStart = null;
 		repaint();
