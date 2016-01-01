@@ -38,6 +38,7 @@ public class PaintingArea extends JPanel implements MouseListener, MouseMotionLi
 	 */
 	private Shape preview;
 	private Point previewStart; // TODO: find a better name
+	private Point lastDrawn; //Important for interpolation drawing gaps due to performance issues.
 	
 		
 	public PaintingArea(){
@@ -60,21 +61,17 @@ public class PaintingArea extends JPanel implements MouseListener, MouseMotionLi
 	}
 
 	@Override
-	public void mouseClicked(MouseEvent e) {
-		imageGraphics.fillRect(e.getX()-1, e.getY()-1, 2, 2);;
-		repaint();
-	}
+	public void mouseClicked(MouseEvent e) {}
 
 	@Override
-	public void mouseEntered(MouseEvent e) {
-		
-	}
+	public void mouseEntered(MouseEvent e) {}
 
 	@Override
 	public void mouseExited(MouseEvent e) {}
 
 	@Override
 	public void mousePressed(MouseEvent e) {
+		lastDrawn = e.getPoint();
 		if(Editor.currentPen.getMode()==RULER || Editor.currentPen.getMode()==SQUARE){
 			previewStart = new Point(e.getX(), e.getY());
 		}else{
@@ -96,6 +93,7 @@ public class PaintingArea extends JPanel implements MouseListener, MouseMotionLi
 		}
 		preview = null;
 		previewStart = null;
+		lastDrawn = null;
 		repaint();
 	}
 
@@ -117,10 +115,13 @@ public class PaintingArea extends JPanel implements MouseListener, MouseMotionLi
 	public void mouseMoved(MouseEvent e) {}
 	
 	private void paint(Point point){
-		imageGraphics.fillRect((int)(point.getX()-0.5*Editor.currentPen.getSize()),
-				(int)(point.getY()-0.5*Editor.currentPen.getSize()),
-				Editor.currentPen.getSize(),
-				Editor.currentPen.getSize());
+		imageGraphics.setStroke(new BasicStroke(Editor.currentPen.getSize()));
+		if(lastDrawn==null){
+			imageGraphics.drawLine((int)point.getX(), (int)point.getY(), (int)point.getX(), (int)point.getY());
+		}else{
+			imageGraphics.drawLine((int)lastDrawn.getX(), (int)lastDrawn.getY(), (int)point.getX(), (int)point.getY());
+		}
+		lastDrawn = point;
 	}
 	
 	public void updateColor(){//TODO: make this better
