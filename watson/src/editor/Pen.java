@@ -12,9 +12,12 @@ public class Pen {
 	
 	private static final Color markerColor = new Color(255,240,0,100);
 	private static final int markerSize = 6; //px
+	public static final int BIG = 4;
+	public static final int MEDIUM = 3;
+	public static final int SMALL = 2;
 	
-	public static final Pen MARKER = new Pen(6, markerColor, NONE);
-	public static final Pen PEN = new Pen(2, Color.black, NONE);
+	public static final Pen MARKER = new Pen(markerSize, markerColor, NONE);
+	public static final Pen PEN = new Pen(MEDIUM, Color.black, NONE);
 	public static final Pen ERASER = new Pen(4, new Color(0,0,0,0), NONE);
 			
 	public Pen(){}

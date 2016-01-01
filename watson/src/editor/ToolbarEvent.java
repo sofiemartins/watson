@@ -3,7 +3,8 @@ package editor;
 import java.awt.event.ActionEvent;
 /**
  * 
- * @author sofie
+ * @author Sofie A. Martins
+ *
  *TODO: Maybe make this cleaner: There are a lot of things that aren't needed.
  */
 
