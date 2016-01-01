@@ -45,6 +45,7 @@ public class EditLessonDialog extends JFrame{
 		container.add(backButton());
 		container.add(nextButton());
 		container.add(otherSideButton());
+		container.add(getSaveButton());
 		return container;
 	}
 	
@@ -77,6 +78,18 @@ public class EditLessonDialog extends JFrame{
 			@Override
 			public void actionPerformed(ActionEvent e){
 				//show other side
+			}
+		});
+		return button;
+	}
+	
+	private JButton getSaveButton(){
+		JButton button = new JButton();
+		button.setIcon(new ImageIcon(getClass().getResource("save.png")));
+		button.addActionListener(new ActionListener(){
+			@Override
+			public void actionPerformed(ActionEvent e){
+				//save lesson
 			}
 		});
 		return button;
