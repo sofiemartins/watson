@@ -104,4 +104,8 @@ public class PaintingArea extends JPanel implements MouseListener, MouseMotionLi
 				Editor.currentPen.getSize());
 		repaint();
 	}
+	
+	public void updateColor(){//TODO: make this better
+		imageGraphics.setColor(Editor.currentPen.getColor());
+	}
 }

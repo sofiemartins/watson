@@ -16,12 +16,13 @@ public class Editor extends JPanel{
 	
 	public static final long serialVersionUID = 995873214543768578L;
 	public static Pen currentPen = Pen.PEN;
+	private PaintingArea paintingArea = new PaintingArea();
 	
 	public Editor(){
 		setLayout(new BorderLayout());
 		setBorder(new EmptyBorder(5,5,5,5));
 		add(getToolbar(), NORTH);
-		add(new PaintingArea(), CENTER);
+		add(paintingArea, CENTER);
 	}
 	
 	private Toolbar getToolbar(){
@@ -31,6 +32,7 @@ public class Editor extends JPanel{
 			public void actionPerformed(ActionEvent e){
 				ToolbarEvent toolbarEvent = (ToolbarEvent)e;
 				currentPen = toolbarEvent.getPen(); 
+				paintingArea.updateColor();
 			}
 		});
 		return toolbar;
