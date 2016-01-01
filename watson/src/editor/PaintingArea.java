@@ -11,6 +11,7 @@ import java.awt.Color;
 import java.awt.geom.Line2D;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
+import java.awt.BasicStroke;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.awt.event.MouseMotionListener;
@@ -52,6 +53,8 @@ public class PaintingArea extends JPanel implements MouseListener, MouseMotionLi
 		Graphics2D g2 = (Graphics2D)g;
 		g2.drawImage(image, 0, 0, null);
 		if(preview!=null){
+			g2.setColor(Editor.currentPen.getColor());
+			g2.setStroke(new BasicStroke(Editor.currentPen.getSize()));
 			g2.draw(preview);
 		}
 	}
