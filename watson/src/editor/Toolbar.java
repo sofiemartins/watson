@@ -12,10 +12,13 @@ import java.awt.event.ActionEvent;
 
 import editor.ColorButton;
 import editor.PenSizeButton;
+import gui.Editor;
 
 public class Toolbar extends JPanel{
 	
 	public static final long serialVersionUID = 8724543215436543876L;
+	
+	private ActionListener actionListener;
 	
 	public Toolbar(){
 		addComponents();
@@ -45,7 +48,10 @@ public class Toolbar extends JPanel{
 		button.addActionListener(new ActionListener(){
 			@Override
 			public void actionPerformed(ActionEvent e){
-				//TODO implement a pen listener
+				Toolbar.this.actionListener.actionPerformed(new ToolbarEvent(this, 
+						ActionEvent.ACTION_PERFORMED, 
+						"change to standard pen",
+						Pen.PEN)); // TODO: Let the user define their default pen oder change to last used pen
 			}
 		});
 		return button;
@@ -57,7 +63,10 @@ public class Toolbar extends JPanel{
 		button.addActionListener(new ActionListener(){
 			@Override
 			public void actionPerformed(ActionEvent e){
-				//switch to eraser
+				Toolbar.this.actionListener.actionPerformed(new ToolbarEvent(this,
+						ActionEvent.ACTION_PERFORMED,
+						"change to eraser",
+						Pen.ERASER));
 			}
 		});
 		return button;
@@ -69,7 +78,10 @@ public class Toolbar extends JPanel{
 		button.addActionListener(new ActionListener(){
 			@Override
 			public void actionPerformed(ActionEvent e){
-				//switch to marker
+				Toolbar.this.actionListener.actionPerformed(new ToolbarEvent(this,
+						ActionEvent.ACTION_PERFORMED,
+						"change to marker",
+						Pen.MARKER));
 			}
 		});
 		return button;
@@ -90,7 +102,12 @@ public class Toolbar extends JPanel{
 		button.addActionListener(new ActionListener(){
 			@Override
 			public void actionPerformed(ActionEvent e){
-				//switch to ruler mode
+				Pen currentPen = Editor.currentPen;
+				Pen newPen = new Pen(currentPen.getSize(), currentPen.getColor(), PenMode.RULER);
+				Toolbar.this.actionListener.actionPerformed(new ToolbarEvent(this,
+						ActionEvent.ACTION_PERFORMED,
+						"changed to ruler",
+						newPen)); // TODO: If pen mode is ruler, this button should look different
 			}
 		});
 		return button;
@@ -110,7 +127,12 @@ public class Toolbar extends JPanel{
 		button.addActionListener(new ActionListener(){
 			@Override
 			public void actionPerformed(ActionEvent e){
-				//switch to rectangle mode
+				Pen currentPen = Editor.currentPen;
+				Pen newPen = new Pen(currentPen.getSize(), currentPen.getColor(), PenMode.SQUARE);//TODO: Refactor this to rect
+				Toolbar.this.actionListener.actionPerformed(new ToolbarEvent(this,
+						ActionEvent.ACTION_PERFORMED,
+						"changed to rectangle mode",
+						newPen));
 			}
 		});
 		return button;
@@ -127,12 +149,20 @@ public class Toolbar extends JPanel{
 		return container;
 	}
 	
+	private Color currentColorButtonColor; //TODO: This is VERY ugly, but I currently don't have another idea ...
+	
 	private ColorButton getColorButton(Color color){
 		ColorButton button = new ColorButton(color);
+		currentColorButtonColor = button.getButtonColor();
 		button.addActionListener(new ActionListener(){
 			@Override
 			public void actionPerformed(ActionEvent e){
-				//change pen color to buttonColor
+				Pen currentPen = Editor.currentPen;
+				Pen newPen = new Pen(currentPen.getSize(), Toolbar.this.currentColorButtonColor, currentPen.getMode());
+				Toolbar.this.actionListener.actionPerformed(new ToolbarEvent(this,
+						ActionEvent.ACTION_PERFORMED,
+						"color changed",
+						newPen));
 			}
 		});
 		return button;
@@ -148,15 +178,27 @@ public class Toolbar extends JPanel{
 		return container;
 	}
 	
+	private int penSizeButtonSize;
+	
 	private PenSizeButton getPenSizeButton(int penSize){
 		PenSizeButton button = new PenSizeButton(penSize);
+		penSizeButtonSize = penSize;
 		button.addActionListener(new ActionListener(){
 			@Override
 			public void actionPerformed(ActionEvent e){
-				//change pen size to pen size
+				Pen currentPen = Editor.currentPen;
+				Pen newPen = new Pen(Toolbar.this.penSizeButtonSize, currentPen.getColor(), currentPen.getMode());
+				Toolbar.this.actionListener.actionPerformed(new ToolbarEvent(this, 
+						ActionEvent.ACTION_PERFORMED,
+						"size changed",
+						newPen));
 			}
 		});
 		return button;
+	}
+	
+	public void addActionListener(ActionListener al){
+		actionListener = al;
 	}
 	
 }

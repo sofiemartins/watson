@@ -6,11 +6,13 @@ import java.awt.BorderLayout;
 import static java.awt.BorderLayout.*;
 
 import editor.PaintingArea;
+import editor.Pen;
 import editor.Toolbar;
 
 public class Editor extends JPanel{
 	
 	public static final long serialVersionUID = 995873214543768578L;
+	public static Pen currentPen = Pen.PEN;
 	
 	public Editor(){
 		setLayout(new BorderLayout());
@@ -18,5 +20,7 @@ public class Editor extends JPanel{
 		add(new Toolbar(), NORTH);
 		add(new PaintingArea(), CENTER);
 	}
+	
+	private Toolbar getToolbar(){}
 
 }
