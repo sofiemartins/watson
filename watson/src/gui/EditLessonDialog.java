@@ -4,6 +4,7 @@ import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.JButton;
 import javax.swing.ImageIcon;
+import javax.swing.border.EmptyBorder;
 import static java.awt.BorderLayout.*;
 import java.awt.BorderLayout;
 import java.awt.GridLayout;
@@ -34,7 +35,15 @@ public class EditLessonDialog extends JFrame{
 		add(getBottomPanel(), SOUTH);
 	}
 	
-	private JPanel getTopPanel(){}
+	private JPanel getTopPanel(){
+		JPanel container = new JPanel();
+		container.setLayout(new GridLayout(1,3));
+		container.setBorder(new EmptyBorder(5,50,5,600));
+		container.add(backButton());
+		container.add(nextButton());
+		container.add(otherSideButton());
+		return container;
+	}
 	
 	private JButton nextButton(){
 		JButton button = new JButton();
@@ -70,7 +79,14 @@ public class EditLessonDialog extends JFrame{
 		return button;
 	}
 	
-	private JPanel getBottomPanel(){}
+	private JPanel getBottomPanel(){
+		JPanel container = new JPanel();
+		container.setLayout(new GridLayout(1,2));
+		container.setBorder(new EmptyBorder(5,350,5,350));
+		container.add(deleteButton());
+		container.add(addButton());
+		return container;
+	}
 	
 	private JButton deleteButton(){
 		JButton button = new JButton();
