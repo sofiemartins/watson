@@ -2,7 +2,9 @@ package gui;
 
 import javax.swing.JPanel;
 import javax.imageio.ImageIO;
+import java.awt.Shape;
 import java.awt.Rectangle;
+import java.awt.Point;
 import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
@@ -12,7 +14,9 @@ import java.awt.event.MouseMotionListener;
 import java.awt.image.BufferedImage;
 
 import static editor.PenType.*;
+import static editor.PenMode.*;
 import editor.PenType;
+import editor.PenMode;
 
 public class CardEditor extends JPanel implements MouseListener, MouseMotionListener{
 	
@@ -29,9 +33,18 @@ public class CardEditor extends JPanel implements MouseListener, MouseMotionList
 	private Graphics2D imageGraphics = image.createGraphics();
 	
 	//pen properties
-	private int penSize = 2;
+	private int penSize = 2; //px
 	private Color penColor = Color.black;
 	private PenType penType = PEN;
+	private PenMode penMode = NONE;
+	
+	private static final Color markerColor = new Color(255,240,0,100);
+	private static final int markerSize = 6; //px
+	
+	/**
+	 * Sometimes a shape shows up while drawing that shouldn't be on the image later
+	 */
+	private Shape preview;
 	
 		
 	public CardEditor(){
@@ -44,7 +57,11 @@ public class CardEditor extends JPanel implements MouseListener, MouseMotionList
 	@Override 
 	public void paintComponent(Graphics g){
 		super.paintComponent(g);
-		g.drawImage(image, 0, 0, null);
+		Graphics2D g2 = (Graphics2D)g;
+		g2.drawImage(image, 0, 0, null);
+		if(preview!=null){
+			g2.draw(preview);
+		}
 	}
 
 	@Override
@@ -54,15 +71,16 @@ public class CardEditor extends JPanel implements MouseListener, MouseMotionList
 	}
 
 	@Override
-	public void mouseEntered(MouseEvent e) {}
+	public void mouseEntered(MouseEvent e) {
+		
+	}
 
 	@Override
 	public void mouseExited(MouseEvent e) {}
 
 	@Override
 	public void mousePressed(MouseEvent e) {
-		imageGraphics.fillRect(e.getX()-1, e.getY()-1, 4, 4);;
-		repaint();
+		paint(e.getPoint());
 	}
 
 	@Override
@@ -70,10 +88,19 @@ public class CardEditor extends JPanel implements MouseListener, MouseMotionList
 
 	@Override
 	public void mouseDragged(MouseEvent e) {
-		imageGraphics.fillRect(e.getX()-1, e.getY()-1, 4, 4);;
-		repaint();
+		if(penMode==NONE){
+			paint(e.getPoint());
+		}
 	}
-
+	
 	@Override
 	public void mouseMoved(MouseEvent e) {}
+	
+	private void paint(Point point){
+		imageGraphics.fillRect((int)(point.getX()-0.5*penSize),
+				(int)(point.getY()-0.5*penSize),
+				penSize,
+				penSize);
+		repaint();
+	}
 }
