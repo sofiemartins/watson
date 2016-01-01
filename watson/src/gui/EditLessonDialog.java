@@ -41,7 +41,7 @@ public class EditLessonDialog extends JFrame{
 	private JPanel getTopPanel(){
 		JPanel container = new JPanel();
 		container.setLayout(new GridLayout(1,3));
-		container.setBorder(new EmptyBorder(5,50,5,600));
+		container.setBorder(new EmptyBorder(5,50,5,550));
 		container.add(backButton());
 		container.add(nextButton());
 		container.add(otherSideButton());

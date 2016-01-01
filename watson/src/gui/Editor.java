@@ -6,6 +6,7 @@ import java.awt.BorderLayout;
 import static java.awt.BorderLayout.*;
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
+import java.awt.image.BufferedImage;
 
 import editor.PaintingArea;
 import editor.Pen;
@@ -36,6 +37,10 @@ public class Editor extends JPanel{
 			}
 		});
 		return toolbar;
+	}
+	
+	public BufferedImage getImage(){
+		return paintingArea.getImage();
 	}
 
 }
