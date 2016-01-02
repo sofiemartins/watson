@@ -30,5 +30,13 @@ public class Card implements Serializable{
 	public void setSecondSide(BufferedImage img){
 		back = img;
 	}
+	
+	public BufferedImage getSideNumber(int number){
+		if(number==2){
+			return getSecondSide();
+		}else {
+			return getFirstSide();
+		}
+	}
 
 }

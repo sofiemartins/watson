@@ -93,5 +93,4 @@ public class TestLesson {
 		lesson.removeCurrentCard();
 		assertEquals(1, lesson.cards.size());
 	}
-
 }

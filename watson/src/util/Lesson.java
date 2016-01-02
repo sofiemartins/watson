@@ -2,6 +2,10 @@ package util;
 
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.io.IOException;
+import javax.swing.JOptionPane;
+
+import io.FileManager;
 
 public class Lesson implements Serializable{
 	

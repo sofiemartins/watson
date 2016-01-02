@@ -5,23 +5,26 @@ import javax.swing.JPanel;
 import javax.swing.JButton;
 import javax.swing.ImageIcon;
 import javax.swing.border.EmptyBorder;
-
+import javax.swing.JOptionPane;
 import static java.awt.BorderLayout.*;
 import java.awt.BorderLayout;
 import java.awt.GridLayout;
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
+import java.io.IOException;
 
 import util.Lesson;
 import util.Card;
+import io.FileManager;
 
 public class EditLessonDialog extends JFrame{
 		
 	public static final long serialVersionUID = 4332554321662211089L;
 	
 	private Lesson lesson;
-	private Card currentCard;
-	private int currentSide;
+	private int currentSide = 1;
+	
+	private Editor editor;
 	
 	public EditLessonDialog(Lesson l){
 		lesson = l;
@@ -38,7 +41,9 @@ public class EditLessonDialog extends JFrame{
 	
 	private void addComponents(){
 		add(getTopPanel(), NORTH);
-		add(new Editor(null), CENTER);
+		editor = new Editor(lesson.getCurrentCard().getSideNumber(currentSide));
+		currentSide = 1;
+		add(editor, CENTER);
 		add(getBottomPanel(), SOUTH);
 	}
 	
@@ -59,7 +64,7 @@ public class EditLessonDialog extends JFrame{
 		button.addActionListener(new ActionListener(){
 			@Override
 			public void actionPerformed(ActionEvent e){
-				
+				editor.open(lesson.getNextCard().getSideNumber(currentSide));
 			}
 		});
 		return button;
@@ -70,7 +75,7 @@ public class EditLessonDialog extends JFrame{
 		button.addActionListener(new ActionListener(){
 			@Override
 			public void actionPerformed(ActionEvent e){
-				//one card back
+				editor.open(lesson.getPreviousCard().getSideNumber(currentSide));
 			}
 		});
 		return button;
@@ -81,10 +86,18 @@ public class EditLessonDialog extends JFrame{
 		button.addActionListener(new ActionListener(){
 			@Override
 			public void actionPerformed(ActionEvent e){
-				//show other side
+				editor.open(lesson.getCurrentCard().getSideNumber(cycle(currentSide)));
 			}
 		});
 		return button;
+	}
+	
+	private int cycle(int sideNumber){
+		if(sideNumber == 1){
+			return 2;
+		}else{
+			return 1;
+		}
 	}
 	
 	private JButton getSaveButton(){
@@ -93,7 +106,13 @@ public class EditLessonDialog extends JFrame{
 		button.addActionListener(new ActionListener(){
 			@Override
 			public void actionPerformed(ActionEvent e){
-				//save lesson
+				Lesson.allLessons.add(lesson);
+				try{
+					FileManager.save(Lesson.allLessons);
+				}catch(IOException ex){
+					JOptionPane.showMessageDialog(EditLessonDialog.this, 
+							"An error occurred while reading the file. Please check file permissions or reinstall.");
+				}
 			}
 		});
 		return button;
