@@ -8,7 +8,10 @@ public class Card implements Serializable{
 	public static final long serialVersionUID = 3658394727116385564L; 
 	private BufferedImage front, back;
 	
-	public Card(){}
+	public Card(){
+		front = new BufferedImage(800, 500, BufferedImage.TYPE_INT_ARGB);
+		back = new BufferedImage(800, 500, BufferedImage.TYPE_INT_ARGB);
+	}
 	
 	public Card(BufferedImage side1, BufferedImage side2){
 		front = side1;
