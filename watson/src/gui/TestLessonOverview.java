@@ -55,4 +55,5 @@ public class TestLessonOverview {
 		Lesson.allLessons = new ArrayList<Lesson>();
 		assertTrue(Lesson.allLessons.isEmpty());
 	}
+	
 }

@@ -79,14 +79,33 @@ public class LessonOverview extends JFrame{
 		button.addActionListener(new ActionListener(){
 			@Override
 			public void actionPerformed(ActionEvent e){
-				String lessonTitle = JOptionPane.showInputDialog("Lesson name:");
+				String lessonTitle = JOptionPane.showInputDialog("Please choose a title: ");
+				while(!titleValid(lessonTitle)){
+					lessonTitle = reask();
+				}
+				LessonOverview.this.dispose();
 				new EditLessonDialog(new Lesson(lessonTitle));
 			}
 		});
 		return button;
 	}
 	
+	private String reask(){
+		JOptionPane.showMessageDialog(LessonOverview.this, "The title has to be unique and not blank!");
+		return JOptionPane.showInputDialog("Please choose a title: ");
+	}
 	
+	protected static boolean titleValid(String title){
+		for(Lesson lesson : Lesson.allLessons){
+			if(lesson.toString().equals(title)){
+				return false;
+			}
+		}
+		if(title.equals("")){
+			return false;
+		}
+		return true;
+	}
 	
 	private JButton getRemoveButton(){
 		JButton button = new JButton();
@@ -108,6 +127,7 @@ public class LessonOverview extends JFrame{
 			public void actionPerformed(ActionEvent e){
 				Lesson markedLesson = overviewList.getSelectedValue();
 				new EditLessonDialog(markedLesson);
+				LessonOverview.this.dispose();
 			}
 		});
 		return button;
