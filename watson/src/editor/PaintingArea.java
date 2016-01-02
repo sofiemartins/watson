@@ -131,4 +131,8 @@ public class PaintingArea extends JPanel implements MouseListener, MouseMotionLi
 	public BufferedImage getImage(){
 		return image;
 	}
+	
+	public void open(BufferedImage bufferedImage){
+		image = bufferedImage;
+	}
 }

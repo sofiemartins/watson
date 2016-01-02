@@ -43,5 +43,9 @@ public class Editor extends JPanel{
 	public BufferedImage getImage(){
 		return paintingArea.getImage();
 	}
+	
+	public void open(BufferedImage image){
+		paintingArea.open(image);
+	}
 
 }
