@@ -31,7 +31,7 @@ public class PaintingArea extends JPanel implements MouseListener, MouseMotionLi
 	 * we definitely need alpha for the usage of yellow markers or similar.
 	 */
 	private BufferedImage image;
-	private Graphics2D imageGraphics = image.createGraphics();
+	private Graphics2D imageGraphics;
 		
 	/**
 	 * Sometimes a shape shows up while drawing that shouldn't be on the image later
@@ -42,6 +42,7 @@ public class PaintingArea extends JPanel implements MouseListener, MouseMotionLi
 	
 	public PaintingArea(BufferedImage bufferedImage){
 		image = bufferedImage;
+		imageGraphics = image.createGraphics();
 		addMouseListener(this);
 		addMouseMotionListener(this);
 		setBackground(Color.white);
