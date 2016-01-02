@@ -38,7 +38,7 @@ public class EditLessonDialog extends JFrame{
 	
 	private void addComponents(){
 		add(getTopPanel(), NORTH);
-		add(new Editor(), CENTER);
+		add(new Editor(null), CENTER);
 		add(getBottomPanel(), SOUTH);
 	}
 	

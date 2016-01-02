@@ -35,10 +35,7 @@ public class Lesson implements Serializable{
 		}
 		return currentCard;
 	}	
-	
-	//TODO: Adding in between features
-	//TODO: Mixing cards up features
-	
+		
 	public Card getNextCard(){
 		int currentIndex = cards.indexOf(getCurrentCard());
 		if(cards.size()==currentIndex+1){
@@ -55,16 +52,19 @@ public class Lesson implements Serializable{
 	
 	public Card getPreviousCard(){
 		int currentIndex = cards.indexOf(getCurrentCard());
+		Card newCurrent = cycleThroughElements(currentIndex);
+		currentCard = newCurrent;
+		return newCurrent;
+	}
+	
+	private Card cycleThroughElements(int currentIndex){
 		if(currentIndex<=0){
-			Card newCurrent = cards.get(cards.size()-1);
-			currentCard = newCurrent;
-			return newCurrent;
+			return cards.get(cards.size()-1);
 		}else{
-			Card newCurrent = cards.get(currentIndex-1);
-			currentCard = newCurrent;
-			return newCurrent;
+			return cards.get(currentIndex-1);
 		}
 	}
+	
 	
 	public void addCard(Card card){
 		int currentIndex = cards.indexOf(getCurrentCard());
@@ -75,9 +75,17 @@ public class Lesson implements Serializable{
 	public void removeCurrentCard(){
 		int currentIndex = cards.indexOf(getCurrentCard());
 		cards.remove(getCurrentCard());
+		addEmptyCardIfThisWasTheLastOne();
+		showPreviousCard(currentIndex);
+	}
+	
+	private void addEmptyCardIfThisWasTheLastOne(){ //TODO: better name ...?
 		if(cards.size()==0){
 			cards.add(new Card());
 		}
+	}
+	
+	private void showPreviousCard(int currentIndex){
 		if(currentIndex==0){
 			currentCard = cards.get(0);
 		}else{
