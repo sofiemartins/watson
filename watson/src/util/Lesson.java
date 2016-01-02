@@ -11,16 +11,18 @@ public class Lesson implements Serializable{
 	public static ArrayList<Lesson> allLessons = new ArrayList<Lesson>();
 	
 	private String title;
-	private ArrayList<Card> cards;
+	protected ArrayList<Card> cards;
 	private Card currentCard;
 	
 	public Lesson(){
 		cards = new ArrayList<Card>();
+		cards.add(new Card());
 	}
 	
 	public Lesson(String lessonTitle){
 		title = lessonTitle;
 		cards = new ArrayList<Card>();
+		cards.add(new Card());
 	}
 	
 	public String toString(){
@@ -28,11 +30,6 @@ public class Lesson implements Serializable{
 	}
 	
 	public Card getCurrentCard(){
-		if(cards.isEmpty()){
-			Card newCard = new Card();
-			cards.add(newCard);
-			return newCard;
-		}
 		if(currentCard==null){
 			return cards.get(0);
 		}
@@ -43,23 +40,48 @@ public class Lesson implements Serializable{
 	//TODO: Mixing cards up features
 	
 	public Card getNextCard(){
-		int currentIndex = cards.indexOf(currentCard);
-		if((cards.size()-1)==currentIndex){
+		int currentIndex = cards.indexOf(getCurrentCard());
+		if(cards.size()==currentIndex+1){
 			Card newCard = new Card();
 			cards.add(newCard);
+			currentCard = newCard;
 			return newCard;
 		}else{
-			return cards.get(currentIndex+1);
+			Card newCurrent = cards.get(currentIndex+1);
+			currentCard = newCurrent;
+			return currentCard;
 		}
 	}
 	
 	public Card getPreviousCard(){
-		int currentIndex = cards.indexOf(currentCard);
-		if(currentIndex==0){
-			return null;
+		int currentIndex = cards.indexOf(getCurrentCard());
+		if(currentIndex<=0){
+			Card newCurrent = cards.get(cards.size()-1);
+			currentCard = newCurrent;
+			return newCurrent;
 		}else{
-			return cards.get(currentIndex-1);
+			Card newCurrent = cards.get(currentIndex-1);
+			currentCard = newCurrent;
+			return newCurrent;
 		}
 	}
-
+	
+	public void addCard(Card card){
+		int currentIndex = cards.indexOf(getCurrentCard());
+		cards.add(currentIndex+1,card);
+		currentCard = card;
+	}
+	
+	public void removeCurrentCard(){
+		int currentIndex = cards.indexOf(getCurrentCard());
+		cards.remove(getCurrentCard());
+		if(cards.size()==0){
+			cards.add(new Card());
+		}
+		if(currentIndex==0){
+			currentCard = cards.get(0);
+		}else{
+			currentCard = cards.get(currentIndex-1);
+		}
+	}
 }

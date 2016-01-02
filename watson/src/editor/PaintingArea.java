@@ -30,7 +30,7 @@ public class PaintingArea extends JPanel implements MouseListener, MouseMotionLi
 	 * TODO: Maybe TYPE_INT_ARGB is overkill and we should use TYPE_4BYTE_AGBR
 	 * we definitely need alpha for the usage of yellow markers or similar.
 	 */
-	private BufferedImage image = new BufferedImage(800,500,BufferedImage.TYPE_INT_ARGB);
+	private BufferedImage image;
 	private Graphics2D imageGraphics = image.createGraphics();
 		
 	/**
@@ -39,13 +39,6 @@ public class PaintingArea extends JPanel implements MouseListener, MouseMotionLi
 	private Shape preview;
 	private Point previewStart; // TODO: find a better name
 	private Point lastDrawn; //Important for interpolating drawing gaps due to performance issues.
-	
-	public PaintingArea(){
-		addMouseListener(this);
-		addMouseMotionListener(this);
-		setBackground(Color.white);
-		imageGraphics.setColor(Editor.currentPen.getColor());
-	}
 	
 	public PaintingArea(BufferedImage bufferedImage){
 		image = bufferedImage;

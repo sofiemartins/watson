@@ -13,12 +13,15 @@ import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
 
 import util.Lesson;
+import util.Card;
 
 public class EditLessonDialog extends JFrame{
 		
 	public static final long serialVersionUID = 4332554321662211089L;
 	
 	private Lesson lesson;
+	private Card currentCard;
+	private int currentSide;
 	
 	public EditLessonDialog(Lesson l){
 		lesson = l;
@@ -56,7 +59,7 @@ public class EditLessonDialog extends JFrame{
 		button.addActionListener(new ActionListener(){
 			@Override
 			public void actionPerformed(ActionEvent e){
-				//next card
+				
 			}
 		});
 		return button;

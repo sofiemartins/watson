@@ -12,7 +12,6 @@ import editor.PaintingArea;
 import editor.Pen;
 import editor.Toolbar;
 import editor.ToolbarEvent;
-import util.Lesson;
 
 public class Editor extends JPanel{
 	
