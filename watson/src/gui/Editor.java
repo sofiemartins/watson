@@ -12,14 +12,16 @@ import editor.PaintingArea;
 import editor.Pen;
 import editor.Toolbar;
 import editor.ToolbarEvent;
+import util.Lesson;
 
 public class Editor extends JPanel{
 	
 	public static final long serialVersionUID = 995873214543768578L;
 	public static Pen currentPen = Pen.PEN;
-	private PaintingArea paintingArea = new PaintingArea();
+	private PaintingArea paintingArea;
 	
-	public Editor(){
+	public Editor(BufferedImage image){
+		paintingArea = new PaintingArea(image);
 		setLayout(new BorderLayout());
 		setBorder(new EmptyBorder(5,5,5,5));
 		add(getToolbar(), NORTH);

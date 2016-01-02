@@ -43,7 +43,7 @@ public class EditLessonDialog extends JFrame{
 		JPanel container = new JPanel();
 		container.setLayout(new GridLayout(1,3));
 		container.setBorder(new EmptyBorder(5,50,5,550));
-		container.add(backButton());
+		container.add(previousButton());
 		container.add(nextButton());
 		container.add(otherSideButton());
 		container.add(getSaveButton());
@@ -61,7 +61,7 @@ public class EditLessonDialog extends JFrame{
 		});
 		return button;
 	}
-	private JButton backButton(){
+	private JButton previousButton(){
 		JButton button = new JButton();
 		button.setIcon(new ImageIcon(getClass().getResource("back.png")));
 		button.addActionListener(new ActionListener(){

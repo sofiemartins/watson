@@ -40,8 +40,15 @@ public class PaintingArea extends JPanel implements MouseListener, MouseMotionLi
 	private Point previewStart; // TODO: find a better name
 	private Point lastDrawn; //Important for interpolating drawing gaps due to performance issues.
 	
-		
 	public PaintingArea(){
+		addMouseListener(this);
+		addMouseMotionListener(this);
+		setBackground(Color.white);
+		imageGraphics.setColor(Editor.currentPen.getColor());
+	}
+	
+	public PaintingArea(BufferedImage bufferedImage){
+		image = bufferedImage;
 		addMouseListener(this);
 		addMouseMotionListener(this);
 		setBackground(Color.white);
