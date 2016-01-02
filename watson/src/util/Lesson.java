@@ -91,4 +91,8 @@ public class Lesson implements Serializable{
 			currentCard = cards.get(currentIndex-1);
 		}
 	}
+	
+	public ArrayList<Card> getCards(){
+		return cards;
+	}
 }

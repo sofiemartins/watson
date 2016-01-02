@@ -114,6 +114,7 @@ public class EditLessonDialog extends JFrame{
 					JOptionPane.showMessageDialog(EditLessonDialog.this, 
 							"An error occurred while reading the file. Please check file permissions or reinstall.");
 				}
+				EditLessonDialog.this.dispose();
 			}
 		});
 		return button;

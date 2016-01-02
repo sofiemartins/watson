@@ -37,6 +37,8 @@ public class LessonOverview extends JFrame{
 	
 	public static final long serialVersionUID = 5543266543547765465L;
 	
+	private JList<Lesson> overviewList;
+	
 	public LessonOverview(){
 		loadLessons();
 		setupFrameLayout();
@@ -92,7 +94,7 @@ public class LessonOverview extends JFrame{
 		button.addActionListener(new ActionListener(){
 			@Override
 			public void actionPerformed(ActionEvent e){
-				//remove lesson
+				//remove
 			}
 		});
 		return button;
@@ -104,7 +106,8 @@ public class LessonOverview extends JFrame{
 		button.addActionListener(new ActionListener(){
 			@Override
 			public void actionPerformed(ActionEvent e){
-				//edit
+				Lesson markedLesson = overviewList.getSelectedValue();
+				new EditLessonDialog(markedLesson);
 			}
 		});
 		return button;
@@ -116,10 +119,10 @@ public class LessonOverview extends JFrame{
 	
 	
 	private JScrollPane getOverviewList(){
-		JList<Lesson> list = new JList<Lesson>();
-		setBasicProperties(list);
-		addElementsTo(list);
-		return new JScrollPane(list);
+		overviewList = new JList<Lesson>();
+		setBasicProperties(overviewList);
+		addElementsTo(overviewList);
+		return new JScrollPane(overviewList);
 	}
 	
 	private void setBasicProperties(JList<Lesson> list){
