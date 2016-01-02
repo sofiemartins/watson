@@ -27,9 +27,6 @@ import java.awt.event.ActionEvent;
 import java.awt.BorderLayout;
 import static java.awt.BorderLayout.*;
 import java.awt.GridLayout;
-import java.awt.Image;
-import javax.imageio.ImageIO;
-import java.io.IOException;
 //local
 import util.Lesson;
 import io.FileManager;
@@ -80,7 +77,8 @@ public class LessonOverview extends JFrame{
 		button.addActionListener(new ActionListener(){
 			@Override
 			public void actionPerformed(ActionEvent e){
-				new EditLessonDialog(new Lesson());
+				String lessonTitle = JOptionPane.showInputDialog("Lesson name:");
+				new EditLessonDialog(new Lesson(lessonTitle));
 			}
 		});
 		return button;
