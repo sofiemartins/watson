@@ -2,7 +2,6 @@ package util;
 
 import java.io.Serializable;
 import java.util.ArrayList;
-import java.awt.image.BufferedImage;
 
 public class Lesson implements Serializable{
 	
@@ -36,7 +35,7 @@ public class Lesson implements Serializable{
 		return currentCard;
 	}	
 		
-	public Card getNextCard(){
+	public Card getNextCard(){ 
 		int currentIndex = cards.indexOf(getCurrentCard());
 		if(cards.size()==currentIndex+1){
 			Card newCard = new Card();

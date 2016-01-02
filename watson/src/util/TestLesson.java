@@ -28,7 +28,9 @@ public class TestLesson {
 	public void testGetNextCard(){
 		Lesson lesson = new Lesson();
 		assertEquals(1,lesson.cards.size());
-		Card card = lesson.getNextCard();
+		Card card = new Card();
+		lesson.addCard(card);
+		assertEquals(lesson.getCurrentCard(), card);
 		assertEquals(2,lesson.cards.size());
 		assertNotEquals(card, null);
 		assertEquals(card, lesson.cards.get(1));
@@ -55,25 +57,20 @@ public class TestLesson {
 	@Test
 	public void testAddCard(){
 		Lesson lesson = new Lesson();
-		lesson.getNextCard();
-		lesson.getNextCard();
-		lesson.getNextCard();
-		lesson.getNextCard();
-		lesson.getPreviousCard();
-		lesson.getPreviousCard();
-		Card card = new Card();
-		lesson.addCard(card);
-		assertEquals(card, lesson.cards.get(3));
-		assertEquals(lesson.getCurrentCard(), card);
+		lesson.addCard(new Card());
+		lesson.addCard(new Card());
+		lesson.addCard(new Card());
+		lesson.addCard(new Card());
+		assertEquals(lesson.getCurrentCard(), lesson.cards.get(4));
 	}
 	
 	@Test
 	public void testRemoveCard(){
 		Lesson lesson = new Lesson();
-		lesson.getNextCard();
-		lesson.getNextCard();
-		lesson.getNextCard();
-		lesson.getNextCard();
+		lesson.addCard(new Card());
+		lesson.addCard(new Card());
+		lesson.addCard(new Card());
+		lesson.addCard(new Card());
 		lesson.getPreviousCard();
 		lesson.removeCurrentCard();
 		//test that size is reduced
