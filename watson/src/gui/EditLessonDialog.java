@@ -133,7 +133,7 @@ public class EditLessonDialog extends JFrame{
 		button.addActionListener(new ActionListener(){
 			@Override
 			public void actionPerformed(ActionEvent e){
-				// delete
+				lesson.removeCurrentCard();
 			}
 		});
 		return button;
@@ -144,7 +144,7 @@ public class EditLessonDialog extends JFrame{
 		button.addActionListener(new ActionListener(){
 			@Override
 			public void actionPerformed(ActionEvent e){
-				//add card
+				lesson.addCard(new Card());
 			}
 		});
 		return button;
