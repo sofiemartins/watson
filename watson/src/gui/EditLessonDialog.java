@@ -86,7 +86,8 @@ public class EditLessonDialog extends JFrame{
 		button.addActionListener(new ActionListener(){
 			@Override
 			public void actionPerformed(ActionEvent e){
-				editor.open(lesson.getCurrentCard().getSideNumber(cycle(currentSide)));
+				currentSide = cycle(currentSide);
+				editor.open(lesson.getCurrentCard().getSideNumber(currentSide));
 			}
 		});
 		return button;
