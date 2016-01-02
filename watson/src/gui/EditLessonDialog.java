@@ -107,7 +107,7 @@ public class EditLessonDialog extends JFrame{
 		button.addActionListener(new ActionListener(){
 			@Override
 			public void actionPerformed(ActionEvent e){
-				Lesson.allLessons.add(lesson);
+				replaceLesson(lesson);
 				try{
 					FileManager.save(Lesson.allLessons);
 				}catch(IOException ex){
@@ -119,6 +119,20 @@ public class EditLessonDialog extends JFrame{
 			}
 		});
 		return button;
+	}
+	
+	private void replaceLesson(Lesson newLesson){
+		boolean hasBeenReplaced = false;
+		for(Lesson lesson : Lesson.allLessons){
+			if(lesson.toString().equals(newLesson)){
+				int index = Lesson.allLessons.indexOf(lesson);
+				Lesson.allLessons.set(index, newLesson);
+				hasBeenReplaced = true;
+			}
+		}
+		if(!hasBeenReplaced){
+			Lesson.allLessons.add(newLesson);
+		}
 	}
 	
 	private JPanel getBottomPanel(){

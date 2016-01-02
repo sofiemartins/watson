@@ -38,11 +38,20 @@ public class FileManager {
 				lesson.getCards().set(cardIndex, new Card(sideA, sideB));
 			}
 		}
+		for(Lesson lesson : lessons){
+			for(Card card : lesson.getCards()){
+				System.out.println(lesson);
+				System.out.println(card.getFirstSide()==null);
+				System.out.println(card.getSecondSide()==null);
+			}
+		}
 		return lessons;
 	}
 	
 	public static void save(ArrayList<Lesson> lessons) throws IOException{
 		//save all images to img_data
+		File file = new File(filename);
+		file.delete();
 		for(Lesson lesson : lessons){
 			for(Card card : lesson.getCards()){
 				int cardIndex = lesson.getCards().indexOf(card);
