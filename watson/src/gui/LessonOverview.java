@@ -147,7 +147,7 @@ public class LessonOverview extends JFrame{
 	
 	private void setBasicProperties(JList<Lesson> list){
 		list.setSelectionMode(ListSelectionModel.SINGLE_INTERVAL_SELECTION);
-		list.setLayoutOrientation(JList.HORIZONTAL_WRAP);
+		list.setLayoutOrientation(JList.VERTICAL);
 		list.setVisibleRowCount(-1);
 	}
 	

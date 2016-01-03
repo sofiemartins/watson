@@ -124,7 +124,7 @@ public class EditLessonDialog extends JFrame{
 	private void replaceLesson(Lesson newLesson){
 		boolean hasBeenReplaced = false;
 		for(Lesson lesson : Lesson.allLessons){
-			if(lesson.toString().equals(newLesson)){
+			if(lesson.toString().equals(newLesson.toString())){
 				int index = Lesson.allLessons.indexOf(lesson);
 				Lesson.allLessons.set(index, newLesson);
 				hasBeenReplaced = true;

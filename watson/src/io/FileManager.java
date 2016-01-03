@@ -38,13 +38,6 @@ public class FileManager {
 				lesson.getCards().set(cardIndex, new Card(sideA, sideB));
 			}
 		}
-		for(Lesson lesson : lessons){
-			for(Card card : lesson.getCards()){
-				System.out.println(lesson);
-				System.out.println(card.getFirstSide()==null);
-				System.out.println(card.getSecondSide()==null);
-			}
-		}
 		return lessons;
 	}
 	
