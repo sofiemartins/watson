@@ -1,7 +1,6 @@
 package practice;
 
 import javax.swing.JFrame;
-import javax.swing.JPanel;
 import javax.swing.JButton;
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
@@ -15,21 +14,17 @@ public class ShowCardFrame extends JFrame{
 	
 	private int sidesSeen = 0;
 	private DisplayArea displayArea;
+	private Card cardDisplayed;
 	
 	public ShowCardFrame(Card card){
 		setLayout(new BorderLayout());
+		setSize(800,500);
+		setDefaultCloseOperation(EXIT_ON_CLOSE);
+		cardDisplayed = card;
 		displayArea = new DisplayArea(card.getFirstSide());
 		add(displayArea, BorderLayout.CENTER);
 		add(getNextButton(), BorderLayout.SOUTH);
 		setVisible(true);
-	}
-	
-	public static void showCard(Card card){
-		ShowCardFrame frame = new ShowCardFrame(card);
-		while(frame.sidesSeen==0){}
-		frame.displayArea.show(card.getSecondSide());
-		while(frame.sidesSeen==1){}
-		frame.dispose();
 	}
 	
 	private JButton getNextButton(){
@@ -38,6 +33,12 @@ public class ShowCardFrame extends JFrame{
 			@Override
 			public void actionPerformed(ActionEvent e){
 				sidesSeen++;
+				if(sidesSeen==1){
+					displayArea.show(cardDisplayed.getSecondSide());
+				}else{
+					new AnswerFrame();//TODO: make this better
+					dispose();
+				}
 			}
 		});
 		return button;

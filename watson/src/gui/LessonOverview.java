@@ -15,7 +15,6 @@ package gui;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.JButton;
-import javax.swing.JList;
 import javax.swing.JScrollPane;
 import javax.swing.JOptionPane;
 import javax.swing.border.EmptyBorder;
@@ -157,7 +156,8 @@ public class LessonOverview extends JFrame{
 		overviewList.addActionListener(new ActionListener(){
 			@Override
 			public void actionPerformed(ActionEvent e){
-				//start interrogation
+				Lesson selectedLesson = LessonOverview.this.overviewList.getSelectedValue();
+				new PracticeFrame(selectedLesson);
 			}
 		});
 		return new JScrollPane(overviewList);

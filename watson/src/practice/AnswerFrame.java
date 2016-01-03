@@ -12,26 +12,20 @@ public class AnswerFrame extends JFrame{
 	
 	public static final long serialVersionUID = 995887873425167890L;
 	
-	protected boolean isAnswered = false;
 	protected boolean answer;
 	
 	public AnswerFrame(){
 		setLayout(new GridLayout(1,2));
+		setSize(800,500);
+		setDefaultCloseOperation(EXIT_ON_CLOSE);
 		add(getRightButton());
 		add(getWrongButton());
 		setVisible(true);
 	}
 	
-	public static boolean showAnswerDialog(){
-		AnswerFrame frame = new AnswerFrame();
-		frame.setVisible(true);
-		while(!frame.isAnswered){}
-		frame.dispose();
-		return frame.answer;
-	}
-	
 	private JButton getRightButton(){
 		JButton button = new JButton(){
+			public static final long serialVersionUID = 3347685748876236548L;
 			@Override
 			public void paintComponent(Graphics g){
 				super.paintComponent(g);
@@ -45,7 +39,7 @@ public class AnswerFrame extends JFrame{
 			@Override
 			public void actionPerformed(ActionEvent e){
 				answer = true;
-				isAnswered = true;
+				dispose();
 			}
 		});
 		return button;
@@ -53,6 +47,7 @@ public class AnswerFrame extends JFrame{
 	
 	private JButton getWrongButton(){
 		JButton button = new JButton(){
+			public static final long serialVersionUID = 4876587927564657776L;
 			@Override
 			public void paintComponent(Graphics g){
 				super.paintComponent(g);
@@ -66,9 +61,13 @@ public class AnswerFrame extends JFrame{
 			@Override
 			public void actionPerformed(ActionEvent e){
 				answer = false;
-				isAnswered = true;
+				dispose();
 			}
 		});
 		return button;
+	}
+	
+	public boolean getAnswer(){
+		return answer;
 	}
 }

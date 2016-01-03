@@ -12,8 +12,7 @@ public class PracticeFrame{
 	
 	public PracticeFrame(Lesson lesson){
 		for(Card card : lesson.getCards()){
-			ShowCardFrame.showCard(card);
-			boolean wasAnswerRight = AnswerFrame.showAnswerDialog();
+			new ShowCardFrame(card);
 		}
 	}
 	
