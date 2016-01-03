@@ -21,6 +21,7 @@ public class ShowCardFrame extends JFrame{
 		displayArea = new DisplayArea(card.getFirstSide());
 		add(displayArea, BorderLayout.CENTER);
 		add(getNextButton(), BorderLayout.SOUTH);
+		setVisible(true);
 	}
 	
 	public static void showCard(Card card){

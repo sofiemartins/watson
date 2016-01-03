@@ -19,6 +19,7 @@ public class AnswerFrame extends JFrame{
 		setLayout(new GridLayout(1,2));
 		add(getRightButton());
 		add(getWrongButton());
+		setVisible(true);
 	}
 	
 	public static boolean showAnswerDialog(){

@@ -17,8 +17,6 @@ import javax.swing.JPanel;
 import javax.swing.JButton;
 import javax.swing.JList;
 import javax.swing.JScrollPane;
-import javax.swing.DefaultListModel;
-import javax.swing.ListSelectionModel;
 import javax.swing.JOptionPane;
 import javax.swing.border.EmptyBorder;
 import javax.swing.ImageIcon;
@@ -37,7 +35,7 @@ public class LessonOverview extends JFrame{
 	
 	public static final long serialVersionUID = 5543266543547765465L;
 	
-	private JList<Lesson> overviewList;
+	private OverviewList overviewList;
 	
 	public LessonOverview(){
 		loadLessons();
@@ -155,23 +153,13 @@ public class LessonOverview extends JFrame{
 	
 	
 	private JScrollPane getOverviewList(){
-		overviewList = new JList<Lesson>();
-		setBasicProperties(overviewList);
-		addElementsTo(overviewList);
+		overviewList = new OverviewList();
+		overviewList.addActionListener(new ActionListener(){
+			@Override
+			public void actionPerformed(ActionEvent e){
+				//start interrogation
+			}
+		});
 		return new JScrollPane(overviewList);
-	}
-	
-	private void setBasicProperties(JList<Lesson> list){
-		list.setSelectionMode(ListSelectionModel.SINGLE_INTERVAL_SELECTION);
-		list.setLayoutOrientation(JList.VERTICAL);
-		list.setVisibleRowCount(-1);
-	}
-	
-	private void addElementsTo(JList<Lesson> list){
-		DefaultListModel<Lesson> listModel = new DefaultListModel<Lesson>();
-		for(Lesson lesson : Lesson.allLessons){
-			listModel.addElement(lesson);
-		}
-		list.setModel(listModel);
 	}
 }
