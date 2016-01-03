@@ -12,6 +12,7 @@ public class Lesson implements Serializable{
 	private String title;
 	protected ArrayList<Card> cards;
 	private Card currentCard;
+	private int tries = 0;
 	
 	public Lesson(){
 		cards = new ArrayList<Card>();
@@ -93,5 +94,9 @@ public class Lesson implements Serializable{
 	
 	public ArrayList<Card> getCards(){
 		return cards;
+	}
+	
+	public void incrementNumberOfTries(){
+		tries++;
 	}
 }
