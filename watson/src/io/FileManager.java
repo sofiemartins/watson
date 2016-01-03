@@ -9,6 +9,8 @@ package io;
 import java.util.ArrayList;
 
 import javax.imageio.ImageIO;
+import javax.swing.JOptionPane;
+
 import java.awt.image.BufferedImage;
 import java.io.FileOutputStream;
 import java.io.FileInputStream;
@@ -27,7 +29,8 @@ public class FileManager {
 	protected static String filename = "lessons.watson"; 
 	
 	public static ArrayList<Lesson> getLessons() throws Exception{
-		ObjectInputStream stream = new ObjectInputStream(new FileInputStream("lessons.watson"));
+		makeSureFileExists();
+		ObjectInputStream stream = new ObjectInputStream(new FileInputStream(filename));
 		ArrayList<Lesson> lessons = (ArrayList<Lesson>) stream.readObject(); // TODO:Fix this so the warning disappears
 		stream.close();
 		for(Lesson lesson : lessons){
@@ -41,8 +44,16 @@ public class FileManager {
 		return lessons;
 	}
 	
+	protected static void makeSureFileExists() throws IOException{
+		File file = new File(filename);
+		if(!file.exists()){
+			file.createNewFile();
+		}
+	}
+	
 	public static void save(ArrayList<Lesson> lessons) throws IOException{
 		//save all images to img_data
+		makeSureFileExists();
 		File file = new File(filename);
 		file.delete();
 		for(Lesson lesson : lessons){

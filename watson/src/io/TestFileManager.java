@@ -10,7 +10,6 @@ import java.util.ArrayList;
 import java.io.IOException;
 import java.io.File;
 //local
-import util.Card;
 import util.Lesson;
 
 public class TestFileManager {
@@ -48,9 +47,13 @@ public class TestFileManager {
 		ArrayList<Lesson> loadedLessons = new ArrayList<Lesson>();
 		try{
 			FileManager.save(lessons);
+		}catch(Exception e){
+			fail("Exception was thrown while saving.");
+		}
+		try{
 			loadedLessons = FileManager.getLessons();
 		}catch(Exception e){
-			fail("Unexpected Exception");
+			fail("Exception was thrown while loading.");
 		}
 		assertEquals(loadedLessons.size(), lessons.size());
 	}
@@ -70,5 +73,18 @@ public class TestFileManager {
 	public void testDryRun(){
 		FileManager.dryRun();
 		assertEquals(FileManager.filename,"test.watson");
+	}
+	
+	@Test
+	public void testMakeSureFileExists(){
+		File file = new File(FileManager.filename);
+		assertEquals("test.watson", FileManager.filename);
+		assertFalse(file.exists());
+		try{
+			FileManager.makeSureFileExists();
+		}catch(IOException e){
+			fail("Unexpected exception was thrown.");
+		}
+		assertTrue(file.exists());
 	}
 }
