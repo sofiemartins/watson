@@ -80,23 +80,34 @@ public class LessonOverview extends JFrame{
 		button.addActionListener(new ActionListener(){
 			@Override
 			public void actionPerformed(ActionEvent e){
-				new EditLessonDialog(new Lesson(getValidTitle()));
-				LessonOverview.this.dispose();
+				String validTitle = getValidTitle();
+				if(!validTitle.equals("-1")){
+					new EditLessonDialog(new Lesson(validTitle));
+					LessonOverview.this.dispose();
+				}
 			}
 		});
 		return button;
 	}
 	
+	//TODO: clean up
 	private String getValidTitle(){
 		String lessonTitle = JOptionPane.showInputDialog("Please choose a title: ");
+		if(lessonTitle==null){
+			return "-1";
+		}
 		while(!titleValid(lessonTitle)){
-			lessonTitle = reask();
+			lessonTitle = reaskFor(lessonTitle);
+			if(lessonTitle==null){
+				return "-1";
+			}
 		}
 		return lessonTitle;
 	}
 	
-	private String reask(){
+	private String reaskFor(String string){
 		JOptionPane.showMessageDialog(LessonOverview.this, "The title has to be unique and not blank!");
+		string = null;
 		return JOptionPane.showInputDialog("Please choose a title: ");
 	}
 	
