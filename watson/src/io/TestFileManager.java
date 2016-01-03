@@ -87,4 +87,26 @@ public class TestFileManager {
 		}
 		assertTrue(file.exists());
 	}
+	
+	@Test
+	public void testIsFileEmpty(){
+		try{
+			FileManager.makeSureFileExists();
+			assertTrue(FileManager.isFileEmpty());
+		}catch(Exception e){
+			fail("Unexpected exception");
+		}
+		ArrayList<Lesson> lessons = new ArrayList<Lesson>();
+		lessons.add(new Lesson());
+		try{
+			FileManager.save(lessons);
+		}catch(IOException e){
+			fail("Exception thrown while saving.");
+		}
+		try{
+			assertFalse(FileManager.isFileEmpty());
+		}catch(Exception e){
+			fail("Unexpected exception");
+		}
+	}
 }

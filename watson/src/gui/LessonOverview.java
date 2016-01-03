@@ -49,6 +49,7 @@ public class LessonOverview extends JFrame{
 		try{
 			Lesson.allLessons = FileManager.getLessons();
 		}catch(Exception e){
+			e.printStackTrace();
 			JOptionPane.showMessageDialog(this, "A severe error occurred. To fix this, please reinstall the program.", 
 					"Error", JOptionPane.ERROR_MESSAGE);
 		}
@@ -79,15 +80,19 @@ public class LessonOverview extends JFrame{
 		button.addActionListener(new ActionListener(){
 			@Override
 			public void actionPerformed(ActionEvent e){
-				String lessonTitle = JOptionPane.showInputDialog("Please choose a title: ");
-				while(!titleValid(lessonTitle)){
-					lessonTitle = reask();
-				}
+				new EditLessonDialog(new Lesson(getValidTitle()));
 				LessonOverview.this.dispose();
-				new EditLessonDialog(new Lesson(lessonTitle));
 			}
 		});
 		return button;
+	}
+	
+	private String getValidTitle(){
+		String lessonTitle = JOptionPane.showInputDialog("Please choose a title: ");
+		while(!titleValid(lessonTitle)){
+			lessonTitle = reask();
+		}
+		return lessonTitle;
 	}
 	
 	private String reask(){

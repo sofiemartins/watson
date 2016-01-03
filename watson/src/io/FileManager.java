@@ -9,8 +9,6 @@ package io;
 import java.util.ArrayList;
 
 import javax.imageio.ImageIO;
-import javax.swing.JOptionPane;
-
 import java.awt.image.BufferedImage;
 import java.io.FileOutputStream;
 import java.io.FileInputStream;
@@ -18,6 +16,9 @@ import java.io.ObjectOutputStream;
 import java.io.ObjectInputStream;
 import java.io.IOException;
 import java.io.File;
+import java.io.BufferedReader;
+import java.io.FileReader;
+import java.io.FileNotFoundException;
 //local
 import util.Lesson;
 import util.Card;
@@ -30,18 +31,33 @@ public class FileManager {
 	
 	public static ArrayList<Lesson> getLessons() throws Exception{
 		makeSureFileExists();
-		ObjectInputStream stream = new ObjectInputStream(new FileInputStream(filename));
-		ArrayList<Lesson> lessons = (ArrayList<Lesson>) stream.readObject(); // TODO:Fix this so the warning disappears
-		stream.close();
-		for(Lesson lesson : lessons){
-			for(Card card : lesson.getCards()){
-				int cardIndex = lesson.getCards().indexOf(card);
-				BufferedImage sideA = ImageIO.read(new File("img_data/"+lesson.toString()+"-"+cardIndex+"-A"));
-				BufferedImage sideB = ImageIO.read(new File("img_data/"+lesson.toString()+"-"+cardIndex+"-B"));
-				lesson.getCards().set(cardIndex, new Card(sideA, sideB));
+		ArrayList<Lesson> lessons;
+		if(isFileEmpty()){
+			lessons = new ArrayList<Lesson>();
+		}else{
+			ObjectInputStream objectInputStream = new ObjectInputStream(new FileInputStream(filename));
+			lessons = (ArrayList<Lesson>) objectInputStream.readObject(); // TODO:Fix this so the warning disappears
+			objectInputStream.close();
+			for(Lesson lesson : lessons){
+				for(Card card : lesson.getCards()){
+					int cardIndex = lesson.getCards().indexOf(card);
+					BufferedImage sideA = ImageIO.read(new File("img_data/"+lesson.toString()+"-"+cardIndex+"-A"));
+					BufferedImage sideB = ImageIO.read(new File("img_data/"+lesson.toString()+"-"+cardIndex+"-B"));
+					lesson.getCards().set(cardIndex, new Card(sideA, sideB));
+				}
 			}
 		}
 		return lessons;
+	}
+	
+	protected static boolean isFileEmpty() throws IOException, FileNotFoundException{// TODO: More exception handling
+		BufferedReader reader = new BufferedReader(new FileReader(filename));
+		if(reader.readLine()==null){
+			reader.close();
+			return true;
+		}
+		reader.close();
+		return false;
 	}
 	
 	protected static void makeSureFileExists() throws IOException{
