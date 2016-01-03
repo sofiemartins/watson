@@ -157,7 +157,7 @@ public class LessonOverview extends JFrame{
 			@Override
 			public void actionPerformed(ActionEvent e){
 				Lesson selectedLesson = LessonOverview.this.overviewList.getSelectedValue();
-				new PracticeFrame(selectedLesson);
+				new Interrogation(selectedLesson);
 			}
 		});
 		return new JScrollPane(overviewList);
