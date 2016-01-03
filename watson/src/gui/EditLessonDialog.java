@@ -151,6 +151,7 @@ public class EditLessonDialog extends JFrame{
 			@Override
 			public void actionPerformed(ActionEvent e){
 				lesson.removeCurrentCard();
+				editor.open(lesson.getCurrentCard().getSideNumber(currentSide));
 			}
 		});
 		return button;
