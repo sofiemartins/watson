@@ -37,30 +37,29 @@ public class Lesson implements Serializable{
 		
 	public Card getNextCard(){ 
 		int currentIndex = cards.indexOf(getCurrentCard());
-		if(cards.size()==currentIndex+1){
-			Card newCard = new Card();
-			cards.add(newCard);
-			currentCard = newCard;
-			return newCard;
-		}else{
-			Card newCurrent = cards.get(currentIndex+1);
-			currentCard = newCurrent;
-			return currentCard;
-		}
+		currentCard = cycleThroughElementsForward(currentIndex);
+		return currentCard;
 	}
 	
 	public Card getPreviousCard(){
 		int currentIndex = cards.indexOf(getCurrentCard());
-		Card newCurrent = cycleThroughElements(currentIndex);
-		currentCard = newCurrent;
-		return newCurrent;
+		currentCard = cycleThroughElementsBackwards(currentIndex);
+		return currentCard;
 	}
 	
-	private Card cycleThroughElements(int currentIndex){
+	protected Card cycleThroughElementsBackwards(int currentIndex){
 		if(currentIndex<=0){
 			return cards.get(cards.size()-1);
 		}else{
 			return cards.get(currentIndex-1);
+		}
+	}
+	
+	protected Card cycleThroughElementsForward(int currentIndex){
+		if(currentIndex>=cards.size()-1){
+			return cards.get(0);
+		}else{
+			return cards.get(currentIndex+1);
 		}
 	}
 	

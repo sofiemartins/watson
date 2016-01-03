@@ -163,6 +163,7 @@ public class EditLessonDialog extends JFrame{
 			@Override
 			public void actionPerformed(ActionEvent e){
 				lesson.addCard(new Card());
+				editor.open(lesson.getCurrentCard().getSideNumber(currentSide));
 			}
 		});
 		return button;

@@ -39,13 +39,13 @@ public class TestLesson {
 	@Test
 	public void testGetPreviousCard(){
 		Lesson lesson = new Lesson();
-		lesson.getNextCard();
+		lesson.addCard(new Card());
 		Card card = lesson.getPreviousCard();
 		assertEquals(lesson.cards.get(0), card);
 		
 		Lesson lesson2 = new Lesson();
 		assertEquals(lesson2.getCurrentCard(), lesson2.cards.get(0));
-		lesson2.getNextCard();
+		lesson2.addCard(new Card());
 		assertEquals(lesson2.getCurrentCard(), lesson2.cards.get(1));
 		lesson2.getPreviousCard();
 		assertEquals(lesson2.getCurrentCard(), lesson2.cards.get(0));
@@ -92,5 +92,43 @@ public class TestLesson {
 		assertEquals(1, lesson.cards.size());
 		lesson.removeCurrentCard();
 		assertEquals(1, lesson.cards.size());
+	}
+	
+	@Test 
+	public void testCycleThroughElementsForward(){
+		Lesson lesson = new Lesson();
+		lesson.addCard(new Card());
+		lesson.addCard(new Card());
+		lesson.addCard(new Card());
+		assertEquals(lesson.getCurrentCard(), lesson.cards.get(3));
+		int currentIndex = lesson.cards.indexOf(lesson.getCurrentCard());
+		assertEquals(lesson.cycleThroughElementsForward(currentIndex), lesson.cards.get(0));
+		lesson.getNextCard();
+		currentIndex = lesson.cards.indexOf(lesson.getCurrentCard());
+		assertEquals(lesson.cycleThroughElementsForward(currentIndex), lesson.cards.get(1));
+		lesson.getNextCard();
+		currentIndex = lesson.cards.indexOf(lesson.getCurrentCard());
+		assertEquals(lesson.cycleThroughElementsForward(currentIndex), lesson.cards.get(2));
+	}
+	
+	@Test
+	public void testCycleThroughElementsBackwards(){
+		Lesson lesson = new Lesson();
+		lesson.addCard(new Card());
+		lesson.addCard(new Card());
+		lesson.addCard(new Card());
+		assertEquals(lesson.getCurrentCard(), lesson.cards.get(3));
+		int currentIndex = lesson.cards.indexOf(lesson.getCurrentCard());
+		assertEquals(lesson.cycleThroughElementsBackwards(currentIndex), lesson.cards.get(2));
+		lesson.getPreviousCard();
+		currentIndex = lesson.cards.indexOf(lesson.getCurrentCard());
+		assertEquals(lesson.cycleThroughElementsBackwards(currentIndex), lesson.cards.get(1));
+		lesson.getPreviousCard();
+		currentIndex = lesson.cards.indexOf(lesson.getCurrentCard());
+		assertEquals(lesson.cycleThroughElementsBackwards(currentIndex), lesson.cards.get(0));
+		lesson.getPreviousCard();
+		currentIndex = lesson.cards.indexOf(lesson.getCurrentCard());
+		assertEquals(lesson.cycleThroughElementsBackwards(currentIndex), lesson.cards.get(3));
+		lesson.getPreviousCard();
 	}
 }
