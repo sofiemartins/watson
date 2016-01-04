@@ -16,6 +16,7 @@ import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.awt.event.MouseMotionListener;
 import java.awt.image.BufferedImage;
+import java.awt.AlphaComposite;
 
 import static editor.PenMode.*;
 
@@ -39,6 +40,13 @@ public class PaintingArea extends JPanel implements MouseListener, MouseMotionLi
 	private Shape preview;
 	private Point previewStart; // TODO: find a better name
 	private Point lastDrawn; //Important for interpolating drawing gaps due to performance issues.
+	
+	/**
+	 * @param We need a composite for simple drawing and erasing things
+	 */
+	private static final AlphaComposite drawing = AlphaComposite.SrcIn;
+	private static final AlphaComposite erasing = AlphaComposite.DstOut;
+	private static final AlphaComposite marking = AlphaComposite.DstOver;
 	
 	public PaintingArea(BufferedImage bufferedImage){
 		image = bufferedImage;
@@ -75,6 +83,8 @@ public class PaintingArea extends JPanel implements MouseListener, MouseMotionLi
 		lastDrawn = e.getPoint();
 		if(Editor.currentPen.getMode()==RULER || Editor.currentPen.getMode()==SQUARE){
 			previewStart = new Point(e.getX(), e.getY());
+		}else if(Editor.currentPen.getMode()==ERASER){
+			erase(e.getPoint());
 		}else{
 			paint(e.getPoint());
 		}
@@ -102,6 +112,8 @@ public class PaintingArea extends JPanel implements MouseListener, MouseMotionLi
 	public void mouseDragged(MouseEvent e) {
 		if(Editor.currentPen.getMode()==NONE){
 			paint(e.getPoint());
+		}else if(Editor.currentPen.getMode()==ERASER){
+			erase(e.getPoint());
 		}else if(Editor.currentPen.getMode()==RULER){
 			preview = new Line2D.Double(previewStart.getX(), previewStart.getY(), e.getX(), e.getY());
 		}else if(Editor.currentPen.getMode()==SQUARE){
@@ -123,6 +135,12 @@ public class PaintingArea extends JPanel implements MouseListener, MouseMotionLi
 			imageGraphics.drawLine((int)lastDrawn.getX(), (int)lastDrawn.getY(), (int)point.getX(), (int)point.getY());
 		}
 		lastDrawn = point;
+	}
+	
+	private void erase(Point point){
+		imageGraphics.setComposite(erasing);
+		paint(point);
+		imageGraphics.setComposite(drawing);
 	}
 	
 	public void updateColor(){//TODO: make this better

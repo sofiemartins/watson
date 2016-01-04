@@ -18,7 +18,7 @@ public class Pen {
 	
 	public static final Pen MARKER = new Pen(markerSize, markerColor, NONE);
 	public static final Pen PEN = new Pen(MEDIUM, Color.black, NONE);
-	public static final Pen ERASER = new Pen(4, Color.white, NONE);//TODO: Make a real eraser, not just a white pen
+	public static final Pen ERASER = new Pen(4, Color.black, PenMode.ERASER);
 			
 	public Pen(){}
 	

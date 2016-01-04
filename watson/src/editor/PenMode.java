@@ -2,6 +2,6 @@ package editor;
 
 public enum PenMode {
 	
-	NONE, RULER, SQUARE;
+	NONE, RULER, SQUARE, ERASER;
 
 }
