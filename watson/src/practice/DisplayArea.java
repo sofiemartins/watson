@@ -3,6 +3,7 @@ package practice;
 import javax.swing.JPanel;
 import java.awt.image.BufferedImage;
 import java.awt.Graphics;
+import java.awt.Color;
 
 public class DisplayArea extends JPanel{
 	
@@ -11,6 +12,7 @@ public class DisplayArea extends JPanel{
 	private BufferedImage imageDisplayed;
 	
 	public DisplayArea(BufferedImage image){
+		setBackground(Color.white);
 		imageDisplayed = image;
 	}
 	

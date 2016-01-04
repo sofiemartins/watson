@@ -33,7 +33,7 @@ public class Lesson implements Serializable{
 	}
 	
 	public String toString(){
-		return title;
+		return "(" + tries + ") " + title;
 	}
 	
 	public Card getCurrentCard(){
