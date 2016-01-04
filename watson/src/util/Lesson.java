@@ -25,6 +25,10 @@ public class Lesson implements Serializable{
 		cards.add(new Card());
 	}
 	
+	public Lesson(ArrayList<Card> lessonFlashcards){
+		cards = lessonFlashcards;
+	}
+	
 	public String toString(){
 		return title;
 	}
@@ -90,6 +94,11 @@ public class Lesson implements Serializable{
 		}else{
 			currentCard = cards.get(currentIndex-1);
 		}
+	}
+	
+	public boolean isLastCard(Card card){
+		int index = cards.indexOf(card);
+		return (index==(cards.size()-1));
 	}
 	
 	public ArrayList<Card> getCards(){

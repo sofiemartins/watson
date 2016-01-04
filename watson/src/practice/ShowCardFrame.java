@@ -39,6 +39,8 @@ public class ShowCardFrame extends JFrame{
 		
 		add(displayArea, BorderLayout.CENTER);
 		add(getNextButton(), BorderLayout.SOUTH);
+		
+		displayArea.show(cardDisplayed.getFirstSide());
 		setVisible(true);
 	}
 	
@@ -47,9 +49,9 @@ public class ShowCardFrame extends JFrame{
 		button.addActionListener(new ActionListener(){
 			@Override
 			public void actionPerformed(ActionEvent e){
-				sidesSeen++;
-				if(sidesSeen==1){
+				if(sidesSeen==0){
 					displayArea.show(cardDisplayed.getSecondSide());
+					sidesSeen++;
 				}else{
 					cardDisplayed = currentLesson.getNextCard();
 					sidesSeen = 0;
@@ -68,9 +70,52 @@ public class ShowCardFrame extends JFrame{
 				AnswerEvent event = (AnswerEvent)e;
 				answers.add(new Boolean(event.getAnswer()));
 				changeToShowCardFrame();
+				if(interrogationEnd()){
+					ShowCardFrame.this.dispose();
+				}else if(isLastCardOnStack()){
+					currentLesson = getSubLessonFromWrongAnswers();
+					answers = new ArrayList<Boolean>();
+				}
 			}
 		});
 		return panel;
+	}
+	
+	private boolean interrogationEnd(){// TODO: find better name
+		if(isLastCardOnStack()){
+			if(numberOfWrongAnswers()==0){
+				return true;
+			}else{
+				return false;
+			}
+		}else{
+			return false;
+		}
+	}
+	
+	private boolean isLastCardOnStack(){
+		return currentLesson.isLastCard(currentLesson.getCurrentCard());
+	}
+	
+	private Lesson getSubLessonFromWrongAnswers(){
+		ArrayList<Card> cards = new ArrayList<Card>();
+		for(int index = 0; index<answers.size(); index++){
+			System.out.println("The answer of card number "+ index + " was " + answers.get(index).booleanValue());
+			if(!answers.get(index).booleanValue()){
+				cards.add(currentLesson.getCards().get(index));
+			}
+		}
+		return new Lesson(cards);
+	}
+	
+	private int numberOfWrongAnswers(){
+		int wrongAnswers = 0;
+		for(Boolean answer : answers){
+			if(!answer.booleanValue()){
+				wrongAnswers++;
+			}
+		}
+		return wrongAnswers;
 	}
 	
 	private void changeToAnswerFrame(){
