@@ -24,6 +24,7 @@ public class ShowCardFrame extends JFrame{
 	
 	public ShowCardFrame(Lesson lesson){
 		currentLesson = lesson;
+		currentLesson.resetCurrentCard();
 		cardDisplayed = lesson.getCurrentCard();
 		setUpFrame();
 	}
@@ -53,7 +54,6 @@ public class ShowCardFrame extends JFrame{
 					displayArea.show(cardDisplayed.getSecondSide());
 					sidesSeen++;
 				}else{
-					cardDisplayed = currentLesson.getNextCard();
 					sidesSeen = 0;
 					changeToAnswerFrame();
 				}
@@ -69,13 +69,14 @@ public class ShowCardFrame extends JFrame{
 			public void actionPerformed(ActionEvent e){
 				AnswerEvent event = (AnswerEvent)e;
 				answers.add(new Boolean(event.getAnswer()));
-				changeToShowCardFrame();
 				if(interrogationEnd()){
 					ShowCardFrame.this.dispose();
 				}else if(isLastCardOnStack()){
 					currentLesson = getSubLessonFromWrongAnswers();
 					answers = new ArrayList<Boolean>();
 				}
+				cardDisplayed = currentLesson.getNextCard();
+				changeToShowCardFrame();
 			}
 		});
 		return panel;
@@ -100,7 +101,6 @@ public class ShowCardFrame extends JFrame{
 	private Lesson getSubLessonFromWrongAnswers(){
 		ArrayList<Card> cards = new ArrayList<Card>();
 		for(int index = 0; index<answers.size(); index++){
-			System.out.println("The answer of card number "+ index + " was " + answers.get(index).booleanValue());
 			if(!answers.get(index).booleanValue()){
 				cards.add(currentLesson.getCards().get(index));
 			}

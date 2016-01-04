@@ -131,4 +131,17 @@ public class TestLesson {
 		assertEquals(lesson.cycleThroughElementsBackwards(currentIndex), lesson.cards.get(3));
 		lesson.getPreviousCard();
 	}
+	
+	@Test
+	public void testLastCards(){
+		Lesson lesson = new Lesson();
+		Card card = new Card();
+		lesson.addCard(card);
+		assertTrue(lesson.isLastCard(card));
+		
+		Card card2 = new Card();
+		lesson.addCard(card2);
+		assertFalse(lesson.isLastCard(card));
+		assertTrue(lesson.isLastCard(card2));
+	}
 }

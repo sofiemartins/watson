@@ -17,16 +17,19 @@ public class Lesson implements Serializable{
 	public Lesson(){
 		cards = new ArrayList<Card>();
 		cards.add(new Card());
+		currentCard = cards.get(0);
 	}
 	
 	public Lesson(String lessonTitle){
 		title = lessonTitle;
 		cards = new ArrayList<Card>();
 		cards.add(new Card());
+		currentCard = cards.get(0);
 	}
 	
 	public Lesson(ArrayList<Card> lessonFlashcards){
 		cards = lessonFlashcards;
+		currentCard = cards.get(0);
 	}
 	
 	public String toString(){
@@ -107,5 +110,9 @@ public class Lesson implements Serializable{
 	
 	public void incrementNumberOfTries(){
 		tries++;
+	}
+	
+	public void resetCurrentCard(){
+		currentCard = cards.get(0);
 	}
 }

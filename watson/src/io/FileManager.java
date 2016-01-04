@@ -39,6 +39,7 @@ public class FileManager {
 			lessons = (ArrayList<Lesson>) objectInputStream.readObject(); // TODO:Fix this so the warning disappears
 			objectInputStream.close();
 			for(Lesson lesson : lessons){
+				lesson.resetCurrentCard();
 				for(Card card : lesson.getCards()){
 					int cardIndex = lesson.getCards().indexOf(card);
 					BufferedImage sideA = ImageIO.read(new File("img_data/"+lesson.toString()+"-"+cardIndex+"-A"));
