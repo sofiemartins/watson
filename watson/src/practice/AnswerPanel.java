@@ -1,6 +1,6 @@
 package practice;
 
-import javax.swing.JFrame;
+import javax.swing.JPanel;
 import javax.swing.JButton;
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
@@ -8,16 +8,17 @@ import java.awt.Graphics;
 import java.awt.Color;
 import java.awt.GridLayout;
 
-public class AnswerFrame extends JFrame{
+public class AnswerPanel extends JPanel{
 	
 	public static final long serialVersionUID = 995887873425167890L;
 	
+	private ActionListener actionListener;
+	
 	protected boolean answer;
 	
-	public AnswerFrame(){
+	public AnswerPanel(){
 		setLayout(new GridLayout(1,2));
 		setSize(800,500);
-		setDefaultCloseOperation(EXIT_ON_CLOSE);
 		add(getRightButton());
 		add(getWrongButton());
 		setVisible(true);
@@ -38,8 +39,7 @@ public class AnswerFrame extends JFrame{
 		button.addActionListener(new ActionListener(){
 			@Override
 			public void actionPerformed(ActionEvent e){
-				answer = true;
-				dispose();
+				actionListener.actionPerformed(new AnswerEvent(this, ActionEvent.ACTION_PERFORMED, "Question has been answered.", true));
 			}
 		});
 		return button;
@@ -60,14 +60,13 @@ public class AnswerFrame extends JFrame{
 		button.addActionListener(new ActionListener(){
 			@Override
 			public void actionPerformed(ActionEvent e){
-				answer = false;
-				dispose();
+				actionListener.actionPerformed(new AnswerEvent(this, ActionEvent.ACTION_PERFORMED, "Question has been answered.", false));
 			}
 		});
 		return button;
 	}
 	
-	public boolean getAnswer(){
-		return answer;
+	public void addActionListener(ActionListener al){
+		actionListener = al;
 	}
 }

@@ -2,7 +2,6 @@ package gui;
 
 import practice.ShowCardFrame;
 import util.Lesson;
-import util.Card;
 
 public class Interrogation{
 	
@@ -10,13 +9,7 @@ public class Interrogation{
 	//TODO: implement some better training methods, not just asking everything
 	
 	public Interrogation(Lesson lesson){
-		for(Card card : lesson.getCards()){
-			new ShowCardFrame(card);
-		}
+		new ShowCardFrame(lesson);
 		lesson.incrementNumberOfTries();
 	}
-	
-	
-	
-
 }
