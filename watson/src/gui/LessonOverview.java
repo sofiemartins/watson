@@ -158,10 +158,14 @@ public class LessonOverview extends JFrame{
 		overviewList.addActionListener(new ActionListener(){
 			@Override
 			public void actionPerformed(ActionEvent e){
-				Lesson selectedLesson = LessonOverview.this.overviewList.getSelectedValue();
-				new Interrogation(selectedLesson);
+				startInterrogation();
 			}
 		});
 		return new JScrollPane(overviewList);
+	}
+	
+	private void startInterrogation(){
+		Lesson selectedLesson = overviewList.getSelectedValue();
+		new Interrogation(selectedLesson);
 	}
 }
