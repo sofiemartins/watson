@@ -27,7 +27,7 @@ public class PenSizeButton extends JToggleButton implements ActionListener{
 		super.paintComponent(g);
 		g.setColor(Color.black);
 		int sizeInPx = Pen.getSizeInPx(penSize, Editor.currentPen.getType());
-		g.fillOval((int)(getWidth()*0.5), (int)(getHeight()*0.5),
+		g.fillOval((int)(getWidth()*0.5-sizeInPx*0.5), (int)(getHeight()*0.5-sizeInPx*0.5),
 				sizeInPx, sizeInPx);
 	}
 	
