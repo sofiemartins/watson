@@ -6,7 +6,9 @@ import javax.swing.ImageIcon;
 import javax.swing.border.EmptyBorder;
 import java.awt.GridLayout;
 import java.awt.Color;
+import java.awt.Component;
 import java.awt.Graphics;
+import java.awt.event.KeyListener;
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
 
@@ -184,5 +186,4 @@ public class Toolbar extends JPanel{
 	public void addActionListener(ActionListener al){
 		actionListener = al;
 	}
-	
 }

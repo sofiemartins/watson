@@ -9,15 +9,38 @@ import javax.swing.JOptionPane;
 import static java.awt.BorderLayout.*;
 import java.awt.BorderLayout;
 import java.awt.GridLayout;
+import java.awt.event.KeyListener;
+import java.awt.event.KeyEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
+import java.awt.KeyEventDispatcher;
+import java.awt.KeyboardFocusManager;
 import java.io.IOException;
 
 import util.Lesson;
 import util.Card;
 import io.FileManager;
 
-public class EditLessonDialog extends JFrame{
+public class EditLessonDialog extends JFrame implements KeyListener{
+	
+	private class Dispatcher implements KeyEventDispatcher{
+		@Override
+		public boolean dispatchKeyEvent(KeyEvent e){
+			if(e.getID()==KeyEvent.KEY_PRESSED){
+				if(e.getKeyCode()==KeyEvent.VK_LEFT){
+					showPreviousCard();
+				}else if(e.getKeyCode()==KeyEvent.VK_RIGHT){
+					showNextCard();
+				}else if(e.getKeyCode()==KeyEvent.VK_DOWN || e.getKeyCode()==KeyEvent.VK_UP){
+					turnAround();
+				}else if((e.getKeyCode()==KeyEvent.VK_S) && (e.getModifiers() & KeyEvent.CTRL_MASK) != 0){
+					saveAndCloseDialog();
+					
+				}
+			}
+			return false;
+		}
+	}
 		
 	public static final long serialVersionUID = 4332554321662211089L;
 	
@@ -25,13 +48,22 @@ public class EditLessonDialog extends JFrame{
 	private int currentSide = 1;
 	
 	private Editor editor;
+	private Dispatcher keyEventDispatcher = new Dispatcher();
+	private KeyboardFocusManager manager = KeyboardFocusManager.getCurrentKeyboardFocusManager();
 	
 	public EditLessonDialog(Lesson l){
 		lesson = l;
 		lesson.resetCurrentCard();
+		addKeyListener(this);
 		basicFrameSetup();
 		addComponents();
+		manager.addKeyEventDispatcher(keyEventDispatcher);
 		setVisible(true);
+	}
+	
+	public void dispose(){
+		manager.removeKeyEventDispatcher(keyEventDispatcher);
+		super.dispose();
 	}
 	
 	private void basicFrameSetup(){
@@ -54,7 +86,7 @@ public class EditLessonDialog extends JFrame{
 		container.setBorder(new EmptyBorder(5,50,5,550));
 		container.add(previousButton());
 		container.add(nextButton());
-		container.add(otherSideButton());
+		container.add(turnAroundButton());
 		container.add(getSaveButton());
 		return container;
 	}
@@ -65,33 +97,48 @@ public class EditLessonDialog extends JFrame{
 		button.addActionListener(new ActionListener(){
 			@Override
 			public void actionPerformed(ActionEvent e){
-				editor.open(lesson.getNextCard().getSideNumber(currentSide));
+				showNextCard();
 			}
 		});
 		return button;
 	}
+	
+	private void showNextCard(){
+		editor.open(lesson.getNextCard().getSideNumber(currentSide));
+	}
+	
 	private JButton previousButton(){
 		JButton button = new JButton();
 		button.setIcon(new ImageIcon(getClass().getResource("back.png")));
 		button.addActionListener(new ActionListener(){
 			@Override
 			public void actionPerformed(ActionEvent e){
-				editor.open(lesson.getPreviousCard().getSideNumber(currentSide));
+				showPreviousCard();
 			}
 		});
 		return button;
 	}
-	private JButton otherSideButton(){
+	
+	private void showPreviousCard(){
+		editor.open(lesson.getPreviousCard().getSideNumber(currentSide));
+	}
+	
+	private JButton turnAroundButton(){
 		JButton button = new JButton();
 		button.setIcon(new ImageIcon(getClass().getResource("otherside.png")));
 		button.addActionListener(new ActionListener(){
 			@Override
 			public void actionPerformed(ActionEvent e){
-				currentSide = cycle(currentSide);
-				editor.open(lesson.getCurrentCard().getSideNumber(currentSide));
+				turnAround();
 			}
 		});
+		button.grabFocus();
 		return button;
+	}
+	
+	private void turnAround(){
+		currentSide = cycle(currentSide);
+		editor.open(lesson.getCurrentCard().getSideNumber(currentSide));
 	}
 	
 	private int cycle(int sideNumber){
@@ -108,18 +155,21 @@ public class EditLessonDialog extends JFrame{
 		button.addActionListener(new ActionListener(){
 			@Override
 			public void actionPerformed(ActionEvent e){
-				replaceLesson(lesson);
-				try{
-					FileManager.save(Lesson.allLessons);
-				}catch(IOException ex){
-					JOptionPane.showMessageDialog(EditLessonDialog.this, 
-							"An error occurred while reading the file. Please check file permissions or reinstall.");
-				}
-				new LessonOverview();
-				EditLessonDialog.this.dispose();
+				saveAndCloseDialog();
 			}
 		});
 		return button;
+	}
+	
+	private void saveAndCloseDialog(){
+		replaceLesson(lesson);
+		try{
+			FileManager.save(Lesson.allLessons);
+		}catch(IOException ex){
+			JOptionPane.showMessageDialog(EditLessonDialog.this, 
+					"An error occurred while reading the file. Please check file permissions or reinstall.");
+		}
+		EditLessonDialog.this.dispose();
 	}
 	
 	private void replaceLesson(Lesson newLesson){
@@ -170,4 +220,14 @@ public class EditLessonDialog extends JFrame{
 		return button;
 	}
 
+	@Override
+	public void keyPressed(KeyEvent e) {}
+
+	@Override
+	public void keyReleased(KeyEvent e) {}
+
+	@Override
+	public void keyTyped(KeyEvent e) {
+		System.out.println("Hello World");
+	}
 }

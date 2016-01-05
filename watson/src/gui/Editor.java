@@ -3,10 +3,13 @@ package gui;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
 import java.awt.BorderLayout;
+import java.awt.Component;
+
 import static java.awt.BorderLayout.*;
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
 import java.awt.image.BufferedImage;
+import java.awt.event.KeyListener;
 
 import editor.PaintingArea;
 import editor.Pen;
@@ -48,4 +51,5 @@ public class Editor extends JPanel{
 		paintingArea.open(image);
 		repaint();
 	}
+	
 }
