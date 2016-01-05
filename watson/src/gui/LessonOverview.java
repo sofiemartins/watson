@@ -39,7 +39,6 @@ public class LessonOverview extends JFrame{
 	public LessonOverview(){
 		loadLessons();
 		setupFrameLayout();
-		
 	}
 	
 	protected void loadLessons(){
@@ -77,18 +76,21 @@ public class LessonOverview extends JFrame{
 		button.addActionListener(new ActionListener(){
 			@Override
 			public void actionPerformed(ActionEvent e){
-				String validTitle = getValidTitle();
-				if(!validTitle.equals("-1")){
-					new EditLessonDialog(new Lesson(validTitle));
-					LessonOverview.this.dispose();
-				}
+				createNewLesson();
 			}
 		});
 		return button;
 	}
 	
+	protected static void createNewLesson(){
+		String validTitle = getValidTitle();
+		if(!validTitle.equals("-1")){//TODO: find a better way for dealing with the cancel button!
+			new EditLessonDialog(new Lesson(validTitle));// TODO: dispose lesson overview?
+		}
+	}
+	
 	//TODO: clean up
-	private String getValidTitle(){
+	private static String getValidTitle(){
 		String lessonTitle = JOptionPane.showInputDialog("Please choose a title: ");
 		if(lessonTitle==null){
 			return "-1";
@@ -102,8 +104,8 @@ public class LessonOverview extends JFrame{
 		return lessonTitle;
 	}
 	
-	private String reaskFor(String string){
-		JOptionPane.showMessageDialog(LessonOverview.this, "The title has to be unique and not blank!");
+	private static String reaskFor(String string){//TODO: no parent is not so great.
+		JOptionPane.showMessageDialog(null, "The title has to be unique and not blank!");
 		string = null;
 		return JOptionPane.showInputDialog("Please choose a title: ");
 	}
