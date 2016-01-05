@@ -1,6 +1,6 @@
 package editor;
 
-import javax.swing.JButton;
+import javax.swing.JToggleButton;
 
 import gui.Editor;
 
@@ -9,7 +9,7 @@ import java.awt.Graphics;
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
 
-public class ColorButton extends JButton implements ActionListener{
+public class ColorButton extends JToggleButton implements ActionListener{
 	
 	public static final long serialVersionUID = 366547611232432597L;
 	private ActionListener actionListener;
@@ -23,6 +23,7 @@ public class ColorButton extends JButton implements ActionListener{
 	
 	@Override
 	public void paintComponent(Graphics g){
+		super.paintComponent(g);
 		g.setColor(buttonColor);
 		g.fillRect(5, 5, getWidth()-10, getHeight()-10);
 		g.setColor(Color.black);
@@ -44,5 +45,6 @@ public class ColorButton extends JButton implements ActionListener{
 				ActionEvent.ACTION_PERFORMED,
 				"color button was pressed",
 				newPen));
+		setSelected(true);
 	}
 }
