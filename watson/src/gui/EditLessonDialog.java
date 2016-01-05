@@ -35,7 +35,6 @@ public class EditLessonDialog extends JFrame implements KeyListener{
 					turnAround();
 				}else if((e.getKeyCode()==KeyEvent.VK_S) && (e.getModifiers() & KeyEvent.CTRL_MASK) != 0){
 					saveAndCloseDialog();
-					
 				}
 			}
 			return false;

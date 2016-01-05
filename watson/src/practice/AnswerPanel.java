@@ -2,28 +2,55 @@ package practice;
 
 import javax.swing.JPanel;
 import javax.swing.JButton;
+import java.awt.KeyEventDispatcher;
 import java.awt.event.KeyEvent;
-import java.awt.event.KeyAdapter;
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
 import java.awt.Graphics;
 import java.awt.Color;
 import java.awt.GridLayout;
+import java.awt.KeyboardFocusManager;
 
 public class AnswerPanel extends JPanel{
+	
+	private class Dispatcher implements KeyEventDispatcher{
+		@Override
+		public boolean dispatchKeyEvent(KeyEvent e){
+			if(active){
+				if(e.getID()==KeyEvent.KEY_PRESSED){
+					if(e.getKeyCode()==KeyEvent.VK_LEFT){
+						answerRight();
+					}else if(e.getKeyCode()==KeyEvent.VK_RIGHT){
+						answerWrong();
+					}
+				}
+			}
+			return false;
+		}
+	}
 	
 	public static final long serialVersionUID = 995887873425167890L;
 	
 	private ActionListener actionListener;
 	
-	protected boolean answer;
+	protected boolean active;
+	
+	public JButton rightButton = getRightButton();
+	
+	private Dispatcher keyEventDispatcher = new Dispatcher();
+	private KeyboardFocusManager manager = KeyboardFocusManager.getCurrentKeyboardFocusManager();
 	
 	public AnswerPanel(){
 		setLayout(new GridLayout(1,2));
 		setSize(800,500);
-		add(getRightButton());
+		add(rightButton);
 		add(getWrongButton());
+		manager.addKeyEventDispatcher(keyEventDispatcher);
 		setVisible(true);
+	}
+	
+	public void dispose(){
+		manager.removeKeyEventDispatcher(keyEventDispatcher);
 	}
 	
 	private JButton getRightButton(){
@@ -41,10 +68,15 @@ public class AnswerPanel extends JPanel{
 		button.addActionListener(new ActionListener(){
 			@Override
 			public void actionPerformed(ActionEvent e){
-				actionListener.actionPerformed(new AnswerEvent(this, ActionEvent.ACTION_PERFORMED, "Question has been answered.", true));
+				answerRight();
 			}
 		});
 		return button;
+	}
+	
+	private void answerRight(){
+		actionListener.actionPerformed(new AnswerEvent(this, ActionEvent.ACTION_PERFORMED, "Question has been answered.", true));
+
 	}
 	
 	private JButton getWrongButton(){
@@ -62,13 +94,25 @@ public class AnswerPanel extends JPanel{
 		button.addActionListener(new ActionListener(){
 			@Override
 			public void actionPerformed(ActionEvent e){
-				actionListener.actionPerformed(new AnswerEvent(this, ActionEvent.ACTION_PERFORMED, "Question has been answered.", false));
+				answerWrong();
 			}
 		});
 		return button;
 	}
 	
+	private void answerWrong(){
+		actionListener.actionPerformed(new AnswerEvent(this, ActionEvent.ACTION_PERFORMED, "Question has been answered.", false));
+	}
+	
 	public void addActionListener(ActionListener al){
 		actionListener = al;
+	}
+	
+	public void activate(){
+		active = true;
+	}
+			
+	public void disable(){
+		active = false;
 	}
 }

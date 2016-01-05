@@ -121,6 +121,9 @@ public class ShowCardFrame extends JFrame{
 	private void changeToAnswerFrame(){
 		getContentPane().removeAll();
 		add(answerPanel, BorderLayout.CENTER);
+		answerPanel.activate();
+		getRootPane().setDefaultButton(answerPanel.rightButton);
+		answerPanel.rightButton.requestFocus();
 		revalidate();
 		repaint();
 	}
@@ -129,6 +132,9 @@ public class ShowCardFrame extends JFrame{
 		getContentPane().removeAll();
 		add(displayArea, BorderLayout.CENTER);
 		add(nextButton, BorderLayout.SOUTH);
+		answerPanel.disable();
+		getRootPane().setDefaultButton(nextButton);
+		nextButton.requestFocus();
 		revalidate();
 		repaint();
 		displayArea.show(cardDisplayed.getFirstSide());
