@@ -46,7 +46,7 @@ public class PaintingArea extends JPanel implements MouseListener, MouseMotionLi
 	 */
 	private static final AlphaComposite drawing = AlphaComposite.SrcOver;
 	private static final AlphaComposite erasing = AlphaComposite.DstOut;
-	private static final AlphaComposite marking = AlphaComposite.DstOut;
+	private static final AlphaComposite marking = AlphaComposite.DstOver;
 	
 	public PaintingArea(BufferedImage bufferedImage){
 		image = bufferedImage;
@@ -83,7 +83,7 @@ public class PaintingArea extends JPanel implements MouseListener, MouseMotionLi
 		lastDrawn = e.getPoint();
 		if(Editor.currentPen.getMode()==RULER || Editor.currentPen.getMode()==SQUARE){
 			previewStart = new Point(e.getX(), e.getY());
-		}else if(Editor.currentPen.getMode()==ERASER){
+		}else if(Editor.currentPen.getType()==PenType.ERASER){
 			erase(e.getPoint());
 		}else if(Editor.currentPen.getType()==PenType.MARKER){
 			mark(e.getPoint());
@@ -111,19 +111,37 @@ public class PaintingArea extends JPanel implements MouseListener, MouseMotionLi
 	}
 
 	@Override
-	public void mouseDragged(MouseEvent e) {
-		if(Editor.currentPen.getMode()==NONE){
-			paint(e.getPoint());
-		}else if(Editor.currentPen.getMode()==ERASER){
-			erase(e.getPoint());
-		}else if(Editor.currentPen.getMode()==RULER){
-			preview = new Line2D.Double(previewStart.getX(), previewStart.getY(), e.getX(), e.getY());
+	public void mouseDragged(MouseEvent e) { //TODO: clean up.
+		if(Editor.currentPen.getType()==PenType.PEN){
+			if(Editor.currentPen.getMode()==NONE){
+				paint(e.getPoint());
+			}else if(Editor.currentPen.getMode()==RULER){
+				preview = new Line2D.Double(previewStart.getX(), previewStart.getY(), e.getX(), e.getY());
+			}else if(Editor.currentPen.getMode()==SQUARE){
+				int dx = (int)(e.getX() - previewStart.getX());
+				int dy = (int)(e.getY() - previewStart.getY());
+				preview = new Rectangle((int)previewStart.getX(),(int) previewStart.getY(), dx, dy);
+			}
 		}else if(Editor.currentPen.getType()==PenType.MARKER){
-			mark(e.getPoint());
-		}else if(Editor.currentPen.getMode()==SQUARE){
-			int dx = (int)(e.getX() - previewStart.getX());
-			int dy = (int)(e.getY() - previewStart.getY());
-			preview = new Rectangle((int)previewStart.getX(),(int) previewStart.getY(), dx, dy);
+			if(Editor.currentPen.getMode()==NONE){
+				mark(e.getPoint());
+			}else if(Editor.currentPen.getMode()==RULER){
+				preview = new Line2D.Double(previewStart.getX(), previewStart.getY(), e.getX(), e.getY());
+			}else if(Editor.currentPen.getMode()==SQUARE){
+				int dx = (int)(e.getX() - previewStart.getX());
+				int dy = (int)(e.getY() - previewStart.getY());
+				preview = new Rectangle((int)previewStart.getX(),(int) previewStart.getY(), dx, dy);
+			}
+		}else if(Editor.currentPen.getType()==PenType.ERASER){
+			if(Editor.currentPen.getMode()==NONE){
+				erase(e.getPoint());
+			}else if(Editor.currentPen.getMode()==RULER){
+				preview = new Line2D.Double(previewStart.getX(), previewStart.getY(), e.getX(), e.getY());
+			}else if(Editor.currentPen.getMode()==SQUARE){
+				int dx = (int)(e.getX() - previewStart.getX());
+				int dy = (int)(e.getY() - previewStart.getY());
+				preview = new Rectangle((int)previewStart.getX(),(int) previewStart.getY(), dx, dy);
+			}
 		}
 		repaint();
 	}

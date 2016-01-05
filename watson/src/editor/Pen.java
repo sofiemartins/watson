@@ -11,11 +11,9 @@ public class Pen {
 	private PenMode mode = NONE;
 	private PenType type = PenType.PEN;
 	
-	private static final Color markerColor = new Color(255,240,0,100);
-	
 	public static final Pen MARKER = new Pen(PenSize.MEDIUM, Color.yellow, NONE, PenType.MARKER);
 	public static final Pen PEN = new Pen(PenSize.MEDIUM, Color.black, NONE, PenType.PEN);
-	public static final Pen ERASER = new Pen(PenSize.MEDIUM, Color.black, PenMode.ERASER, PenType.ERASER);
+	public static final Pen ERASER = new Pen(PenSize.MEDIUM, Color.black, NONE, PenType.ERASER);
 			
 	public Pen(){}
 	
