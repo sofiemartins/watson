@@ -8,6 +8,7 @@ import java.awt.Shape;
 import java.awt.Rectangle;
 import java.awt.Point;
 import java.awt.Color;
+import java.awt.Cursor;
 import java.awt.geom.Line2D;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
@@ -77,10 +78,14 @@ public class PaintingArea extends JPanel implements MouseListener, MouseMotionLi
 	public void mouseClicked(MouseEvent e) {}
 
 	@Override
-	public void mouseEntered(MouseEvent e) {}
+	public void mouseEntered(MouseEvent e) {
+		this.setCursor(new Cursor(Cursor.CROSSHAIR_CURSOR));
+	}
 
 	@Override
-	public void mouseExited(MouseEvent e) {}
+	public void mouseExited(MouseEvent e) {
+		this.setCursor(new Cursor(Cursor.DEFAULT_CURSOR));
+	}
 
 	@Override
 	public void mousePressed(MouseEvent e) {
