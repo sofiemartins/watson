@@ -6,6 +6,7 @@ import gui.Editor;
 
 import java.awt.Shape;
 import java.awt.Rectangle;
+import java.awt.RenderingHints;
 import java.awt.Point;
 import java.awt.Color;
 import java.awt.Cursor;
@@ -55,6 +56,7 @@ public class PaintingArea extends JPanel implements MouseListener, MouseMotionLi
 		addListeners();
 		setBackground(Color.white);
 		imageGraphics.setColor(Editor.currentPen.getColor());
+		imageGraphics.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
 	}
 	
 	private void addListeners(){
@@ -174,7 +176,7 @@ public class PaintingArea extends JPanel implements MouseListener, MouseMotionLi
 	
 	private void updatePen(){
 		imageGraphics.setColor(Editor.currentPen.getColor());
-		imageGraphics.setStroke(new BasicStroke(Editor.currentPen.getSizeInPx()));
+		imageGraphics.setStroke(new BasicStroke(Editor.currentPen.getSizeInPx(), BasicStroke.CAP_ROUND, BasicStroke.JOIN_ROUND));
 	}
 	
 	public BufferedImage getImage(){
