@@ -2,6 +2,7 @@ package editor;
 
 import javax.swing.JPanel;
 import javax.swing.JButton;
+import javax.swing.JToggleButton;
 import javax.swing.ImageIcon;
 import javax.swing.border.EmptyBorder;
 import java.awt.GridLayout;
@@ -38,14 +39,18 @@ public class Toolbar extends JPanel{
 		JPanel container = new JPanel();
 		container.setLayout(new GridLayout(1,3));
 		container.setBorder(new EmptyBorder(10,2,10,2));
-		container.add(getPenButton());
-		container.add(getEraserButton());
-		container.add(getMarkerButton());
+		container.add(penButton);
+		container.add(eraserButton);
+		container.add(markerButton);
 		return container;
 	}
 	
-	private JButton getPenButton(){
-		JButton button = new JButton();
+	private JToggleButton penButton = getPenButton();
+	private JToggleButton eraserButton = getEraserButton();
+	private JToggleButton markerButton = getMarkerButton();
+	
+	private JToggleButton getPenButton(){
+		JToggleButton button = new JToggleButton();
 		button.setIcon(new ImageIcon(getClass().getResource("pen.png")));
 		button.addActionListener(new ActionListener(){
 			@Override
@@ -54,13 +59,15 @@ public class Toolbar extends JPanel{
 						ActionEvent.ACTION_PERFORMED, 
 						"change to standard pen",
 						Pen.PEN)); // TODO: Let the user define their default pen oder change to last used pen
+						eraserButton.setSelected(false);
+						markerButton.setSelected(false);
 			}
 		});
 		return button;
 	}
 	
-	private JButton getEraserButton(){
-		JButton button = new JButton();
+	private JToggleButton getEraserButton(){
+		JToggleButton button = new JToggleButton();
 		button.setIcon(new ImageIcon(getClass().getResource("eraser.png")));
 		button.addActionListener(new ActionListener(){
 			@Override
@@ -69,13 +76,15 @@ public class Toolbar extends JPanel{
 						ActionEvent.ACTION_PERFORMED,
 						"change to eraser",
 						Pen.ERASER));
+						penButton.setSelected(false);
+						markerButton.setSelected(false);
 			}
 		});
 		return button;
 	}
 	
-	private JButton getMarkerButton(){
-		JButton button = new JButton();
+	private JToggleButton getMarkerButton(){
+		JToggleButton button = new JToggleButton();
 		button.setIcon(new ImageIcon(getClass().getResource("marker.png")));
 		button.addActionListener(new ActionListener(){
 			@Override
@@ -84,6 +93,8 @@ public class Toolbar extends JPanel{
 						ActionEvent.ACTION_PERFORMED,
 						"change to marker",
 						Pen.MARKER));
+						penButton.setSelected(false);
+						eraserButton.setSelected(false);
 			}
 		});
 		return button;
