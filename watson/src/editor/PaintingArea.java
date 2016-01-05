@@ -107,7 +107,13 @@ public class PaintingArea extends JPanel implements MouseListener, MouseMotionLi
 
 	@Override
 	public void mouseReleased(MouseEvent e) {
+		if(Editor.currentPen.getType()==PenType.MARKER){
+			imageGraphics.setComposite(marking);
+		}else if(Editor.currentPen.getType()==PenType.ERASER){
+			imageGraphics.setComposite(erasing);
+		}
 		if(Editor.currentPen.getMode()==RULER){
+		
 			imageGraphics.drawLine((int)previewStart.getX(), (int)previewStart.getY(), (int)e.getX(), (int)e.getY());
 		}else if(Editor.currentPen.getMode()==SQUARE){
 			imageGraphics.drawRect((int)previewStart.getX(), (int)previewStart.getY(), 
@@ -116,6 +122,7 @@ public class PaintingArea extends JPanel implements MouseListener, MouseMotionLi
 		preview = null;
 		previewStart = null;
 		lastDrawn = null;
+		imageGraphics.setComposite(drawing);
 		repaint();
 	}
 
@@ -169,8 +176,10 @@ public class PaintingArea extends JPanel implements MouseListener, MouseMotionLi
 	}
 	
 	private void mark(Point point){
+		imageGraphics.setStroke(new BasicStroke(Editor.currentPen.getSizeInPx(), BasicStroke.CAP_SQUARE, BasicStroke.JOIN_BEVEL));
 		imageGraphics.setComposite(marking);
 		paintInterpolated(point);
+		updatePen();
 		imageGraphics.setComposite(drawing);
 	}
 	
