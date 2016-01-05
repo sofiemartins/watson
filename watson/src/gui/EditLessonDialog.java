@@ -28,6 +28,7 @@ public class EditLessonDialog extends JFrame{
 	
 	public EditLessonDialog(Lesson l){
 		lesson = l;
+		lesson.resetCurrentCard();
 		basicFrameSetup();
 		addComponents();
 		setVisible(true);

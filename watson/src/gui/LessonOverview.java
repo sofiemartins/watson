@@ -140,12 +140,15 @@ public class LessonOverview extends JFrame{
 		button.addActionListener(new ActionListener(){
 			@Override
 			public void actionPerformed(ActionEvent e){
-				Lesson markedLesson = overviewList.getSelectedValue();
-				new EditLessonDialog(markedLesson);
-				LessonOverview.this.dispose();
+				Lesson lesson = overviewList.getSelectedValue();
+				new EditLessonDialog(lesson);
 			}
 		});
 		return button;
+	}
+	
+	protected static void edit(Lesson lesson){
+		new EditLessonDialog(lesson);
 	}
 	
 	private void setIcon(JButton button, String filepath){

@@ -78,6 +78,14 @@ public class OverviewList extends JList<Lesson> implements MouseListener, KeyLis
 			LessonOverview.createNewLesson();
 		}else if(e.getKeyChar()==' ' || e.getKeyChar()=='\n'){
 			startInterrogation();
+		}else if(e.getKeyChar()=='e'){
+			editSelectedLesson();
+		}
+	}
+	
+	private void editSelectedLesson(){
+		if(getSelectedValue()!=null){
+			new EditLessonDialog(getSelectedValue());
 		}
 	}
 	
