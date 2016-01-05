@@ -80,6 +80,7 @@ public class PaintingArea extends JPanel implements MouseListener, MouseMotionLi
 
 	@Override
 	public void mousePressed(MouseEvent e) {
+		updatePen();
 		lastDrawn = e.getPoint();
 		if(Editor.currentPen.getMode()==RULER || Editor.currentPen.getMode()==SQUARE){
 			previewStart = new Point(e.getX(), e.getY());
@@ -88,21 +89,18 @@ public class PaintingArea extends JPanel implements MouseListener, MouseMotionLi
 		}else if(Editor.currentPen.getType()==PenType.MARKER){
 			mark(e.getPoint());
 		}else{
-			paint(e.getPoint());
+			paintInterpolated(e.getPoint());
 		}
 		repaint();
 	}
 
 	@Override
 	public void mouseReleased(MouseEvent e) {
-		imageGraphics.setStroke(new BasicStroke(Editor.currentPen.getSizeInPx()));
 		if(Editor.currentPen.getMode()==RULER){
-			imageGraphics.setStroke(new BasicStroke(Editor.currentPen.getSizeInPx()));
 			imageGraphics.drawLine((int)previewStart.getX(), (int)previewStart.getY(), (int)e.getX(), (int)e.getY());
 		}else if(Editor.currentPen.getMode()==SQUARE){
-			int dx = (int)(e.getX() - previewStart.getX());
-			int dy = (int)(e.getY() - previewStart.getY());
-			imageGraphics.drawRect((int)previewStart.getX(), (int)previewStart.getY(), dx, dy);
+			imageGraphics.drawRect((int)previewStart.getX(), (int)previewStart.getY(), 
+					getWidthDifference(e), getHeightDifference(e));
 		}
 		preview = null;
 		previewStart = null;
@@ -111,46 +109,40 @@ public class PaintingArea extends JPanel implements MouseListener, MouseMotionLi
 	}
 
 	@Override
-	public void mouseDragged(MouseEvent e) { //TODO: clean up.
-		if(Editor.currentPen.getType()==PenType.PEN){
-			if(Editor.currentPen.getMode()==NONE){
-				paint(e.getPoint());
-			}else if(Editor.currentPen.getMode()==RULER){
-				preview = new Line2D.Double(previewStart.getX(), previewStart.getY(), e.getX(), e.getY());
-			}else if(Editor.currentPen.getMode()==SQUARE){
-				int dx = (int)(e.getX() - previewStart.getX());
-				int dy = (int)(e.getY() - previewStart.getY());
-				preview = new Rectangle((int)previewStart.getX(),(int) previewStart.getY(), dx, dy);
-			}
-		}else if(Editor.currentPen.getType()==PenType.MARKER){
-			if(Editor.currentPen.getMode()==NONE){
-				mark(e.getPoint());
-			}else if(Editor.currentPen.getMode()==RULER){
-				preview = new Line2D.Double(previewStart.getX(), previewStart.getY(), e.getX(), e.getY());
-			}else if(Editor.currentPen.getMode()==SQUARE){
-				int dx = (int)(e.getX() - previewStart.getX());
-				int dy = (int)(e.getY() - previewStart.getY());
-				preview = new Rectangle((int)previewStart.getX(),(int) previewStart.getY(), dx, dy);
-			}
-		}else if(Editor.currentPen.getType()==PenType.ERASER){
-			if(Editor.currentPen.getMode()==NONE){
-				erase(e.getPoint());
-			}else if(Editor.currentPen.getMode()==RULER){
-				preview = new Line2D.Double(previewStart.getX(), previewStart.getY(), e.getX(), e.getY());
-			}else if(Editor.currentPen.getMode()==SQUARE){
-				int dx = (int)(e.getX() - previewStart.getX());
-				int dy = (int)(e.getY() - previewStart.getY());
-				preview = new Rectangle((int)previewStart.getX(),(int) previewStart.getY(), dx, dy);
-			}
+	public void mouseDragged(MouseEvent e) { 
+		if(Editor.currentPen.getMode()==NONE){
+			paint(e.getPoint());
+		}else if(Editor.currentPen.getMode()==RULER){
+			preview = new Line2D.Double(previewStart.getX(), previewStart.getY(), e.getX(), e.getY());
+		}else if(Editor.currentPen.getMode()==SQUARE){
+			preview = new Rectangle((int)previewStart.getX(),(int) previewStart.getY(), 
+					getWidthDifference(e), getHeightDifference(e));
 		}
 		repaint();
+	}
+	
+	private int getWidthDifference(MouseEvent e){
+		return (int)(e.getX() - previewStart.getX());
+	}
+	
+	private int getHeightDifference(MouseEvent e){
+		return (int)(e.getY() - previewStart.getY());
 	}
 	
 	@Override
 	public void mouseMoved(MouseEvent e) {}
 	
 	private void paint(Point point){
-		imageGraphics.setStroke(new BasicStroke(Editor.currentPen.getSizeInPx()));
+		if(Editor.currentPen.getType() == PenType.ERASER){
+			erase(point);
+		}else if(Editor.currentPen.getType()==PenType.MARKER){
+			mark(point);
+		}else if(Editor.currentPen.getType()==PenType.PEN){
+			paintInterpolated(point);
+		}
+	}
+	
+	private void paintInterpolated(Point point){
 		if(lastDrawn==null){
 			imageGraphics.drawLine((int)point.getX(), (int)point.getY(), (int)point.getX(), (int)point.getY());
 		}else{
@@ -161,18 +153,19 @@ public class PaintingArea extends JPanel implements MouseListener, MouseMotionLi
 	
 	private void erase(Point point){
 		imageGraphics.setComposite(erasing);
-		paint(point);
+		paintInterpolated(point);
 		imageGraphics.setComposite(drawing);
 	}
 	
 	private void mark(Point point){
 		imageGraphics.setComposite(marking);
-		paint(point);
+		paintInterpolated(point);
 		imageGraphics.setComposite(drawing);
 	}
 	
-	public void updateColor(){//TODO: make this better
+	private void updatePen(){
 		imageGraphics.setColor(Editor.currentPen.getColor());
+		imageGraphics.setStroke(new BasicStroke(Editor.currentPen.getSizeInPx()));
 	}
 	
 	public BufferedImage getImage(){
@@ -182,7 +175,7 @@ public class PaintingArea extends JPanel implements MouseListener, MouseMotionLi
 	public void open(BufferedImage bufferedImage){
 		image = bufferedImage;
 		imageGraphics = image.createGraphics();
-		updateColor();
+		updatePen();
 		repaint();
 	}
 }
