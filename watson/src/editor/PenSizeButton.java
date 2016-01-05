@@ -1,6 +1,6 @@
 package editor;
 
-import javax.swing.JButton;
+import javax.swing.JToggleButton;
 
 import gui.Editor;
 
@@ -9,7 +9,7 @@ import java.awt.Color;
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
 
-public class PenSizeButton extends JButton implements ActionListener{
+public class PenSizeButton extends JToggleButton implements ActionListener{
 	
 	public static final long serialVersionUID = 948886739228574838L;
 	
@@ -42,5 +42,6 @@ public class PenSizeButton extends JButton implements ActionListener{
 				ActionEvent.ACTION_PERFORMED,
 				"size was changed",
 				newPen));
+		setSelected(true);
 	}
 }

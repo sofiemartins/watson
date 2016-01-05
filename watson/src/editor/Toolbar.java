@@ -209,21 +209,32 @@ public class Toolbar extends JPanel{
 		JPanel container = new JPanel();
 		container.setLayout(new GridLayout(1,3));
 		container.setBorder(new EmptyBorder(10,2,10,2));
-		container.add(getPenSizeButton(PenSize.FINE));
-		container.add(getPenSizeButton(PenSize.MEDIUM));
-		container.add(getPenSizeButton(PenSize.THICK));
+		container.add(fineButton);
+		container.add(mediumButton);
+		container.add(thickButton);
 		return container;
 	}
+	
+	private PenSizeButton fineButton = getPenSizeButton(PenSize.FINE);
+	private PenSizeButton mediumButton = getPenSizeButton(PenSize.MEDIUM);
+	private PenSizeButton thickButton = getPenSizeButton(PenSize.THICK);
 	
 	private PenSizeButton getPenSizeButton(PenSize penSize){
 		PenSizeButton button = new PenSizeButton(penSize);
 		button.addActionListener(new ActionListener(){
 			@Override
 			public void actionPerformed(ActionEvent e){
+				resetAllPenSizeButtons();
 				Toolbar.this.actionListener.actionPerformed(e);
 			}
 		});
 		return button;
+	}
+	
+	private void resetAllPenSizeButtons(){
+		fineButton.setSelected(false);
+		mediumButton.setSelected(false);
+		thickButton.setSelected(false);
 	}
 	
 	public void addActionListener(ActionListener al){
