@@ -51,10 +51,14 @@ public class PaintingArea extends JPanel implements MouseListener, MouseMotionLi
 	public PaintingArea(BufferedImage bufferedImage){
 		image = bufferedImage;
 		imageGraphics = image.createGraphics();
-		addMouseListener(this);
-		addMouseMotionListener(this);
+		addListeners();
 		setBackground(Color.white);
 		imageGraphics.setColor(Editor.currentPen.getColor());
+	}
+	
+	private void addListeners(){
+		addMouseListener(this);
+		addMouseMotionListener(this);
 	}
 	
 	@Override 
