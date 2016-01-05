@@ -1,13 +1,10 @@
 package practice;
 
 import javax.swing.JPanel;
-import javax.swing.JButton;
 import java.awt.KeyEventDispatcher;
 import java.awt.event.KeyEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
-import java.awt.Graphics;
-import java.awt.Color;
 import java.awt.GridLayout;
 import java.awt.KeyboardFocusManager;
 
@@ -18,6 +15,12 @@ public class AnswerPanel extends JPanel{
 		public boolean dispatchKeyEvent(KeyEvent e){
 			if(active){
 				if(e.getID()==KeyEvent.KEY_PRESSED){
+					if(e.getKeyCode()==KeyEvent.VK_LEFT){
+						rightButton.activate();
+					}else if(e.getKeyCode()==KeyEvent.VK_RIGHT){
+						wrongButton.activate();
+					}
+				}else if(e.getID()==KeyEvent.KEY_RELEASED){
 					if(e.getKeyCode()==KeyEvent.VK_LEFT){
 						answerRight();
 					}else if(e.getKeyCode()==KeyEvent.VK_RIGHT){
@@ -35,7 +38,8 @@ public class AnswerPanel extends JPanel{
 	
 	protected boolean active;
 	
-	public JButton rightButton = getRightButton();
+	public AnswerButton rightButton = getRightButton();
+	private AnswerButton wrongButton = getWrongButton();
 	
 	private Dispatcher keyEventDispatcher = new Dispatcher();
 	private KeyboardFocusManager manager = KeyboardFocusManager.getCurrentKeyboardFocusManager();
@@ -44,7 +48,7 @@ public class AnswerPanel extends JPanel{
 		setLayout(new GridLayout(1,2));
 		setSize(800,500);
 		add(rightButton);
-		add(getWrongButton());
+		add(wrongButton);
 		manager.addKeyEventDispatcher(keyEventDispatcher);
 		setVisible(true);
 	}
@@ -53,18 +57,8 @@ public class AnswerPanel extends JPanel{
 		manager.removeKeyEventDispatcher(keyEventDispatcher);
 	}
 	
-	private JButton getRightButton(){
-		JButton button = new JButton(){
-			public static final long serialVersionUID = 3347685748876236548L;
-			@Override
-			public void paintComponent(Graphics g){
-				super.paintComponent(g);
-				g.setColor(new Color(0,200,0));
-				g.fillRect(10,10,getWidth()-20,getHeight()-20);
-				g.setColor(new Color(0,100,0));
-				g.drawRect(10,10,getWidth()-20,getHeight()-20);
-			}
-		};
+	private AnswerButton getRightButton(){
+		AnswerButton button = new AnswerButton(ButtonType.RIGHT);
 		button.addActionListener(new ActionListener(){
 			@Override
 			public void actionPerformed(ActionEvent e){
@@ -79,18 +73,8 @@ public class AnswerPanel extends JPanel{
 
 	}
 	
-	private JButton getWrongButton(){
-		JButton button = new JButton(){
-			public static final long serialVersionUID = 4876587927564657776L;
-			@Override
-			public void paintComponent(Graphics g){
-				super.paintComponent(g);
-				g.setColor(new Color(200,0,0));
-				g.fillRect(10,10,getWidth()-20,getHeight()-20);
-				g.setColor(new Color(100,0,0));
-				g.drawRect(10,10,getWidth()-20,getHeight()-20);
-			}
-		};
+	private AnswerButton getWrongButton(){
+		AnswerButton button = new AnswerButton(ButtonType.WRONG);
 		button.addActionListener(new ActionListener(){
 			@Override
 			public void actionPerformed(ActionEvent e){
