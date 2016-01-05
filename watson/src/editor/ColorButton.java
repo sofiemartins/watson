@@ -39,7 +39,7 @@ public class ColorButton extends JButton implements ActionListener{
 	
 	public void actionPerformed(ActionEvent e){
 		Pen currentPen = Editor.currentPen;
-		Pen newPen = new Pen(currentPen.getSize(), buttonColor, currentPen.getMode());
+		Pen newPen = new Pen(currentPen.getSize(), buttonColor, currentPen.getMode(), currentPen.getType());
 		actionListener.actionPerformed(new ToolbarEvent(this,
 				ActionEvent.ACTION_PERFORMED,
 				"color button was pressed",

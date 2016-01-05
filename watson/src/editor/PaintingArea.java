@@ -44,9 +44,9 @@ public class PaintingArea extends JPanel implements MouseListener, MouseMotionLi
 	/**
 	 * @param We need a composite for simple drawing and erasing things
 	 */
-	private static final AlphaComposite drawing = AlphaComposite.SrcIn;
+	private static final AlphaComposite drawing = AlphaComposite.SrcOver;
 	private static final AlphaComposite erasing = AlphaComposite.DstOut;
-	private static final AlphaComposite marking = AlphaComposite.DstOver;
+	private static final AlphaComposite marking = AlphaComposite.DstOut;
 	
 	public PaintingArea(BufferedImage bufferedImage){
 		image = bufferedImage;
@@ -64,7 +64,7 @@ public class PaintingArea extends JPanel implements MouseListener, MouseMotionLi
 		g2.drawImage(image, 0, 0, null);
 		if(preview!=null){
 			g2.setColor(Editor.currentPen.getColor());
-			g2.setStroke(new BasicStroke(Editor.currentPen.getSize()));
+			g2.setStroke(new BasicStroke(Editor.currentPen.getSizeInPx()));
 			g2.draw(preview);
 		}
 	}
@@ -85,6 +85,8 @@ public class PaintingArea extends JPanel implements MouseListener, MouseMotionLi
 			previewStart = new Point(e.getX(), e.getY());
 		}else if(Editor.currentPen.getMode()==ERASER){
 			erase(e.getPoint());
+		}else if(Editor.currentPen.getType()==PenType.MARKER){
+			mark(e.getPoint());
 		}else{
 			paint(e.getPoint());
 		}
@@ -93,9 +95,9 @@ public class PaintingArea extends JPanel implements MouseListener, MouseMotionLi
 
 	@Override
 	public void mouseReleased(MouseEvent e) {
-		imageGraphics.setStroke(new BasicStroke(Editor.currentPen.getSize()));
+		imageGraphics.setStroke(new BasicStroke(Editor.currentPen.getSizeInPx()));
 		if(Editor.currentPen.getMode()==RULER){
-			imageGraphics.setStroke(new BasicStroke(Editor.currentPen.getSize()));
+			imageGraphics.setStroke(new BasicStroke(Editor.currentPen.getSizeInPx()));
 			imageGraphics.drawLine((int)previewStart.getX(), (int)previewStart.getY(), (int)e.getX(), (int)e.getY());
 		}else if(Editor.currentPen.getMode()==SQUARE){
 			int dx = (int)(e.getX() - previewStart.getX());
@@ -116,6 +118,8 @@ public class PaintingArea extends JPanel implements MouseListener, MouseMotionLi
 			erase(e.getPoint());
 		}else if(Editor.currentPen.getMode()==RULER){
 			preview = new Line2D.Double(previewStart.getX(), previewStart.getY(), e.getX(), e.getY());
+		}else if(Editor.currentPen.getType()==PenType.MARKER){
+			mark(e.getPoint());
 		}else if(Editor.currentPen.getMode()==SQUARE){
 			int dx = (int)(e.getX() - previewStart.getX());
 			int dy = (int)(e.getY() - previewStart.getY());
@@ -128,7 +132,7 @@ public class PaintingArea extends JPanel implements MouseListener, MouseMotionLi
 	public void mouseMoved(MouseEvent e) {}
 	
 	private void paint(Point point){
-		imageGraphics.setStroke(new BasicStroke(Editor.currentPen.getSize()));
+		imageGraphics.setStroke(new BasicStroke(Editor.currentPen.getSizeInPx()));
 		if(lastDrawn==null){
 			imageGraphics.drawLine((int)point.getX(), (int)point.getY(), (int)point.getX(), (int)point.getY());
 		}else{
@@ -139,6 +143,12 @@ public class PaintingArea extends JPanel implements MouseListener, MouseMotionLi
 	
 	private void erase(Point point){
 		imageGraphics.setComposite(erasing);
+		paint(point);
+		imageGraphics.setComposite(drawing);
+	}
+	
+	private void mark(Point point){
+		imageGraphics.setComposite(marking);
 		paint(point);
 		imageGraphics.setComposite(drawing);
 	}

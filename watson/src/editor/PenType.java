@@ -2,6 +2,6 @@ package editor;
 
 public enum PenType {
 	
-	PEN, MARKER;
+	PEN, MARKER, ERASER;
 
 }

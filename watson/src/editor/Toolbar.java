@@ -103,7 +103,7 @@ public class Toolbar extends JPanel{
 			@Override
 			public void actionPerformed(ActionEvent e){
 				Pen currentPen = Editor.currentPen;
-				Pen newPen = new Pen(currentPen.getSize(), currentPen.getColor(), PenMode.RULER);
+				Pen newPen = new Pen(currentPen.getSize(), currentPen.getColor(), PenMode.RULER, currentPen.getType());
 				Toolbar.this.actionListener.actionPerformed(new ToolbarEvent(this,
 						ActionEvent.ACTION_PERFORMED,
 						"changed to ruler",
@@ -128,7 +128,7 @@ public class Toolbar extends JPanel{
 			@Override
 			public void actionPerformed(ActionEvent e){
 				Pen currentPen = Editor.currentPen;
-				Pen newPen = new Pen(currentPen.getSize(), currentPen.getColor(), PenMode.SQUARE);//TODO: Refactor this to rect
+				Pen newPen = new Pen(currentPen.getSize(), currentPen.getColor(), PenMode.SQUARE, currentPen.getType());//TODO: Refactor this to rect
 				Toolbar.this.actionListener.actionPerformed(new ToolbarEvent(this,
 						ActionEvent.ACTION_PERFORMED,
 						"changed to rectangle mode",
@@ -164,13 +164,13 @@ public class Toolbar extends JPanel{
 		JPanel container = new JPanel();
 		container.setLayout(new GridLayout(1,3));
 		container.setBorder(new EmptyBorder(10,2,10,2));
-		container.add(getPenSizeButton(2));
-		container.add(getPenSizeButton(3));
-		container.add(getPenSizeButton(4));
+		container.add(getPenSizeButton(PenSize.FINE));
+		container.add(getPenSizeButton(PenSize.MEDIUM));
+		container.add(getPenSizeButton(PenSize.THICK));
 		return container;
 	}
 	
-	private PenSizeButton getPenSizeButton(int penSize){
+	private PenSizeButton getPenSizeButton(PenSize penSize){
 		PenSizeButton button = new PenSizeButton(penSize);
 		button.addActionListener(new ActionListener(){
 			@Override

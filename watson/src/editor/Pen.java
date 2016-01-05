@@ -6,33 +6,75 @@ import java.awt.Color;
 
 public class Pen {
 	// TODO: Size slider
-	private int size = 2; //px
+	private PenSize size = PenSize.MEDIUM; //px
 	private Color color = Color.black;
 	private PenMode mode = NONE;
+	private PenType type = PenType.PEN;
 	
 	private static final Color markerColor = new Color(255,240,0,100);
-	private static final int markerSize = 25; //px
-	public static final int BIG = 4;
-	public static final int MEDIUM = 3;
-	public static final int SMALL = 2;
 	
-	public static final Pen MARKER = new Pen(markerSize, markerColor, NONE);
-	public static final Pen PEN = new Pen(MEDIUM, Color.black, NONE);
-	public static final Pen ERASER = new Pen(4, Color.black, PenMode.ERASER);
+	public static final Pen MARKER = new Pen(PenSize.MEDIUM, Color.yellow, NONE, PenType.MARKER);
+	public static final Pen PEN = new Pen(PenSize.MEDIUM, Color.black, NONE, PenType.PEN);
+	public static final Pen ERASER = new Pen(PenSize.MEDIUM, Color.black, PenMode.ERASER, PenType.ERASER);
 			
 	public Pen(){}
 	
-	public Pen(int penSize, Color penColor, PenMode penMode){
-		size = penSize;
+	public Pen(PenSize penSize, Color penColor, PenMode penMode, PenType penType){
 		color = penColor;
 		mode = penMode;
+		size = penSize;
+		type = penType;
 	}
 	
-	public int getSize(){ 
+	public int getSizeInPx(){
+		return getSizeInPx(size, type);
+	}
+	
+	public static int getSizeInPx(PenSize penSize, PenType type){
+		if(penSize == PenSize.THICK){
+			return thickInPx(type);
+		}else if(penSize == PenSize.MEDIUM){
+			return mediumInPx(type);
+		}else{
+			return fineInPx(type);
+		}
+	}
+	
+	private static int thickInPx(PenType type){
+		if(type==PenType.MARKER){
+			return 50;
+		}else if(type==PenType.ERASER){
+			return 20;
+		}else{
+			return 10;
+		}
+	}
+	
+	private static int mediumInPx(PenType type){
+		if(type==PenType.MARKER){
+			return 25;
+		}else if(type==PenType.ERASER){
+			return 10;
+		}else{
+			return 5;
+		}
+	}
+	
+	private static int fineInPx(PenType type){
+		if(type==PenType.MARKER){
+			return 12;
+		}else if(type==PenType.ERASER){
+			return 5;
+		}else{
+			return 2;
+		}
+	}
+	
+	public PenSize getSize(){ 
 		return size; 
 	}
 	
-	public void setSize(int newSize){ 
+	public void setSize(PenSize newSize){ 
 		size = newSize; 
 	}
 	
@@ -50,5 +92,13 @@ public class Pen {
 	
 	public void setMode(PenMode newMode){ 
 		mode = newMode; 
+	}
+	
+	public PenType getType(){
+		return type;
+	}
+	
+	public void setType(PenType newType){
+		type = newType;
 	}
 }

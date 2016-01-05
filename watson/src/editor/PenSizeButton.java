@@ -15,9 +15,9 @@ public class PenSizeButton extends JButton implements ActionListener{
 	
 	private ActionListener actionListener;
 	
-	private int penSize;
+	private PenSize penSize;
 	
-	public PenSizeButton(int size){
+	public PenSizeButton(PenSize size){
 		penSize = size;
 		super.addActionListener(this);
 	}
@@ -26,7 +26,9 @@ public class PenSizeButton extends JButton implements ActionListener{
 	public void paintComponent(Graphics g){
 		super.paintComponent(g);
 		g.setColor(Color.black);
-		g.fillOval((int)(getWidth()*0.5), (int)(getHeight()*0.5), penSize, penSize);
+		int sizeInPx = Pen.getSizeInPx(penSize, Editor.currentPen.getType());
+		g.fillOval((int)(getWidth()*0.5), (int)(getHeight()*0.5),
+				sizeInPx, sizeInPx);
 	}
 	
 	public void addActionListener(ActionListener al){
@@ -35,7 +37,7 @@ public class PenSizeButton extends JButton implements ActionListener{
 	
 	public void actionPerformed(ActionEvent e){
 		Pen currentPen = Editor.currentPen;
-		Pen newPen = new Pen(penSize, currentPen.getColor(), currentPen.getMode());
+		Pen newPen = new Pen(penSize, currentPen.getColor(), currentPen.getMode(), currentPen.getType());
 		actionListener.actionPerformed(new ToolbarEvent(this,
 				ActionEvent.ACTION_PERFORMED,
 				"size was changed",
