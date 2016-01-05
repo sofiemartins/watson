@@ -35,6 +35,7 @@ public class Editor extends JPanel{
 				ToolbarEvent toolbarEvent = (ToolbarEvent)e;
 				currentPen = toolbarEvent.getPen(); 
 				paintingArea.updateColor();
+				repaint();
 			}
 		});
 		return toolbar;
