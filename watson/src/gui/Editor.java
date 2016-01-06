@@ -26,21 +26,24 @@ public class Editor extends JPanel{
 		paintingArea = new PaintingArea(image);
 		setLayout(new BorderLayout());
 		setBorder(new EmptyBorder(5,5,5,5));
-		add(getToolbar(), NORTH);
+		add(toolbar, NORTH);
 		add(paintingArea, CENTER);
 	}
 	
+	private Toolbar toolbar = getToolbar();
+	
 	private Toolbar getToolbar(){
-		Toolbar toolbar = new Toolbar();
-		toolbar.addActionListener(new ActionListener(){
+		Toolbar bar = new Toolbar();
+		bar.addActionListener(new ActionListener(){
 			@Override
 			public void actionPerformed(ActionEvent e){
 				ToolbarEvent toolbarEvent = (ToolbarEvent)e;
 				currentPen = toolbarEvent.getPen(); 
+				toolbar.update();
 				repaint();
 			}
 		});
-		return toolbar;
+		return  bar;
 	}
 	
 	public BufferedImage getImage(){

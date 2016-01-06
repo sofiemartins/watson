@@ -31,6 +31,61 @@ public class Toolbar extends JPanel{
 		add(getColorPanel());
 		add(getPenSizePanel());
 	}
+	
+	/**
+	 * Checks whether the editor pen variable is in sync with the toolbar.
+	 */
+	public void update(){
+		Pen currentPen = Editor.currentPen;
+		checkSize(currentPen);
+		checkColor(currentPen);
+		checkMode(currentPen);
+		checkType(currentPen);
+	}
+	
+	private void checkSize(Pen currentPen){
+		resetAllPenSizeButtons();
+		if(currentPen.getSize()==PenSize.FINE){
+			fineButton.setSelected(true);
+		}else if(currentPen.getSize()==PenSize.MEDIUM){
+			mediumButton.setSelected(true);
+		}else if(currentPen.getSize()==PenSize.THICK){
+			thickButton.setSelected(true);
+		}
+	}
+	private void checkColor(Pen currentPen){
+		resetAllColorButtons();
+		if(currentPen.getColor()==Color.black){
+			blackButton.setSelected(true);
+		}else if(currentPen.getColor()==Color.blue){
+			blueButton.setSelected(true);
+		}else if(currentPen.getColor()==Color.red){
+			redButton.setSelected(true);
+		}else if(currentPen.getColor()==Color.green){
+			greenButton.setSelected(true);
+		}
+	}
+	private void checkMode(Pen currentPen){
+		rulerButton.setSelected(false);
+		rectangleButton.setSelected(false);
+		if(currentPen.getMode()==PenMode.RULER){
+			rulerButton.setSelected(true);
+		}else if(currentPen.getMode()==PenMode.SQUARE){
+			rectangleButton.setSelected(true);
+		}
+	}
+	private void checkType(Pen currentPen){
+		penButton.setSelected(false);
+		eraserButton.setSelected(false);
+		markerButton.setSelected(false);
+		if(currentPen.getType()==PenType.PEN){
+			penButton.setSelected(true);
+		}else if(currentPen.getType()==PenType.ERASER){
+			eraserButton.setSelected(true);
+		}else if(currentPen.getType()==PenType.MARKER){
+			eraserButton.setSelected(true);
+		}
+	}
 
 	private JPanel getPenTypePanel(){
 		JPanel container = new JPanel();
