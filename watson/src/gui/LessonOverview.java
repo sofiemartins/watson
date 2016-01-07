@@ -51,9 +51,20 @@ public class LessonOverview extends JFrame{
 		}
 	}
 	
+	public void dispose(){
+		super.dispose();
+		try{
+			FileManager.save(Lesson.allLessons);
+		}catch(Exception e){
+			JOptionPane.showMessageDialog(null, "An error occurred while saving.");
+			System.exit(1);
+		}
+		System.exit(0);
+	}
+	
 	private void setupFrameLayout(){
 		setSize(800,500);
-		setDefaultCloseOperation(EXIT_ON_CLOSE);
+		setDefaultCloseOperation(DISPOSE_ON_CLOSE);
 		setLayout(new BorderLayout());
 		add(getOverviewList(), CENTER);
 		add(getButtonPanel(), SOUTH);
