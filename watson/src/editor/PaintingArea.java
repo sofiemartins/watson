@@ -227,7 +227,7 @@ public class PaintingArea extends JPanel implements MouseListener, MouseMotionLi
 	
 	private void loadFromRedoClipboard(){
 		if(!redoClipboard.isEmpty()){
-			image = redoClipboard.getLast();
+			open(redoClipboard.getLast());
 			redoClipboard.removeLast();
 			createSnapshot();
 		}
