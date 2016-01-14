@@ -62,6 +62,10 @@ public class PaintingArea extends JPanel implements MouseListener, MouseMotionLi
 		imageGraphics = image.createGraphics();
 		addListeners();
 		setBackground(Color.white);
+		setUpImageGraphics();
+	}
+	
+	private void setUpImageGraphics(){
 		imageGraphics.setColor(Editor.currentPen.getColor());
 		imageGraphics.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
 	}
