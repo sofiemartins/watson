@@ -103,6 +103,7 @@ public class PaintingArea extends JPanel implements MouseListener, MouseMotionLi
 	@Override
 	public void mousePressed(MouseEvent e) {
 		createSnapshot();
+		redoClipboard = new LinkedList<BufferedImage>();
 		updatePen();
 		lastDrawn = e.getPoint();
 		if(Editor.currentPen.getMode()==RULER || Editor.currentPen.getMode()==SQUARE){
@@ -207,6 +208,16 @@ public class PaintingArea extends JPanel implements MouseListener, MouseMotionLi
 	public void open(BufferedImage bufferedImage){
 		image = bufferedImage;
 		imageGraphics = image.createGraphics();
+		setUpImageGraphics();
+		emptyClipboards();
+		updatePen();
+		repaint();
+	}
+	
+	private void show(BufferedImage bufferedImage){
+		image = bufferedImage;
+		imageGraphics = image.createGraphics();
+		setUpImageGraphics();
 		updatePen();
 		repaint();
 	}
@@ -223,7 +234,7 @@ public class PaintingArea extends JPanel implements MouseListener, MouseMotionLi
 	private void loadLastSnapshot(){
 		if(!snapshotClipboard.isEmpty()){
 			redoClipboard.add(getCopyOfCurrentImage());
-			open(snapshotClipboard.getLast());
+			show(snapshotClipboard.getLast());
 			snapshotClipboard.removeLast();
 		}
 		repaint();
@@ -232,7 +243,7 @@ public class PaintingArea extends JPanel implements MouseListener, MouseMotionLi
 	private void loadFromRedoClipboard(){
 		if(!redoClipboard.isEmpty()){
 			createSnapshot();
-			open(redoClipboard.getLast());
+			show(redoClipboard.getLast());
 			redoClipboard.removeLast();
 		}
 		repaint();
@@ -248,7 +259,7 @@ public class PaintingArea extends JPanel implements MouseListener, MouseMotionLi
 	
 	private BufferedImage getCopyOfCurrentImage(){
 		//stole this here:
-		//http://stackoverflow.com/questions/3514158/how-do-you-clone-a-bufferedimage
+		//http://stackoverflow.com/questions/3514158/how-do-you-clone-a-bufferedimage; 2016-01-14, 7:38 MET
 		ColorModel colorModel = image.getColorModel();
 		boolean isAlphaPremultiplied = colorModel.isAlphaPremultiplied();
 		WritableRaster raster = image.copyData(null);
