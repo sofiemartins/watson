@@ -18,13 +18,18 @@ import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.awt.event.MouseMotionListener;
 import java.awt.image.BufferedImage;
+import java.awt.image.ColorModel;
+import java.awt.image.WritableRaster;
 import java.awt.AlphaComposite;
+import java.util.LinkedList;
 
 import static editor.PenMode.*;
 
 public class PaintingArea extends JPanel implements MouseListener, MouseMotionListener{
 	
 	public static final long serialVersionUID = 960493968771821243L;
+	public static final String UNDO = "undo";
+	public static final String REDO = "redo";
 	
 	/**
 	 * the used images have a fixed size: It's a flashcard, if someone wants to create great artwork
@@ -35,7 +40,9 @@ public class PaintingArea extends JPanel implements MouseListener, MouseMotionLi
 	 */
 	private BufferedImage image;
 	private Graphics2D imageGraphics;
-		
+
+	private LinkedList<BufferedImage> snapshotClipboard = new LinkedList<BufferedImage>();
+	private LinkedList<BufferedImage> redoClipboard = new LinkedList<BufferedImage>();
 	/**
 	 * Sometimes a shape shows up while drawing that shouldn't be on the image later
 	 */
@@ -91,6 +98,7 @@ public class PaintingArea extends JPanel implements MouseListener, MouseMotionLi
 
 	@Override
 	public void mousePressed(MouseEvent e) {
+		createSnapshot();
 		updatePen();
 		lastDrawn = e.getPoint();
 		if(Editor.currentPen.getMode()==RULER || Editor.currentPen.getMode()==SQUARE){
@@ -197,5 +205,49 @@ public class PaintingArea extends JPanel implements MouseListener, MouseMotionLi
 		imageGraphics = image.createGraphics();
 		updatePen();
 		repaint();
+	}
+	
+	private void emptyClipboards(){
+		snapshotClipboard = new LinkedList<BufferedImage>();
+		redoClipboard = new LinkedList<BufferedImage>();
+	}
+	
+	private void createSnapshot(){
+		snapshotClipboard.add(getCopyOfCurrentImage());//copy the image
+	}
+	
+	private void loadLastSnapshot(){
+		if(!snapshotClipboard.isEmpty()){
+			redoClipboard.add(getCopyOfCurrentImage());
+			open(snapshotClipboard.getLast());
+			snapshotClipboard.removeLast();
+		}
+		repaint();
+	}
+	
+	private void loadFromRedoClipboard(){
+		if(!redoClipboard.isEmpty()){
+			image = redoClipboard.getLast();
+			redoClipboard.removeLast();
+			createSnapshot();
+		}
+		repaint();
+	}
+	
+	public void undo(){
+		loadLastSnapshot();
+	}
+	
+	public void redo(){
+		loadFromRedoClipboard();
+	}
+	
+	private BufferedImage getCopyOfCurrentImage(){
+		//stole this here:
+		//http://stackoverflow.com/questions/3514158/how-do-you-clone-a-bufferedimage
+		ColorModel colorModel = image.getColorModel();
+		boolean isAlphaPremultiplied = colorModel.isAlphaPremultiplied();
+		WritableRaster raster = image.copyData(null);
+		return new BufferedImage(colorModel, raster, isAlphaPremultiplied, null);
 	}
 }

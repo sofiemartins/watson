@@ -55,4 +55,11 @@ public class Editor extends JPanel{
 		repaint();
 	}
 	
+	public void undo(){
+		paintingArea.undo();
+	}
+	
+	public void redo(){
+		paintingArea.redo();
+	}
 }
