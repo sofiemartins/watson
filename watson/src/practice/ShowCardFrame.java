@@ -33,6 +33,7 @@ public class ShowCardFrame extends JFrame{
 		setLayout(new BorderLayout());
 		setSize(800,500);
 		setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+		setExtendedState(JFrame.MAXIMIZED_BOTH);
 		
 		displayArea = new DisplayArea(cardDisplayed.getFirstSide());
 		nextButton = getNextButton();

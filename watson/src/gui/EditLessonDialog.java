@@ -73,6 +73,7 @@ public class EditLessonDialog extends JFrame implements KeyListener{
 		setSize(800,500);
 		setDefaultCloseOperation(DISPOSE_ON_CLOSE);
 		setLayout(new BorderLayout());
+		setExtendedState(JFrame.MAXIMIZED_BOTH);
 	}
 	
 	private void addComponents(){
