@@ -6,6 +6,7 @@ import javax.swing.ImageIcon;
 import javax.swing.border.EmptyBorder;
 import java.awt.GridLayout;
 import java.awt.Color;
+import static java.awt.Color.*;
 import java.awt.Graphics;
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
@@ -36,65 +37,123 @@ public class Toolbar extends JPanel{
 	 * Checks whether the editor pen variable is in sync with the toolbar.
 	 */
 	public void update(){
-		Pen currentPen = Editor.currentPen;
-		checkSize(currentPen);
-		checkColor(currentPen);
-		checkMode(currentPen);
-		checkType(currentPen);
+		checkSize();
+		checkColor();
+		checkMode(getCurrentPen());
+		checkType(getCurrentPen());
 	}
 	
-	private void checkSize(Pen currentPen){
+	private Pen getCurrentPen(){
+		return Editor.currentPen;
+	}
+	
+	private boolean isFine(){
+		return getCurrentPen().getSize()==PenSize.FINE;
+	}
+	
+	private boolean isMedium(){
+		return getCurrentPen().getSize()==PenSize.MEDIUM;
+	}
+	
+	private boolean isThick(){
+		return getCurrentPen().getSize()==PenSize.THICK;
+	}
+	
+	private void checkSize(){
 		resetAllPenSizeButtons();
-		if(currentPen.getSize()==PenSize.FINE){
+		if(isFine()){
 			fineButton.setSelected(true);
-		}else if(currentPen.getSize()==PenSize.MEDIUM){
+		}else if(isMedium()){
 			mediumButton.setSelected(true);
-		}else if(currentPen.getSize()==PenSize.THICK){
+		}else if(isThick()){
 			thickButton.setSelected(true);
 		}
 	}
-	private void checkColor(Pen currentPen){
+	
+	private boolean hasColor(Color color){
+		return getCurrentPen().getColor()==color;
+	}
+	
+	private void checkColor(){
 		resetAllColorButtons();
-		if(currentPen.getColor()==Color.black){
+		if(hasColor(black)){
 			blackButton.setSelected(true);
-		}else if(currentPen.getColor()==Color.blue){
+		}else if(hasColor(blue)){
 			blueButton.setSelected(true);
-		}else if(currentPen.getColor()==Color.red){
+		}else if(hasColor(red)){
 			redButton.setSelected(true);
-		}else if(currentPen.getColor()==Color.green){
+		}else if(hasColor(green)){
 			greenButton.setSelected(true);
 		}
 	}
-	private void checkMode(Pen currentPen){
+	
+	private boolean isRuler(){
+		return getCurrentPen().getMode()==PenMode.RULER;
+	}
+	
+	private boolean isInRectangleMode(){
+		return getCurrentPen().getMode()==PenMode.SQUARE;
+	}
+	
+	private void setAllModeButtonsUnselected(){
 		rulerButton.setSelected(false);
 		rectangleButton.setSelected(false);
-		if(currentPen.getMode()==PenMode.RULER){
+	}
+	
+	private void checkMode(Pen currentPen){
+		setAllModeButtonsUnselected();
+		if(isRuler()){
 			rulerButton.setSelected(true);
-		}else if(currentPen.getMode()==PenMode.SQUARE){
+		}else if(isInRectangleMode()){
 			rectangleButton.setSelected(true);
 		}
 	}
-	private void checkType(Pen currentPen){
+	
+	private boolean isDefaultPen(){
+		return getCurrentPen().getType()==PenType.PEN;
+	}
+	
+	private boolean isEraser(){
+		return getCurrentPen().getType()==PenType.ERASER;
+	}
+	
+	private boolean isMarker(){
+		return getCurrentPen().getType()==PenType.MARKER;
+	}
+	
+	private void setAllTypeButtonsUnselected(){
 		penButton.setSelected(false);
 		eraserButton.setSelected(false);
-		markerButton.setSelected(false);
-		if(currentPen.getType()==PenType.PEN){
+		markerButton.setSelected(false);	
+	}
+	
+	private void checkType(Pen currentPen){
+		setAllTypeButtonsUnselected();
+		if(isDefaultPen()){
 			penButton.setSelected(true);
-		}else if(currentPen.getType()==PenType.ERASER){
+		}else if(isEraser()){
 			eraserButton.setSelected(true);
-		}else if(currentPen.getType()==PenType.MARKER){
+		}else if(isMarker()){
 			eraserButton.setSelected(true);
 		}
 	}
 
 	private JPanel getPenTypePanel(){
 		JPanel container = new JPanel();
+		setupPenTypePanel(container);
+		addButtonsToPenTypePanel(container);
+		return container;
+	}
+	
+	private void setupPenTypePanel(JPanel container){
 		container.setLayout(new GridLayout(1,3));
 		container.setBorder(new EmptyBorder(10,2,10,2));
+	}
+	
+	private void addButtonsToPenTypePanel(JPanel container){
 		container.add(penButton);
 		container.add(eraserButton);
 		container.add(markerButton);
-		return container;
 	}
 	
 	private JToggleButton penButton = getPenButton();
@@ -154,11 +213,19 @@ public class Toolbar extends JPanel{
 	
 	private JPanel getPenModePanel(){
 		JPanel container = new JPanel();
+		setUpPenModePanel(container);
+		addButtonsToPenModePanel(container);
+		return container;
+	}
+	
+	private void setUpPenModePanel(JPanel container){
 		container.setLayout(new GridLayout(1,2));
 		container.setBorder(new EmptyBorder(10,2,10,2));
+	}
+	
+	private void addButtonsToPenModePanel(JPanel container){
 		container.add(rulerButton);
 		container.add(rectangleButton);
-		return container;
 	}
 	
 	private JToggleButton rulerButton = getRulerButton();
@@ -227,13 +294,21 @@ public class Toolbar extends JPanel{
 	
 	private JPanel getColorPanel(){
 		JPanel container = new JPanel();
+		setUpColorPanel(container);
+		addButtonsToColorPanel(container);
+		return container;
+	}
+	
+	private void setUpColorPanel(JPanel container){
 		container.setLayout(new GridLayout(1,4));
 		container.setBorder(new EmptyBorder(10,2,10,2));
+	}
+	
+	private void addButtonsToColorPanel(JPanel container){
 		container.add(blackButton);
 		container.add(blueButton);
 		container.add(greenButton);
 		container.add(redButton);
-		return container;
 	}
 	
 	private ColorButton blackButton = getColorButton(Color.black);
@@ -262,12 +337,20 @@ public class Toolbar extends JPanel{
 	
 	private JPanel getPenSizePanel(){
 		JPanel container = new JPanel();
+		setUpPenSizePanel(container);
+		addButtonsToPenSizePanel(container);
+		return container;
+	}
+	
+	private void setUpPenSizePanel(JPanel container){
 		container.setLayout(new GridLayout(1,3));
 		container.setBorder(new EmptyBorder(10,2,10,2));
+	}
+	
+	private void addButtonsToPenSizePanel(JPanel container){
 		container.add(fineButton);
 		container.add(mediumButton);
 		container.add(thickButton);
-		return container;
 	}
 	
 	private PenSizeButton fineButton = getPenSizeButton(PenSize.FINE);
