@@ -19,7 +19,7 @@ public class DisplayArea extends JPanel{
 	@Override
 	public void paintComponent(Graphics g){
 		super.paintComponent(g);
-		g.drawImage(imageDisplayed, 0, 0, null);
+		g.drawImage(imageDisplayed, 0, 0, getWidth(), getHeight(), this);
 	}
 	
 	public void show(BufferedImage image){
