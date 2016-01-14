@@ -88,6 +88,7 @@ public class LessonOverview extends JFrame{
 			@Override
 			public void actionPerformed(ActionEvent e){
 				createNewLesson();
+				LessonOverview.super.dispose();
 			}
 		});
 		return button;
@@ -139,7 +140,7 @@ public class LessonOverview extends JFrame{
 		button.addActionListener(new ActionListener(){
 			@Override
 			public void actionPerformed(ActionEvent e){
-				//remove
+				//TODO: remove
 			}
 		});
 		return button;
@@ -152,7 +153,8 @@ public class LessonOverview extends JFrame{
 			@Override
 			public void actionPerformed(ActionEvent e){
 				Lesson lesson = overviewList.getSelectedValue();
-				new EditLessonDialog(lesson);
+				edit(lesson);
+				LessonOverview.super.dispose();
 			}
 		});
 		return button;

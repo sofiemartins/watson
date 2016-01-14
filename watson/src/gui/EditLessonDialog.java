@@ -158,10 +158,15 @@ public class EditLessonDialog extends JFrame implements KeyListener{
 		button.addActionListener(new ActionListener(){
 			@Override
 			public void actionPerformed(ActionEvent e){
+				showLessonOverview();
 				saveAndCloseDialog();
 			}
 		});
 		return button;
+	}
+	
+	private void showLessonOverview(){
+		new LessonOverview();
 	}
 	
 	private void saveAndCloseDialog(){
