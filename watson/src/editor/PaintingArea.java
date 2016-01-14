@@ -58,7 +58,7 @@ public class PaintingArea extends JPanel implements MouseListener, MouseMotionLi
 	private static final AlphaComposite marking = AlphaComposite.DstOver;
 	
 	public PaintingArea(BufferedImage bufferedImage){
-		show(image);
+		show(bufferedImage);
 		setUpPanel();
 		setUpImageGraphics();
 	}
@@ -161,6 +161,14 @@ public class PaintingArea extends JPanel implements MouseListener, MouseMotionLi
 		return getCurrentPen().getType()==PenType.MARKER;
 	}
 	
+	private boolean isDefaultMode(){
+		return getCurrentPen().getMode()==PenMode.NONE;
+	}
+	
+	private boolean isDefaultType(){
+		return getCurrentPen().getType()==PenType.PEN;
+	}
+	
 	private Pen getCurrentPen(){
 		return Editor.currentPen;
 	}
@@ -207,11 +215,11 @@ public class PaintingArea extends JPanel implements MouseListener, MouseMotionLi
 
 	@Override
 	public void mouseDragged(MouseEvent e) { 
-		if(Editor.currentPen.getMode()==NONE){
-			paint(e.getPoint());
-		}else if(Editor.currentPen.getMode()==RULER){
+		if(isDefaultMode()){
+			paintDependingOnPenType(e.getPoint());
+		}else if(isRuler()){
 			preview = new Line2D.Double(previewStart.getX(), previewStart.getY(), e.getX(), e.getY());
-		}else if(Editor.currentPen.getMode()==SQUARE){
+		}else if(isInRectangleMode()){
 			preview = new Rectangle((int)previewStart.getX(),(int) previewStart.getY(), 
 					getWidthDifference(e), getHeightDifference(e));
 		}
@@ -229,12 +237,12 @@ public class PaintingArea extends JPanel implements MouseListener, MouseMotionLi
 	@Override
 	public void mouseMoved(MouseEvent e) {}
 	
-	private void paint(Point point){
-		if(Editor.currentPen.getType() == PenType.ERASER){
+	private void paintDependingOnPenType(Point point){
+		if(isEraser()){
 			erase(point);
-		}else if(Editor.currentPen.getType()==PenType.MARKER){
+		}else if(isMarker()){
 			mark(point);
-		}else if(Editor.currentPen.getType()==PenType.PEN){
+		}else if(isDefaultType()){
 			paintInterpolated(point);
 		}
 	}
@@ -251,15 +259,19 @@ public class PaintingArea extends JPanel implements MouseListener, MouseMotionLi
 	private void erase(Point point){
 		imageGraphics.setComposite(erasing);
 		paintInterpolated(point);
-		imageGraphics.setComposite(drawing);
+		resetComposite();
 	}
 	
 	private void mark(Point point){
-		imageGraphics.setStroke(new BasicStroke(Editor.currentPen.getSizeInPx(), BasicStroke.CAP_SQUARE, BasicStroke.JOIN_BEVEL));
+		imageGraphics.setStroke(getMarkerStroke());
 		imageGraphics.setComposite(marking);
 		paintInterpolated(point);
 		updatePen();
-		imageGraphics.setComposite(drawing);
+		resetComposite();
+	}
+	
+	private BasicStroke getMarkerStroke(){
+		return new BasicStroke(Editor.currentPen.getSizeInPx(), BasicStroke.CAP_SQUARE, BasicStroke.JOIN_BEVEL);
 	}
 	
 	private void updatePen(){
@@ -272,12 +284,8 @@ public class PaintingArea extends JPanel implements MouseListener, MouseMotionLi
 	}
 	
 	public void open(BufferedImage bufferedImage){
-		image = bufferedImage;
-		imageGraphics = image.createGraphics();
-		setUpImageGraphics();
+		show(bufferedImage);
 		emptyClipboards();
-		updatePen();
-		repaint();
 	}
 	
 	private void show(BufferedImage bufferedImage){
@@ -294,12 +302,12 @@ public class PaintingArea extends JPanel implements MouseListener, MouseMotionLi
 	}
 	
 	private void createSnapshot(){
-		snapshotClipboard.add(getCopyOfCurrentImage());//copy the image
+		snapshotClipboard.add(getDeepCopyOfCurrentImage());//copy the image
 	}
 	
 	private void loadLastSnapshot(){
 		if(!snapshotClipboard.isEmpty()){
-			redoClipboard.add(getCopyOfCurrentImage());
+			redoClipboard.add(getDeepCopyOfCurrentImage());
 			show(snapshotClipboard.getLast());
 			snapshotClipboard.removeLast();
 		}
@@ -323,7 +331,7 @@ public class PaintingArea extends JPanel implements MouseListener, MouseMotionLi
 		loadFromRedoClipboard();
 	}
 	
-	private BufferedImage getCopyOfCurrentImage(){
+	private BufferedImage getDeepCopyOfCurrentImage(){
 		//stole this here:
 		//http://stackoverflow.com/questions/3514158/how-do-you-clone-a-bufferedimage; 2016-01-14, 7:38 MET
 		ColorModel colorModel = image.getColorModel();
