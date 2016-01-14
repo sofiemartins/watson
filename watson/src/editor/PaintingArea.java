@@ -58,11 +58,14 @@ public class PaintingArea extends JPanel implements MouseListener, MouseMotionLi
 	private static final AlphaComposite marking = AlphaComposite.DstOver;
 	
 	public PaintingArea(BufferedImage bufferedImage){
-		image = bufferedImage;
-		imageGraphics = image.createGraphics();
+		show(image);
+		setUpPanel();
+		setUpImageGraphics();
+	}
+	
+	private void setUpPanel(){
 		addListeners();
 		setBackground(Color.white);
-		setUpImageGraphics();
 	}
 	
 	private void setUpImageGraphics(){
@@ -79,11 +82,19 @@ public class PaintingArea extends JPanel implements MouseListener, MouseMotionLi
 	public void paintComponent(Graphics g){
 		super.paintComponent(g);
 		Graphics2D g2 = (Graphics2D)g;
-		g2.drawImage(image, 0, 0, null);
+		drawCardContent(g2);
+		drawPreview(g2);
+	}
+	
+	private void drawCardContent(Graphics2D g){
+		g.drawImage(image, 0, 0, null);
+	}
+	
+	private void drawPreview(Graphics2D g){
 		if(preview!=null){
-			g2.setColor(Editor.currentPen.getColor());
-			g2.setStroke(new BasicStroke(Editor.currentPen.getSizeInPx()));
-			g2.draw(preview);
+			g.setColor(Editor.currentPen.getColor());
+			g.setStroke(new BasicStroke(Editor.currentPen.getSizeInPx()));
+			g.draw(preview);
 		}
 	}
 
@@ -102,41 +113,96 @@ public class PaintingArea extends JPanel implements MouseListener, MouseMotionLi
 
 	@Override
 	public void mousePressed(MouseEvent e) {
+		makeFollowingStepUndoable();
+		updatePen();
+		saveLastDrawnPoint(e);
+		drawDependingOnPen(e);
+		repaint();
+	}
+	
+	private void makeFollowingStepUndoable(){
 		createSnapshot();
 		redoClipboard = new LinkedList<BufferedImage>();
-		updatePen();
+	}
+	
+	private void saveLastDrawnPoint(MouseEvent e){
 		lastDrawn = e.getPoint();
-		if(Editor.currentPen.getMode()==RULER || Editor.currentPen.getMode()==SQUARE){
-			previewStart = new Point(e.getX(), e.getY());
-		}else if(Editor.currentPen.getType()==PenType.ERASER){
+	}
+	
+	private void drawDependingOnPen(MouseEvent e){
+		if(isRuler() || isInRectangleMode()){
+			saveStartingPoint(e);
+		}else if(isEraser()){
 			erase(e.getPoint());
-		}else if(Editor.currentPen.getType()==PenType.MARKER){
+		}else if(isMarker()){
 			mark(e.getPoint());
 		}else{
 			paintInterpolated(e.getPoint());
 		}
-		repaint();
+	}
+	
+	private void saveStartingPoint(MouseEvent e){
+		previewStart = new Point(e.getX(), e.getY());
+	}
+	
+	private boolean isRuler(){
+		return getCurrentPen().getMode()==RULER;
+	}
+	
+	private boolean isInRectangleMode(){
+		return getCurrentPen().getMode()==SQUARE;
+	}
+	
+	private boolean isEraser(){
+		return getCurrentPen().getType()==PenType.ERASER;
+	}
+	
+	private boolean isMarker(){
+		return getCurrentPen().getType()==PenType.MARKER;
+	}
+	
+	private Pen getCurrentPen(){
+		return Editor.currentPen;
 	}
 
 	@Override
 	public void mouseReleased(MouseEvent e) {
-		if(Editor.currentPen.getType()==PenType.MARKER){
+		drawPreviewOnImage(e);
+		deleteSavedPointsAndPreview();
+		resetComposite();
+		repaint();
+	}
+	
+	private void drawPreviewOnImage(MouseEvent e){
+		setCompositeDependingOnPen();
+		drawShapeDependingOnMode(e);
+	}
+	
+	private void setCompositeDependingOnPen(){
+		if(isMarker()){
 			imageGraphics.setComposite(marking);
-		}else if(Editor.currentPen.getType()==PenType.ERASER){
+		}else if(isEraser()){
 			imageGraphics.setComposite(erasing);
 		}
-		if(Editor.currentPen.getMode()==RULER){
-		
+	}
+	
+	private void drawShapeDependingOnMode(MouseEvent e){
+		if(isRuler()){
 			imageGraphics.drawLine((int)previewStart.getX(), (int)previewStart.getY(), (int)e.getX(), (int)e.getY());
-		}else if(Editor.currentPen.getMode()==SQUARE){
+		}else if(isInRectangleMode()){
 			imageGraphics.drawRect((int)previewStart.getX(), (int)previewStart.getY(), 
 					getWidthDifference(e), getHeightDifference(e));
 		}
+	}
+	
+	private void deleteSavedPointsAndPreview(){
 		preview = null;
 		previewStart = null;
 		lastDrawn = null;
+	}
+	
+	private void resetComposite(){
 		imageGraphics.setComposite(drawing);
-		repaint();
 	}
 
 	@Override
