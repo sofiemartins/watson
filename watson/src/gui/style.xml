@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<synth>
+	<style id="backingStyle">
+		<opaque value="TRUE" />
+		<font name="Dialog" size="14" />
+		<state>
+			<color value="GREEN" type="BACKGROUND" />
+			<color value="RED" type="FOREGROUND" />
+		</state>
+	</style>
+	<bind style="backingStyle" type="region" key=".*" />
+</synth>

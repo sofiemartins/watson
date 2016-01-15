@@ -13,17 +13,25 @@ package gui;
 
 // java lib
 import javax.swing.JFrame;
+
+
 import javax.swing.JPanel;
 import javax.swing.JButton;
 import javax.swing.JScrollPane;
+import javax.swing.SwingUtilities;
+import javax.swing.UIManager;
 import javax.swing.JOptionPane;
 import javax.swing.border.EmptyBorder;
+import javax.swing.plaf.synth.SynthLookAndFeel;
 import javax.swing.ImageIcon;
 import java.awt.event.ActionListener;
+import java.text.ParseException;
 import java.awt.event.ActionEvent;
 import java.awt.BorderLayout;
 import static java.awt.BorderLayout.*;
 import java.awt.GridLayout;
+import java.awt.Window;
+
 //local
 import util.Lesson;
 import io.FileManager;
@@ -39,6 +47,20 @@ public class LessonOverview extends JFrame{
 	public LessonOverview(){
 		loadLessons();
 		setupFrameLayout();
+		initLookAndFeel();
+	}
+	
+	private void initLookAndFeel(){
+		SynthLookAndFeel lookAndFeel = new SynthLookAndFeel();
+		try{
+			lookAndFeel.load(LessonOverview.class.getResourceAsStream("style.xml"), LessonOverview.class);
+			UIManager.setLookAndFeel(lookAndFeel);
+			for(Window window : JFrame.getWindows()){
+				SwingUtilities.updateComponentTreeUI(window);
+			}
+		}catch(Exception e){
+			e.printStackTrace();//TODO: better exception handling
+		}
 	}
 	
 	protected void loadLessons(){
