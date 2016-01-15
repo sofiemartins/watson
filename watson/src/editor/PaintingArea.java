@@ -199,7 +199,10 @@ public class PaintingArea extends JPanel implements MouseListener, MouseMotionLi
 	}
 	
 	private void drawShapeDependingOnMode(MouseEvent e){
-		Point startingPointOnImage = getPointOnImage(previewStart);
+		Point startingPointOnImage = null;//TODO: ?
+		if(previewStart!=null){
+			startingPointOnImage = getPointOnImage(previewStart);
+		}
 		Point lastPointOnImage = getPointOnImage(e.getPoint());
 		if(isRuler()){
 			imageGraphics.drawLine((int)startingPointOnImage.getX(), 
@@ -354,12 +357,20 @@ public class PaintingArea extends JPanel implements MouseListener, MouseMotionLi
 		return new BufferedImage(colorModel, raster, isAlphaPremultiplied, null);
 	}
 	
+	private double imagePanelWidthRatio = 0;
+	private double imagePanelHeightRatio = 0;//TODO: declare resolution in some central space
+	
 	private Point getPointOnImage(Point pointOnScreen){
-		int imageWidth = image.getWidth();
-		int imageHeight = image.getHeight();
-		int xOnImage = (int)(pointOnScreen.getX()*imageWidth/getWidth());//Intercept theorem, or at least similar
-		int yOnImage = (int)(pointOnScreen.getY()*imageHeight/getHeight());
+		calculatePanelImageRatios(); 
+		int xOnImage = (int)(pointOnScreen.getX()*imagePanelWidthRatio);//Intercept theorem, or at least similar
+		int yOnImage = (int)(pointOnScreen.getY()*imagePanelHeightRatio);
 		return new Point(xOnImage, yOnImage);
  	}
 	
+	private void calculatePanelImageRatios(){//TODO: call this on resize
+		if(imagePanelWidthRatio==0){
+			imagePanelWidthRatio = ((double)image.getWidth()/(double)getWidth());
+			imagePanelHeightRatio = ((double)image.getHeight()/(double)getHeight());
+		}
+	}
 }
