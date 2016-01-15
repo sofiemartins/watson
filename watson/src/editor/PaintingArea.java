@@ -87,7 +87,7 @@ public class PaintingArea extends JPanel implements MouseListener, MouseMotionLi
 	}
 	
 	private void drawCardContent(Graphics2D g){
-		g.drawImage(image, 0, 0, null);
+		g.drawImage(image, 0, 0, getWidth(), getHeight(), null);
 	}
 	
 	private void drawPreview(Graphics2D g){
@@ -113,10 +113,12 @@ public class PaintingArea extends JPanel implements MouseListener, MouseMotionLi
 
 	@Override
 	public void mousePressed(MouseEvent e) {
+		Point pointOnImage = getPointOnImage(e.getPoint());
 		makeFollowingStepUndoable();
 		updatePen();
-		saveLastDrawnPoint(e);
-		drawDependingOnPen(e);
+		saveLastDrawnPoint(pointOnImage); // interpolation is drawn on the image, so image coordinates
+		saveStartingPoint(e.getPoint()); //Preview is drawn on the panel, so panel coordinates
+		drawDependingOnPen(pointOnImage);
 		repaint();
 	}
 	
@@ -125,24 +127,26 @@ public class PaintingArea extends JPanel implements MouseListener, MouseMotionLi
 		redoClipboard = new LinkedList<BufferedImage>();
 	}
 	
-	private void saveLastDrawnPoint(MouseEvent e){
-		lastDrawn = e.getPoint();
+	private void saveLastDrawnPoint(Point point){
+		lastDrawn = point;
 	}
 	
-	private void drawDependingOnPen(MouseEvent e){
+	private void drawDependingOnPen(Point point){
 		if(isRuler() || isInRectangleMode()){
-			saveStartingPoint(e);
+			//Do nothing, because only preview is drawn here TODO: make this better
 		}else if(isEraser()){
-			erase(e.getPoint());
+			erase(point);
 		}else if(isMarker()){
-			mark(e.getPoint());
+			mark(point);
 		}else{
-			paintInterpolated(e.getPoint());
+			paintInterpolated(point);
 		}
 	}
 	
-	private void saveStartingPoint(MouseEvent e){
-		previewStart = new Point(e.getX(), e.getY());
+	private void saveStartingPoint(Point point){
+		if(isRuler() || isInRectangleMode()){
+			previewStart = point;
+		}
 	}
 	
 	private boolean isRuler(){
@@ -195,11 +199,18 @@ public class PaintingArea extends JPanel implements MouseListener, MouseMotionLi
 	}
 	
 	private void drawShapeDependingOnMode(MouseEvent e){
+		Point startingPointOnImage = getPointOnImage(previewStart);
+		Point lastPointOnImage = getPointOnImage(e.getPoint());
 		if(isRuler()){
-			imageGraphics.drawLine((int)previewStart.getX(), (int)previewStart.getY(), (int)e.getX(), (int)e.getY());
+			imageGraphics.drawLine((int)startingPointOnImage.getX(), 
+									(int)startingPointOnImage.getY(), 
+									(int)lastPointOnImage.getX(), 
+									(int)lastPointOnImage.getY());
 		}else if(isInRectangleMode()){
-			imageGraphics.drawRect((int)previewStart.getX(), (int)previewStart.getY(), 
-					getWidthDifference(e), getHeightDifference(e));
+			imageGraphics.drawRect((int)startingPointOnImage.getX(), 
+									(int)startingPointOnImage.getY(), 
+									getWidthDifference(startingPointOnImage, lastPointOnImage), 
+									getHeightDifference(startingPointOnImage, lastPointOnImage));
 		}
 	}
 	
@@ -214,24 +225,27 @@ public class PaintingArea extends JPanel implements MouseListener, MouseMotionLi
 	}
 
 	@Override
-	public void mouseDragged(MouseEvent e) { 
+	public void mouseDragged(MouseEvent e) {
+		Point pointOnImage = getPointOnImage(e.getPoint());
 		if(isDefaultMode()){
-			paintDependingOnPenType(e.getPoint());
+			paintDependingOnPenType(pointOnImage);
 		}else if(isRuler()){
 			preview = new Line2D.Double(previewStart.getX(), previewStart.getY(), e.getX(), e.getY());
 		}else if(isInRectangleMode()){
-			preview = new Rectangle((int)previewStart.getX(),(int) previewStart.getY(), 
-					getWidthDifference(e), getHeightDifference(e));
+			preview = new Rectangle((int)previewStart.getX(),
+									(int) previewStart.getY(), 
+									getWidthDifference(previewStart, e.getPoint()), 
+									getHeightDifference(previewStart, e.getPoint()));
 		}
 		repaint();
 	}
 	
-	private int getWidthDifference(MouseEvent e){
-		return (int)(e.getX() - previewStart.getX());
+	private int getWidthDifference(Point point1, Point point2){
+		return (int)(point1.getX() - point2.getX());
 	}
 	
-	private int getHeightDifference(MouseEvent e){
-		return (int)(e.getY() - previewStart.getY());
+	private int getHeightDifference(Point point1, Point point2){
+		return (int)(point1.getY() - point2.getY());
 	}
 	
 	@Override
@@ -339,4 +353,13 @@ public class PaintingArea extends JPanel implements MouseListener, MouseMotionLi
 		WritableRaster raster = image.copyData(null);
 		return new BufferedImage(colorModel, raster, isAlphaPremultiplied, null);
 	}
+	
+	private Point getPointOnImage(Point pointOnScreen){
+		int imageWidth = image.getWidth();
+		int imageHeight = image.getHeight();
+		int xOnImage = (int)(pointOnScreen.getX()*imageWidth/getWidth());//Intercept theorem, or at least similar
+		int yOnImage = (int)(pointOnScreen.getY()*imageHeight/getHeight());
+		return new Point(xOnImage, yOnImage);
+ 	}
+	
 }
