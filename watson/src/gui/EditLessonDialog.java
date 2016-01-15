@@ -223,7 +223,8 @@ public class EditLessonDialog extends JFrame implements KeyListener{
 			@Override
 			public void actionPerformed(ActionEvent e){
 				lesson.addCard(new Card());
-				editor.open(lesson.getCurrentCard().getSideNumber(currentSide));
+				currentSide = 1;
+				editor.open(lesson.getCurrentCard().getSideNumber(currentSide)); //Because the user always wants to write on the first side after clicking on "add"
 			}
 		});
 		return button;
