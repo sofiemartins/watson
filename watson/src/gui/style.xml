@@ -2,13 +2,13 @@
 <synth>
 	<style id="buttonStyle">
 		<opaque value="TRUE" />
-		<insets top="20" left="20" right="20" bottom="20" />
+		<insets top="7" left="7" right="7" bottom="7" />
 		<state>
-			<color value="#DDDDFF" type="BACKGROUND" />
+			<color value="#EEEEFF" type="BACKGROUND" />
 			<color value="#444444" type="FOREGROUND" />
 		</state>
 		<state value="MOUSE_OVER">
-			<color value="#BBBBDD" type="BACKGROUND" />
+			<color value="#DDDDEE" type="BACKGROUND" />
 			<color value="#222222" type="FOREGROUND" />
 		</state>
 	</style>
