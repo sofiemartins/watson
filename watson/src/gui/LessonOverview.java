@@ -13,8 +13,6 @@ package gui;
 
 // java lib
 import javax.swing.JFrame;
-
-
 import javax.swing.JPanel;
 import javax.swing.JButton;
 import javax.swing.JScrollPane;
@@ -22,7 +20,6 @@ import javax.swing.SwingConstants;
 import javax.swing.SwingUtilities;
 import javax.swing.UIManager;
 import javax.swing.JOptionPane;
-import javax.swing.border.EmptyBorder;
 import javax.swing.plaf.synth.SynthLookAndFeel;
 import javax.imageio.ImageIO;
 import javax.swing.BorderFactory;
@@ -31,7 +28,6 @@ import java.awt.event.ActionListener;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
-import java.text.ParseException;
 import java.awt.event.ActionEvent;
 import java.awt.BorderLayout;
 import java.awt.Color;
@@ -98,7 +94,7 @@ public class LessonOverview extends JFrame{
 		setDefaultCloseOperation(DISPOSE_ON_CLOSE);
 		setExtendedState(JFrame.MAXIMIZED_BOTH);
 		setLayout(new BorderLayout());
-		add(getOverviewList(), CENTER);
+		add(getOverview(), CENTER);
 		add(getButtonPanel(), EAST);
 		setVisible(true);
 	}
@@ -106,8 +102,8 @@ public class LessonOverview extends JFrame{
 	private JPanel getButtonPanel(){
 		JPanel container = new JPanel();
 		container.setLayout(new BorderLayout());
-		container.setBorder(new EmptyBorder(10, 10, 10, 10));
-		container.add(getButtonPanelSubPanel(), BorderLayout.NORTH);
+		container.add(getButtonPanelSubPanel(), NORTH);
+		container.add(getStartPractisingButton(), SOUTH);
 		return container;
 	}
 	
@@ -123,7 +119,6 @@ public class LessonOverview extends JFrame{
 		
 	private JPanel getNewButton(){
 		JPanel container = new JPanel();
-		container.setBorder(new EmptyBorder(10, 10, 10, 10));
 		container.setLayout(new GridLayout(1,1));
 		JButton button = new JButton("New");
 		button.setVerticalTextPosition(SwingConstants.BOTTOM);
@@ -137,6 +132,27 @@ public class LessonOverview extends JFrame{
 			}
 		});
 		container.add(button);
+		return container;
+	}
+	
+	private JPanel getStartPractisingButton(){
+		JPanel container = new JPanel();
+		container.setBorder(BorderFactory.createLineBorder(new Color(200, 200, 200), 1, true));
+		container.setLayout(new GridLayout(1,1));
+		JPanel subcontainer = new JPanel();
+		subcontainer.setLayout(new GridLayout(1,1));
+		JButton button = new JButton("Start");
+		button.setVerticalTextPosition(SwingConstants.BOTTOM);
+		button.setHorizontalTextPosition(SwingConstants.CENTER);
+		setIcon(button, "add.png");
+		button.addActionListener(new ActionListener(){
+			@Override
+			public void actionPerformed(ActionEvent e){
+				startInterrogation();
+			}
+		});
+		subcontainer.add(button);
+		container.add(subcontainer);
 		return container;
 	}
 	
@@ -182,7 +198,6 @@ public class LessonOverview extends JFrame{
 	
 	private JPanel getRemoveButton(){
 		JPanel container = new JPanel();
-		container.setBorder(new EmptyBorder(10, 10, 10, 10));
 		container.setLayout(new GridLayout(1,1));
 		JButton button = new JButton("Delete");
 		button.setVerticalTextPosition(SwingConstants.BOTTOM);
@@ -200,12 +215,10 @@ public class LessonOverview extends JFrame{
 	
 	private JPanel getEditButton(){
 		JPanel container = new JPanel();
-		container.setBorder(new EmptyBorder(10, 10, 10, 10));
 		container.setLayout(new GridLayout(1,1));
 		JButton button = new JButton("Edit");
 		button.setVerticalTextPosition(SwingConstants.BOTTOM);
 		button.setHorizontalTextPosition(SwingConstants.CENTER);
-		button.setBorder(new EmptyBorder(10, 10, 10, 10));
 		setIcon(button, "edit.png");
 		button.addActionListener(new ActionListener(){
 			@Override
@@ -231,6 +244,17 @@ public class LessonOverview extends JFrame{
 		}catch(IOException e){
 			e.printStackTrace(); //TODO: Exception handling
 		}
+	}
+	
+	private JPanel getOverview(){
+		JPanel container = new JPanel();
+		container.setLayout(new BorderLayout());
+		JPanel subcontainer = new JPanel();
+		subcontainer.setBorder(BorderFactory.createLineBorder(new Color(200, 200, 200), 1, true));
+		subcontainer.setLayout(new BorderLayout());
+		subcontainer.add(getOverviewList());
+		container.add(subcontainer);
+		return container;
 	}
 	
 	

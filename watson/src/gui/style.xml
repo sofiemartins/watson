@@ -17,8 +17,17 @@
 		<opaque value="TRUE" />
 		<insets top="10" left="10" right="10" bottom="10" />
 		<state>
-			<color value="RED" type="BACKGROUND" />
-			<color value="GREEN" type="FOREGROUND" />
+			<color value="WHITE" type="BACKGROUND" />
+			<color value="BLACK" type="FOREGROUND" />
+		</state>
+	</style>
+	
+	<style id="listStyle">
+		<opaque value="TRUE" />
+		<insets top="10" left="10" right="10" bottom="10" />
+		<state>
+			<color value="WHITE" type="BACKGROUND" />
+			<color value="BLACK" type="FOREGROUND" />
 		</state>
 	</style>
 
@@ -31,6 +40,8 @@
 	</style>
 	<bind style="backingStyle" type="region" key=".*" />
 	<bind style="buttonStyle" type="region" key="Button" />
+	<bind style="panelStyle" type="region" key="Panel" />
+	<bind style="listStyle" type="region" key="List" />
 	 
 	
 </synth>
