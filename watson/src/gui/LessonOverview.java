@@ -18,18 +18,27 @@ import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.JButton;
 import javax.swing.JScrollPane;
+import javax.swing.SwingConstants;
 import javax.swing.SwingUtilities;
 import javax.swing.UIManager;
 import javax.swing.JOptionPane;
 import javax.swing.border.EmptyBorder;
 import javax.swing.plaf.synth.SynthLookAndFeel;
+import javax.imageio.ImageIO;
+import javax.swing.BorderFactory;
 import javax.swing.ImageIcon;
 import java.awt.event.ActionListener;
+import java.awt.image.BufferedImage;
+import java.io.File;
+import java.io.IOException;
 import java.text.ParseException;
 import java.awt.event.ActionEvent;
 import java.awt.BorderLayout;
+import java.awt.Color;
+
 import static java.awt.BorderLayout.*;
 import java.awt.GridLayout;
+import java.awt.Image;
 import java.awt.Window;
 
 //local
@@ -90,22 +99,35 @@ public class LessonOverview extends JFrame{
 		setExtendedState(JFrame.MAXIMIZED_BOTH);
 		setLayout(new BorderLayout());
 		add(getOverviewList(), CENTER);
-		add(getButtonPanel(), SOUTH);
+		add(getButtonPanel(), EAST);
 		setVisible(true);
 	}
 	
 	private JPanel getButtonPanel(){
 		JPanel container = new JPanel();
-		container.setLayout(new GridLayout(1,3));
-		container.setBorder(new EmptyBorder(5,320,5,320));
-		container.add(getNewButton());
-		container.add(getRemoveButton());
-		container.add(getEditButton());
+		container.setLayout(new BorderLayout());
+		container.setBorder(new EmptyBorder(10, 10, 10, 10));
+		container.add(getButtonPanelSubPanel(), BorderLayout.NORTH);
 		return container;
 	}
+	
+	private JPanel getButtonPanelSubPanel(){
+		JPanel subcontainer = new JPanel();
+		subcontainer.setBorder(BorderFactory.createLineBorder(new Color(200, 200, 200), 1, true));
+		subcontainer.setLayout(new GridLayout(3,1));
+		subcontainer.add(getNewButton());
+		subcontainer.add(getRemoveButton());
+		subcontainer.add(getEditButton());
+		return subcontainer;
+	}
 		
-	private JButton getNewButton(){
-		JButton button = new JButton(); 
+	private JPanel getNewButton(){
+		JPanel container = new JPanel();
+		container.setBorder(new EmptyBorder(10, 10, 10, 10));
+		container.setLayout(new GridLayout(1,1));
+		JButton button = new JButton("New");
+		button.setVerticalTextPosition(SwingConstants.BOTTOM);
+		button.setHorizontalTextPosition(SwingConstants.CENTER);
 		setIcon(button, "add.png");
 		button.addActionListener(new ActionListener(){
 			@Override
@@ -114,13 +136,14 @@ public class LessonOverview extends JFrame{
 				LessonOverview.super.dispose();
 			}
 		});
-		return button;
+		container.add(button);
+		return container;
 	}
 	
 	protected static void createNewLesson(){
 		String validTitle = getValidTitle();
 		if(!validTitle.equals("-1")){//TODO: find a better way for dealing with the cancel button!
-			new EditLessonDialog(new Lesson(validTitle));// TODO: dispose lesson overview?
+			new EditLessonDialog(new Lesson(validTitle));
 		}
 	}
 	
@@ -157,8 +180,13 @@ public class LessonOverview extends JFrame{
 		return true;
 	}
 	
-	private JButton getRemoveButton(){
-		JButton button = new JButton();
+	private JPanel getRemoveButton(){
+		JPanel container = new JPanel();
+		container.setBorder(new EmptyBorder(10, 10, 10, 10));
+		container.setLayout(new GridLayout(1,1));
+		JButton button = new JButton("Delete");
+		button.setVerticalTextPosition(SwingConstants.BOTTOM);
+		button.setHorizontalTextPosition(SwingConstants.CENTER);
 		setIcon(button, "remove.png");
 		button.addActionListener(new ActionListener(){
 			@Override
@@ -166,11 +194,18 @@ public class LessonOverview extends JFrame{
 				//TODO: remove
 			}
 		});
-		return button;
+		container.add(button);
+		return container;
 	}
 	
-	private JButton getEditButton(){
-		JButton button = new JButton();
+	private JPanel getEditButton(){
+		JPanel container = new JPanel();
+		container.setBorder(new EmptyBorder(10, 10, 10, 10));
+		container.setLayout(new GridLayout(1,1));
+		JButton button = new JButton("Edit");
+		button.setVerticalTextPosition(SwingConstants.BOTTOM);
+		button.setHorizontalTextPosition(SwingConstants.CENTER);
+		button.setBorder(new EmptyBorder(10, 10, 10, 10));
 		setIcon(button, "edit.png");
 		button.addActionListener(new ActionListener(){
 			@Override
@@ -180,7 +215,8 @@ public class LessonOverview extends JFrame{
 				LessonOverview.super.dispose();
 			}
 		});
-		return button;
+		container.add(button);
+		return container;
 	}
 	
 	protected static void edit(Lesson lesson){
@@ -188,7 +224,13 @@ public class LessonOverview extends JFrame{
 	}
 	
 	private void setIcon(JButton button, String filepath){
-		button.setIcon(new ImageIcon(getClass().getResource(filepath)));
+		BufferedImage icon = null;
+		try{
+			icon = ImageIO.read(new File("res/" + filepath));
+			button.setIcon(new ImageIcon(icon.getScaledInstance(25, 25, Image.SCALE_SMOOTH)));
+		}catch(IOException e){
+			e.printStackTrace(); //TODO: Exception handling
+		}
 	}
 	
 	

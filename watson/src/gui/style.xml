@@ -1,12 +1,36 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <synth>
+	<style id="buttonStyle">
+		<opaque value="TRUE" />
+		<insets top="20" left="20" right="20" bottom="20" />
+		<state>
+			<color value="#DDDDFF" type="BACKGROUND" />
+			<color value="#444444" type="FOREGROUND" />
+		</state>
+		<state value="MOUSE_OVER">
+			<color value="#BBBBDD" type="BACKGROUND" />
+			<color value="#222222" type="FOREGROUND" />
+		</state>
+	</style>
+	
+	<style id="panelStyle">
+		<opaque value="TRUE" />
+		<insets top="10" left="10" right="10" bottom="10" />
+		<state>
+			<color value="RED" type="BACKGROUND" />
+			<color value="GREEN" type="FOREGROUND" />
+		</state>
+	</style>
+
 	<style id="backingStyle">
 		<opaque value="TRUE" />
 		<font name="Dialog" size="14" />
 		<state>
-			<color value="GREEN" type="BACKGROUND" />
-			<color value="RED" type="FOREGROUND" />
+			<color value="WHITE" type="BACKGROUND" />
 		</state>
 	</style>
 	<bind style="backingStyle" type="region" key=".*" />
+	<bind style="buttonStyle" type="region" key="Button" />
+	 
+	
 </synth>
