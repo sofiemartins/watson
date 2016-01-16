@@ -2,6 +2,7 @@ package editor;
 
 import javax.swing.JPanel;
 import javax.swing.JToggleButton;
+import javax.swing.BorderFactory;
 import javax.swing.ImageIcon;
 import javax.swing.border.EmptyBorder;
 import java.awt.GridLayout;
@@ -20,6 +21,7 @@ public class Toolbar extends JPanel{
 	public static final long serialVersionUID = 8724543215436543876L;
 	
 	private ActionListener actionListener;
+	private static final String TOOLBAR_BUTTON = "toolbarButton";
 	
 	public Toolbar(){
 		addComponents();
@@ -147,13 +149,17 @@ public class Toolbar extends JPanel{
 	
 	private void setupPenTypePanel(JPanel container){
 		container.setLayout(new GridLayout(1,3));
-		container.setBorder(new EmptyBorder(10,2,10,2));
+		container.setBorder(BorderFactory.createLineBorder(new Color(200, 200, 200), 1, true));
 	}
 	
 	private void addButtonsToPenTypePanel(JPanel container){
-		container.add(penButton);
-		container.add(eraserButton);
-		container.add(markerButton);
+		JToggleButton buttons[] = { penButton, eraserButton, markerButton };
+		for(JToggleButton button : buttons){
+			JPanel buttonContainer = new JPanel();
+			buttonContainer.setLayout(new GridLayout(1,1));
+			buttonContainer.add(button);
+			container.add(buttonContainer);
+		}
 	}
 	
 	private JToggleButton penButton = getPenButton();
@@ -162,6 +168,8 @@ public class Toolbar extends JPanel{
 	
 	private JToggleButton getPenButton(){
 		JToggleButton button = new JToggleButton();
+		button.setBorder(new EmptyBorder(8, 4, 8, 8));
+		button.setName(TOOLBAR_BUTTON);
 		button.setIcon(new ImageIcon(getClass().getResource("pen.png")));
 		button.addActionListener(new ActionListener(){
 			@Override
@@ -179,6 +187,8 @@ public class Toolbar extends JPanel{
 	
 	private JToggleButton getEraserButton(){
 		JToggleButton button = new JToggleButton();
+		button.setBorder(new EmptyBorder(8, 4, 8, 4));
+		button.setName(TOOLBAR_BUTTON);
 		button.setIcon(new ImageIcon(getClass().getResource("eraser.png")));
 		button.addActionListener(new ActionListener(){
 			@Override
@@ -196,6 +206,8 @@ public class Toolbar extends JPanel{
 	
 	private JToggleButton getMarkerButton(){
 		JToggleButton button = new JToggleButton();
+		button.setBorder(new EmptyBorder(8, 8, 8, 4));
+		button.setName(TOOLBAR_BUTTON);
 		button.setIcon(new ImageIcon(getClass().getResource("marker.png")));
 		button.addActionListener(new ActionListener(){
 			@Override
@@ -220,12 +232,17 @@ public class Toolbar extends JPanel{
 	
 	private void setUpPenModePanel(JPanel container){
 		container.setLayout(new GridLayout(1,2));
-		container.setBorder(new EmptyBorder(10,2,10,2));
+		container.setBorder(BorderFactory.createLineBorder(new Color(200, 200, 200), 1, true));
 	}
 	
 	private void addButtonsToPenModePanel(JPanel container){
-		container.add(rulerButton);
-		container.add(rectangleButton);
+		JToggleButton buttons[] = { rulerButton, rectangleButton };
+		for(JToggleButton button : buttons){
+			JPanel buttonContainer = new JPanel();
+			buttonContainer.setLayout(new GridLayout(1,1));
+			buttonContainer.add(button);
+			container.add(buttonContainer);
+		}
 	}
 	
 	private JToggleButton rulerButton = getRulerButton();
@@ -233,6 +250,8 @@ public class Toolbar extends JPanel{
 	
 	private JToggleButton getRulerButton(){
 		JToggleButton button = new JToggleButton();
+		button.setBorder(new EmptyBorder(8, 4, 8, 8));
+		button.setName(TOOLBAR_BUTTON);
 		button.setIcon(new ImageIcon(getClass().getResource("ruler.png")));
 		button.addActionListener(new ActionListener(){
 			@Override
@@ -269,6 +288,8 @@ public class Toolbar extends JPanel{
 				g.drawRect(5,5,this.getWidth()-10, this.getHeight()-10);
 			}
 		};
+		button.setBorder(new EmptyBorder(8, 8, 8, 4));
+		button.setName(TOOLBAR_BUTTON);
 		button.addActionListener(new ActionListener(){
 			@Override
 			public void actionPerformed(ActionEvent e){
@@ -301,14 +322,17 @@ public class Toolbar extends JPanel{
 	
 	private void setUpColorPanel(JPanel container){
 		container.setLayout(new GridLayout(1,4));
-		container.setBorder(new EmptyBorder(10,2,10,2));
+		container.setBorder(BorderFactory.createLineBorder(new Color(200, 200, 200), 1, true));
 	}
 	
 	private void addButtonsToColorPanel(JPanel container){
-		container.add(blackButton);
-		container.add(blueButton);
-		container.add(greenButton);
-		container.add(redButton);
+		JToggleButton buttons[] = { blackButton, blueButton, greenButton, redButton };
+		for(JToggleButton button : buttons){
+			JPanel buttonPanel = new JPanel();
+			buttonPanel.setLayout(new GridLayout(1,1));
+			buttonPanel.add(button);
+			container.add(buttonPanel);
+		}
 	}
 	
 	private ColorButton blackButton = getColorButton(Color.black);
@@ -318,6 +342,8 @@ public class Toolbar extends JPanel{
 		
 	private ColorButton getColorButton(Color color){
 		ColorButton button = new ColorButton(color);
+		button.setBorder(new EmptyBorder(8, 8, 8, 8));
+		button.setName(TOOLBAR_BUTTON);
 		button.addActionListener(new ActionListener(){
 			@Override
 			public void actionPerformed(ActionEvent e){
@@ -344,13 +370,17 @@ public class Toolbar extends JPanel{
 	
 	private void setUpPenSizePanel(JPanel container){
 		container.setLayout(new GridLayout(1,3));
-		container.setBorder(new EmptyBorder(10,2,10,2));
+		container.setBorder(BorderFactory.createLineBorder(new Color(200, 200, 200), 1, true));
 	}
 	
 	private void addButtonsToPenSizePanel(JPanel container){
-		container.add(fineButton);
-		container.add(mediumButton);
-		container.add(thickButton);
+		JToggleButton buttons[] = { fineButton, mediumButton, thickButton };
+		for(JToggleButton button : buttons){
+			JPanel buttonPanel = new JPanel();
+			buttonPanel.setLayout(new GridLayout(1,1));
+			buttonPanel.add(button);
+			container.add(buttonPanel);
+		}
 	}
 	
 	private PenSizeButton fineButton = getPenSizeButton(PenSize.FINE);
@@ -359,6 +389,8 @@ public class Toolbar extends JPanel{
 	
 	private PenSizeButton getPenSizeButton(PenSize penSize){
 		PenSizeButton button = new PenSizeButton(penSize);
+		button.setBorder(new EmptyBorder(8, 8, 8, 8));
+		button.setName(TOOLBAR_BUTTON);
 		button.addActionListener(new ActionListener(){
 			@Override
 			public void actionPerformed(ActionEvent e){
