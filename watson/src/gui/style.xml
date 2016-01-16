@@ -2,7 +2,7 @@
 <synth>
 	<style id="buttonStyle">
 		<opaque value="TRUE" />
-		<insets top="7" left="7" right="7" bottom="7" />
+		<insets top="15" left="15" right="15" bottom="15" />
 		<state>
 			<color value="#EEEEFF" type="BACKGROUND" />
 			<color value="#444444" type="FOREGROUND" />
@@ -15,7 +15,7 @@
 	
 	<style id="panelStyle">
 		<opaque value="TRUE" />
-		<insets top="10" left="10" right="10" bottom="10" />
+		<insets top="5" left="5" right="5" bottom="5" />
 		<state>
 			<color value="WHITE" type="BACKGROUND" />
 			<color value="BLACK" type="FOREGROUND" />
@@ -24,7 +24,7 @@
 	
 	<style id="listStyle">
 		<opaque value="TRUE" />
-		<insets top="10" left="10" right="10" bottom="10" />
+		<insets top="7" left="7" right="7" bottom="7" />
 		<state>
 			<color value="WHITE" type="BACKGROUND" />
 			<color value="BLACK" type="FOREGROUND" />

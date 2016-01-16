@@ -19,6 +19,7 @@ import javax.swing.JScrollPane;
 import javax.swing.SwingConstants;
 import javax.swing.SwingUtilities;
 import javax.swing.UIManager;
+import javax.swing.border.EmptyBorder;
 import javax.swing.JOptionPane;
 import javax.swing.plaf.synth.SynthLookAndFeel;
 import javax.imageio.ImageIO;
@@ -120,6 +121,7 @@ public class LessonOverview extends JFrame{
 	private JPanel getNewButton(){
 		JPanel container = new JPanel();
 		container.setLayout(new GridLayout(1,1));
+		container.setBorder(new EmptyBorder(8, 8, 4, 8));
 		JButton button = new JButton("New");
 		button.setVerticalTextPosition(SwingConstants.BOTTOM);
 		button.setHorizontalTextPosition(SwingConstants.CENTER);
@@ -199,6 +201,7 @@ public class LessonOverview extends JFrame{
 	private JPanel getRemoveButton(){
 		JPanel container = new JPanel();
 		container.setLayout(new GridLayout(1,1));
+		container.setBorder(new EmptyBorder(4, 8, 4, 8));
 		JButton button = new JButton("Delete");
 		button.setVerticalTextPosition(SwingConstants.BOTTOM);
 		button.setHorizontalTextPosition(SwingConstants.CENTER);
@@ -216,6 +219,7 @@ public class LessonOverview extends JFrame{
 	private JPanel getEditButton(){
 		JPanel container = new JPanel();
 		container.setLayout(new GridLayout(1,1));
+		container.setBorder(new EmptyBorder(4, 8, 8, 8));
 		JButton button = new JButton("Edit");
 		button.setVerticalTextPosition(SwingConstants.BOTTOM);
 		button.setHorizontalTextPosition(SwingConstants.CENTER);
