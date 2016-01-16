@@ -2,7 +2,10 @@ package practice;
 
 import javax.swing.JButton;
 import java.awt.Graphics;
+import java.awt.Graphics2D;
+import java.awt.BasicStroke;
 import java.awt.Color;
+import java.awt.Font;
 import java.awt.event.MouseListener;
 import java.awt.event.MouseEvent;
 
@@ -12,27 +15,40 @@ public class AnswerButton extends JButton implements MouseListener{
 	
 	private ButtonType type;
 	private int darkness = 50;
+	private String text;
 	
 	public AnswerButton(ButtonType buttonType){
 		type = buttonType;
 		addMouseListener(this);
+		setBackground(Color.white);
+		if(buttonType==ButtonType.RIGHT){
+			text = "Right";
+		}else{
+			text = "Wrong";
+		}
 	}
 	
 	@Override
-	public void paintComponent(Graphics g){
-		super.paintComponent(g);
+	public void paintComponent(Graphics graphics){
+		super.paintComponent(graphics);
+		Graphics2D g = (Graphics2D)graphics;
 		if(type==ButtonType.RIGHT){
-			g.setColor(new Color(0, 200-darkness, 0));
+			g.setColor(new Color(200-darkness, 255-darkness, 200-darkness));
 		}else{
-			g.setColor(new Color(200-darkness, 0, 0));
+			g.setColor(new Color(255-darkness, 200-darkness, 200-darkness));
 		}
-		g.fillRect(10,10,getWidth()-20,getHeight()-20);
+		g.fillOval((getWidth()/2)-100, (getHeight()/2)-100, 200, 200);
 		if(type==ButtonType.RIGHT){
-			g.setColor(new Color(0, 100-darkness, 0));
+			g.setColor(new Color(180-darkness, 200-darkness, 180-darkness));
 		}else{
-			g.setColor(new Color(100-darkness, 0, 0));
+			g.setColor(new Color(200-darkness, 180-darkness, 180-darkness));
 		}
-		g.drawRect(10,10,getWidth()-20,getHeight()-20);
+		float dash[] = { 10.0f };
+		g.setStroke(new BasicStroke(3.0f, BasicStroke.CAP_BUTT, BasicStroke.JOIN_MITER, 10.0f, dash, 0.0f));
+		g.drawOval((getWidth()/2)-100, (getHeight()/2)-100, 200, 200);
+		g.setColor(Color.white);
+		g.setFont(new Font("Times New Roman", Font.BOLD, 30));
+		g.drawString(text, (getWidth()/2)-50, (getHeight()/2)+20);
 	}
 	
 	public void activate(){

@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <synth>
-	<style id="buttonStyle">
+	<style id="toolbarButtonStyle">
 		<opaque value="TRUE" />
 		<insets top="15" left="15" right="15" bottom="15" />
 		<state>
@@ -8,7 +8,7 @@
 			<color value="#444444" type="FOREGROUND" />
 		</state>
 		<state value="MOUSE_OVER">
-			<color value="#DDDDEE" type="BACKGROUND" />
+			<color value="WHITE" type="BACKGROUND" />
 			<color value="#222222" type="FOREGROUND" />
 		</state>
 	</style>
@@ -29,7 +29,7 @@
 			<color value="BLACK" type="FOREGROUND" />
 		</state>
 	</style>
-
+	
 	<style id="backingStyle">
 		<opaque value="TRUE" />
 		<font name="Dialog" size="14" />
@@ -38,9 +38,7 @@
 		</state>
 	</style>
 	<bind style="backingStyle" type="region" key=".*" />
-	<bind style="buttonStyle" type="region" key="Button" />
 	<bind style="panelStyle" type="region" key="Panel" />
 	<bind style="listStyle" type="region" key="List" />
-	 
-	
+	<bind style="toolbarButtonStyle" type="name" key="toolbarButton" />
 </synth>

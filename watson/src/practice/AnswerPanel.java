@@ -5,6 +5,7 @@ import java.awt.KeyEventDispatcher;
 import java.awt.event.KeyEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
+import java.awt.Graphics;
 import java.awt.GridLayout;
 import java.awt.KeyboardFocusManager;
 
@@ -38,8 +39,8 @@ public class AnswerPanel extends JPanel{
 	
 	protected boolean active;
 	
-	public AnswerButton rightButton = getRightButton();
-	private AnswerButton wrongButton = getWrongButton();
+	public RightAnswerButton rightButton = getRightButton();
+	private WrongAnswerButton wrongButton = getWrongButton();
 	
 	private Dispatcher keyEventDispatcher = new Dispatcher();
 	private KeyboardFocusManager manager = KeyboardFocusManager.getCurrentKeyboardFocusManager();
@@ -57,8 +58,8 @@ public class AnswerPanel extends JPanel{
 		manager.removeKeyEventDispatcher(keyEventDispatcher);
 	}
 	
-	private AnswerButton getRightButton(){
-		AnswerButton button = new AnswerButton(ButtonType.RIGHT);
+	private RightAnswerButton getRightButton(){
+		RightAnswerButton button = new RightAnswerButton();
 		button.addActionListener(new ActionListener(){
 			@Override
 			public void actionPerformed(ActionEvent e){
@@ -73,8 +74,8 @@ public class AnswerPanel extends JPanel{
 
 	}
 	
-	private AnswerButton getWrongButton(){
-		AnswerButton button = new AnswerButton(ButtonType.WRONG);
+	private WrongAnswerButton getWrongButton(){
+		WrongAnswerButton button = new WrongAnswerButton();
 		button.addActionListener(new ActionListener(){
 			@Override
 			public void actionPerformed(ActionEvent e){

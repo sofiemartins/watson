@@ -49,6 +49,7 @@ public class LessonOverview extends JFrame{
 	public static final long serialVersionUID = 5543266543547765465L;
 	
 	private OverviewList overviewList;
+	private static final String TOOLBAR_BUTTON = "toolbarButton";
 	
 	public LessonOverview(){
 		loadLessons();
@@ -123,6 +124,7 @@ public class LessonOverview extends JFrame{
 		container.setLayout(new GridLayout(1,1));
 		container.setBorder(new EmptyBorder(8, 8, 4, 8));
 		JButton button = new JButton("New");
+		button.setName(TOOLBAR_BUTTON);
 		button.setVerticalTextPosition(SwingConstants.BOTTOM);
 		button.setHorizontalTextPosition(SwingConstants.CENTER);
 		setIcon(button, "add.png");
@@ -144,6 +146,7 @@ public class LessonOverview extends JFrame{
 		JPanel subcontainer = new JPanel();
 		subcontainer.setLayout(new GridLayout(1,1));
 		JButton button = new JButton("Start");
+		button.setName(TOOLBAR_BUTTON);
 		button.setVerticalTextPosition(SwingConstants.BOTTOM);
 		button.setHorizontalTextPosition(SwingConstants.CENTER);
 		setIcon(button, "add.png");
@@ -203,6 +206,7 @@ public class LessonOverview extends JFrame{
 		container.setLayout(new GridLayout(1,1));
 		container.setBorder(new EmptyBorder(4, 8, 4, 8));
 		JButton button = new JButton("Delete");
+		button.setName(TOOLBAR_BUTTON);
 		button.setVerticalTextPosition(SwingConstants.BOTTOM);
 		button.setHorizontalTextPosition(SwingConstants.CENTER);
 		setIcon(button, "remove.png");
@@ -221,6 +225,7 @@ public class LessonOverview extends JFrame{
 		container.setLayout(new GridLayout(1,1));
 		container.setBorder(new EmptyBorder(4, 8, 8, 8));
 		JButton button = new JButton("Edit");
+		button.setName(TOOLBAR_BUTTON);
 		button.setVerticalTextPosition(SwingConstants.BOTTOM);
 		button.setHorizontalTextPosition(SwingConstants.CENTER);
 		setIcon(button, "edit.png");
