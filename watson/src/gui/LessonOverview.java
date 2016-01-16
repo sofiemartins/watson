@@ -264,6 +264,7 @@ public class LessonOverview extends JFrame{
 	
 	private JScrollPane getOverviewList(){
 		overviewList = new OverviewList();
+		overviewList.setCellRenderer(new CellRenderer());
 		overviewList.addActionListener(new ActionListener(){
 			@Override
 			public void actionPerformed(ActionEvent e){

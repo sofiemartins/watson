@@ -24,7 +24,6 @@
 	
 	<style id="listStyle">
 		<opaque value="TRUE" />
-		<insets top="7" left="7" right="7" bottom="7" />
 		<state>
 			<color value="WHITE" type="BACKGROUND" />
 			<color value="BLACK" type="FOREGROUND" />
