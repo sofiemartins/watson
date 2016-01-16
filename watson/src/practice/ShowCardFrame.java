@@ -1,10 +1,12 @@
 package practice;
 
 import javax.swing.JFrame;
+import javax.swing.BorderFactory;
 import javax.swing.JButton;
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
 import java.awt.BorderLayout;
+import java.awt.Color;
 import java.util.ArrayList;
 
 import util.Card;
@@ -48,6 +50,8 @@ public class ShowCardFrame extends JFrame{
 	
 	private JButton getNextButton(){
 		JButton button = new JButton("Next");
+		button.setName("toolbarButton");
+		button.setBorder(BorderFactory.createLineBorder(new Color(200, 200, 200), 1, false));
 		button.addActionListener(new ActionListener(){
 			@Override
 			public void actionPerformed(ActionEvent e){
