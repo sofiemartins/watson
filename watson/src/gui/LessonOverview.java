@@ -60,7 +60,7 @@ public class LessonOverview extends JFrame{
 	private void initLookAndFeel(){
 		SynthLookAndFeel lookAndFeel = new SynthLookAndFeel();
 		try{
-			lookAndFeel.load(LessonOverview.class.getResourceAsStream("style.xml"), LessonOverview.class);
+			lookAndFeel.load(ClassLoader.getSystemClassLoader().getResourceAsStream("style.xml"), LessonOverview.class);
 			UIManager.setLookAndFeel(lookAndFeel);
 			for(Window window : JFrame.getWindows()){
 				SwingUtilities.updateComponentTreeUI(window);

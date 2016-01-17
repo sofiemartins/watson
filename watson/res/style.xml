@@ -4,12 +4,11 @@
 		<opaque value="TRUE" />
 		<insets top="15" left="15" right="15" bottom="15" />
 		<state>
-			<color value="#EEEEFF" type="BACKGROUND" />
+			<color value="WHITE" type="BACKGROUND" />
 			<color value="#444444" type="FOREGROUND" />
 		</state>
 		<state value="MOUSE_OVER">
-			<color value="WHITE" type="BACKGROUND" />
-			<color value="#222222" type="FOREGROUND" />
+				<imagePainter method="buttonBackground" path="res/gradient.png" sourceInsets="10 10 10 10" />
 		</state>
 	</style>
 	
@@ -17,8 +16,7 @@
 		<opaque value="TRUE" />
 		<insets top="5" left="5" right="5" bottom="5" />
 		<state>
-			<color value="WHITE" type="BACKGROUND" />
-			<color value="BLACK" type="FOREGROUND" />
+			<imagePainter method="buttonBackground" path="res/gradient.png" sourceInsets="10 10 10 10" />
 		</state>
 	</style>
 	

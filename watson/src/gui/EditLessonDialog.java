@@ -3,11 +3,13 @@ package gui;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.JButton;
+import javax.swing.BorderFactory;
 import javax.swing.ImageIcon;
 import javax.swing.border.EmptyBorder;
 import javax.swing.JOptionPane;
 import static java.awt.BorderLayout.*;
 import java.awt.BorderLayout;
+import java.awt.Color;
 import java.awt.GridLayout;
 import java.awt.event.KeyListener;
 import java.awt.event.KeyEvent;
@@ -77,26 +79,38 @@ public class EditLessonDialog extends JFrame implements KeyListener{
 	}
 	
 	private void addComponents(){
-		add(getTopPanel(), NORTH);
+		add(getBottomPanel(), SOUTH);
 		editor = new Editor(lesson.getCurrentCard().getSideNumber(currentSide));
 		currentSide = 1;
 		add(editor, CENTER);
-		add(getBottomPanel(), SOUTH);
 	}
 	
-	private JPanel getTopPanel(){
+	private JPanel getBottomPanel(){
 		JPanel container = new JPanel();
+		container.setLayout(new BorderLayout());
+		container.add(getNavigationPanel(), BorderLayout.WEST);
+		container.add(getEditPanel(), BorderLayout.EAST);
+		return container;
+	}
+	
+	private JPanel getNavigationPanel(){
+		JPanel container = new JPanel();
+		container.setBorder(BorderFactory.createLineBorder(new Color(200, 200, 200), 1, true));
 		container.setLayout(new GridLayout(1,3));
 		container.setBorder(new EmptyBorder(5,50,5,550));
-		container.add(previousButton());
-		container.add(nextButton());
-		container.add(turnAroundButton());
-		container.add(getSaveButton());
+		JButton buttons[] = { previousButton(), nextButton(), turnAroundButton(), getSaveButton() };
+		for(JButton button : buttons){
+			JPanel buttonPanel = new JPanel();
+			buttonPanel.setLayout(new GridLayout(1,1));
+			buttonPanel.add(button);
+			container.add(buttonPanel);
+		}
 		return container;
 	}
 	
 	private JButton nextButton(){
 		JButton button = new JButton();
+		button.setName("toolbarButton");
 		button.setIcon(new ImageIcon(getClass().getResource("next.png")));
 		button.addActionListener(new ActionListener(){
 			@Override
@@ -113,6 +127,7 @@ public class EditLessonDialog extends JFrame implements KeyListener{
 	
 	private JButton previousButton(){
 		JButton button = new JButton();
+		button.setName("toolbarButton");
 		button.setIcon(new ImageIcon(getClass().getResource("back.png")));
 		button.addActionListener(new ActionListener(){
 			@Override
@@ -129,6 +144,7 @@ public class EditLessonDialog extends JFrame implements KeyListener{
 	
 	private JButton turnAroundButton(){
 		JButton button = new JButton();
+		button.setName("toolbarButton");
 		button.setIcon(new ImageIcon(getClass().getResource("otherside.png")));
 		button.addActionListener(new ActionListener(){
 			@Override
@@ -155,6 +171,7 @@ public class EditLessonDialog extends JFrame implements KeyListener{
 	
 	private JButton getSaveButton(){
 		JButton button = new JButton();
+		button.setName("toolbarButton");
 		button.setIcon(new ImageIcon(getClass().getResource("save.png")));
 		button.addActionListener(new ActionListener(){
 			@Override
@@ -195,17 +212,24 @@ public class EditLessonDialog extends JFrame implements KeyListener{
 		}
 	}
 	
-	private JPanel getBottomPanel(){
+	private JPanel getEditPanel(){
 		JPanel container = new JPanel();
+		container.setBorder(BorderFactory.createLineBorder(new Color(200, 200, 200), 1, true));
 		container.setLayout(new GridLayout(1,2));
 		container.setBorder(new EmptyBorder(5,350,5,350));
-		container.add(deleteButton());
-		container.add(addButton());
+		JButton buttons[] = { deleteButton(), addButton() };
+		for(JButton button : buttons){
+			JPanel buttonPanel = new JPanel();
+			buttonPanel.setLayout(new GridLayout(1,1));
+			buttonPanel.add(button);
+			container.add(buttonPanel);
+		}
 		return container;
 	}
 	
 	private JButton deleteButton(){
 		JButton button = new JButton();
+		button.setName("toolbarButton");
 		button.setIcon(new ImageIcon(getClass().getResource("remove.png")));
 		button.addActionListener(new ActionListener(){
 			@Override
@@ -218,6 +242,7 @@ public class EditLessonDialog extends JFrame implements KeyListener{
 	}
 	private JButton addButton(){
 		JButton button = new JButton();
+		button.setName("toolbarButton");
 		button.setIcon(new ImageIcon(getClass().getResource("add.png")));
 		button.addActionListener(new ActionListener(){
 			@Override

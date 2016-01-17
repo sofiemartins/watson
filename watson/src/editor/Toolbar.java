@@ -3,11 +3,13 @@ package editor;
 import javax.swing.JPanel;
 import javax.swing.JToggleButton;
 import javax.swing.SwingConstants;
+import javax.imageio.ImageIO;
 import javax.swing.BorderFactory;
 import javax.swing.ImageIcon;
 import javax.swing.JLabel;
 import javax.swing.border.EmptyBorder;
 import java.awt.GridLayout;
+import java.awt.Image;
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.FlowLayout;
@@ -18,6 +20,8 @@ import static java.awt.Color.*;
 import java.awt.BorderLayout;
 import java.awt.Graphics;
 import java.awt.event.ActionListener;
+import java.awt.image.BufferedImage;
+import java.io.File;
 import java.awt.event.ActionEvent;
 
 import editor.ColorButton;
@@ -180,14 +184,24 @@ public class Toolbar extends JPanel{
 	private JToggleButton eraserButton = getEraserButton();
 	private JToggleButton markerButton = getMarkerButton();
 	
+	private void setIcon(JToggleButton button, String filepath){
+		BufferedImage image = null;
+		try{
+			image = ImageIO.read(new File(filepath));
+		}catch(Exception e){
+			e.printStackTrace();//TODO: Exception handling
+		}
+		button.setIcon(new ImageIcon(image.getScaledInstance(25, 25, Image.SCALE_SMOOTH)));
+	}
+	
 	private JToggleButton getPenButton(){
 		JToggleButton button = new JToggleButton("Pen");
 		button.setVerticalTextPosition(SwingConstants.BOTTOM);
 		button.setHorizontalTextPosition(SwingConstants.CENTER);
-		button.setPreferredSize(new Dimension(70, 70));
+		button.setPreferredSize(new Dimension(60, 60));
 		button.setBorder(new EmptyBorder(8, 4, 8, 8));
 		button.setName(TOOLBAR_BUTTON);
-		button.setIcon(new ImageIcon(getClass().getResource("pen.png")));
+		setIcon(button, "res/pen.png");
 		button.addActionListener(new ActionListener(){
 			@Override
 			public void actionPerformed(ActionEvent e){
@@ -206,10 +220,10 @@ public class Toolbar extends JPanel{
 		JToggleButton button = new JToggleButton("Eraser");
 		button.setVerticalTextPosition(SwingConstants.BOTTOM);
 		button.setHorizontalTextPosition(SwingConstants.CENTER);
-		button.setPreferredSize(new Dimension(70, 70));		
+		button.setPreferredSize(new Dimension(60, 60));		
 		button.setBorder(new EmptyBorder(8, 4, 8, 4));
 		button.setName(TOOLBAR_BUTTON);
-		button.setIcon(new ImageIcon(getClass().getResource("eraser.png")));
+		setIcon(button, "res/eraser.png");
 		button.addActionListener(new ActionListener(){
 			@Override
 			public void actionPerformed(ActionEvent e){
@@ -228,10 +242,10 @@ public class Toolbar extends JPanel{
 		JToggleButton button = new JToggleButton("Marker");
 		button.setVerticalTextPosition(SwingConstants.BOTTOM);
 		button.setHorizontalTextPosition(SwingConstants.CENTER);
-		button.setPreferredSize(new Dimension(70, 70));		
+		button.setPreferredSize(new Dimension(60, 60));		
 		button.setBorder(new EmptyBorder(8, 8, 8, 4));
 		button.setName(TOOLBAR_BUTTON);
-		button.setIcon(new ImageIcon(getClass().getResource("marker.png")));
+		setIcon(button, "res/marker.png");
 		button.addActionListener(new ActionListener(){
 			@Override
 			public void actionPerformed(ActionEvent e){
@@ -278,7 +292,7 @@ public class Toolbar extends JPanel{
 	
 	private JToggleButton getRulerButton(){
 		JToggleButton button = new JToggleButton();
-		button.setPreferredSize(new Dimension(70, 70));
+		button.setPreferredSize(new Dimension(60, 60));
 		button.setBorder(new EmptyBorder(8, 4, 8, 8));
 		button.setName(TOOLBAR_BUTTON);
 		button.setIcon(new ImageIcon(getClass().getResource("ruler.png")));
@@ -317,7 +331,7 @@ public class Toolbar extends JPanel{
 				g.drawRect(5,5,this.getWidth()-10, this.getHeight()-10);
 			}
 		};
-		button.setPreferredSize(new Dimension(70, 70));		
+		button.setPreferredSize(new Dimension(60, 60));		
 		button.setBorder(new EmptyBorder(8, 8, 8, 4));
 		button.setName(TOOLBAR_BUTTON);
 		button.addActionListener(new ActionListener(){
@@ -370,14 +384,14 @@ public class Toolbar extends JPanel{
 		}
 	}
 	
-	private ColorButton colorButton1 = getColorButton(Color.black);
+	private ColorButton colorButton1 = getColorButton(new Color(80, 80, 80));
 	private ColorButton colorButton2 = getColorButton(new Color(123, 181, 166));
 	private ColorButton colorButton3 = getColorButton(new Color(66, 133, 244));
 	private ColorButton colorButton4 = getColorButton(new Color(238, 128, 110));
 		
 	private ColorButton getColorButton(Color color){
 		ColorButton button = new ColorButton(color);
-		button.setPreferredSize(new Dimension(70, 70));
+		button.setPreferredSize(new Dimension(60, 60));
 		button.setBorder(new EmptyBorder(8, 8, 8, 8));
 		button.setName(TOOLBAR_BUTTON);
 		button.addActionListener(new ActionListener(){
@@ -438,7 +452,7 @@ public class Toolbar extends JPanel{
 	
 	private PenSizeButton getPenSizeButton(PenSize penSize){
 		PenSizeButton button = new PenSizeButton(penSize);
-		button.setPreferredSize(new Dimension(70, 70));
+		button.setPreferredSize(new Dimension(60, 60));
 		button.setBorder(new EmptyBorder(8, 8, 8, 8));
 		button.setName(TOOLBAR_BUTTON);
 		button.addActionListener(new ActionListener(){

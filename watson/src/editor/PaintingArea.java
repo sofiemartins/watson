@@ -1,5 +1,6 @@
 package editor;
 
+import javax.swing.BorderFactory;
 import javax.swing.JPanel;
 
 import gui.Editor;
@@ -66,6 +67,7 @@ public class PaintingArea extends JPanel implements MouseListener, MouseMotionLi
 	private void setUpPanel(){
 		addListeners();
 		setBackground(Color.white);
+		setBorder(BorderFactory.createLineBorder(new Color(200, 200, 200), 1, true));
 	}
 	
 	private void setUpImageGraphics(){
