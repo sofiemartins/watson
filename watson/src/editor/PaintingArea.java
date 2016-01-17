@@ -125,6 +125,9 @@ public class PaintingArea extends JPanel implements MouseListener, MouseMotionLi
 	}
 	
 	private void makeFollowingStepUndoable(){
+		if(snapshotClipboard.size()>10){
+			snapshotClipboard.removeFirst();
+		}
 		createSnapshot();
 		redoClipboard = new LinkedList<BufferedImage>();
 	}
