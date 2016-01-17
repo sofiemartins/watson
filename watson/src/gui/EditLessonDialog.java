@@ -2,7 +2,9 @@ package gui;
 
 import javax.swing.JFrame;
 import javax.swing.JPanel;
+import javax.swing.JToggleButton;
 import javax.swing.JButton;
+import javax.imageio.ImageIO;
 import javax.swing.BorderFactory;
 import javax.swing.ImageIcon;
 import javax.swing.border.EmptyBorder;
@@ -11,12 +13,15 @@ import static java.awt.BorderLayout.*;
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.GridLayout;
+import java.awt.Image;
 import java.awt.event.KeyListener;
+import java.awt.image.BufferedImage;
 import java.awt.event.KeyEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
 import java.awt.KeyEventDispatcher;
 import java.awt.KeyboardFocusManager;
+import java.io.File;
 import java.io.IOException;
 
 import util.Lesson;
@@ -97,7 +102,6 @@ public class EditLessonDialog extends JFrame implements KeyListener{
 		JPanel container = new JPanel();
 		container.setBorder(BorderFactory.createLineBorder(new Color(200, 200, 200), 1, true));
 		container.setLayout(new GridLayout(1,3));
-		container.setBorder(new EmptyBorder(5,50,5,550));
 		JButton buttons[] = { previousButton(), nextButton(), turnAroundButton(), getSaveButton() };
 		for(JButton button : buttons){
 			JPanel buttonPanel = new JPanel();
@@ -111,7 +115,7 @@ public class EditLessonDialog extends JFrame implements KeyListener{
 	private JButton nextButton(){
 		JButton button = new JButton();
 		button.setName("toolbarButton");
-		button.setIcon(new ImageIcon(getClass().getResource("next.png")));
+		setIcon(button, "next.png");
 		button.addActionListener(new ActionListener(){
 			@Override
 			public void actionPerformed(ActionEvent e){
@@ -128,7 +132,7 @@ public class EditLessonDialog extends JFrame implements KeyListener{
 	private JButton previousButton(){
 		JButton button = new JButton();
 		button.setName("toolbarButton");
-		button.setIcon(new ImageIcon(getClass().getResource("back.png")));
+		setIcon(button, "back.png");
 		button.addActionListener(new ActionListener(){
 			@Override
 			public void actionPerformed(ActionEvent e){
@@ -145,7 +149,7 @@ public class EditLessonDialog extends JFrame implements KeyListener{
 	private JButton turnAroundButton(){
 		JButton button = new JButton();
 		button.setName("toolbarButton");
-		button.setIcon(new ImageIcon(getClass().getResource("otherside.png")));
+		setIcon(button, "otherside.png");
 		button.addActionListener(new ActionListener(){
 			@Override
 			public void actionPerformed(ActionEvent e){
@@ -172,7 +176,7 @@ public class EditLessonDialog extends JFrame implements KeyListener{
 	private JButton getSaveButton(){
 		JButton button = new JButton();
 		button.setName("toolbarButton");
-		button.setIcon(new ImageIcon(getClass().getResource("save.png")));
+		setIcon(button, "save.png");
 		button.addActionListener(new ActionListener(){
 			@Override
 			public void actionPerformed(ActionEvent e){
@@ -216,7 +220,6 @@ public class EditLessonDialog extends JFrame implements KeyListener{
 		JPanel container = new JPanel();
 		container.setBorder(BorderFactory.createLineBorder(new Color(200, 200, 200), 1, true));
 		container.setLayout(new GridLayout(1,2));
-		container.setBorder(new EmptyBorder(5,350,5,350));
 		JButton buttons[] = { deleteButton(), addButton() };
 		for(JButton button : buttons){
 			JPanel buttonPanel = new JPanel();
@@ -230,7 +233,7 @@ public class EditLessonDialog extends JFrame implements KeyListener{
 	private JButton deleteButton(){
 		JButton button = new JButton();
 		button.setName("toolbarButton");
-		button.setIcon(new ImageIcon(getClass().getResource("remove.png")));
+		setIcon(button, "remove.png");
 		button.addActionListener(new ActionListener(){
 			@Override
 			public void actionPerformed(ActionEvent e){
@@ -243,7 +246,7 @@ public class EditLessonDialog extends JFrame implements KeyListener{
 	private JButton addButton(){
 		JButton button = new JButton();
 		button.setName("toolbarButton");
-		button.setIcon(new ImageIcon(getClass().getResource("add.png")));
+		setIcon(button, "add.png");
 		button.addActionListener(new ActionListener(){
 			@Override
 			public void actionPerformed(ActionEvent e){
@@ -264,5 +267,15 @@ public class EditLessonDialog extends JFrame implements KeyListener{
 	@Override
 	public void keyTyped(KeyEvent e) {
 		System.out.println("Hello World");
+	}
+	
+	private void setIcon(JButton button, String filepath){
+		BufferedImage image = null;
+		try{
+			image = ImageIO.read(new File("res/" + filepath));
+		}catch(Exception e){
+			e.printStackTrace();//TODO: Exception handling
+		}
+		button.setIcon(new ImageIcon(image.getScaledInstance(25, 25, Image.SCALE_SMOOTH)));
 	}
 }

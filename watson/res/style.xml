@@ -8,16 +8,21 @@
 			<color value="#444444" type="FOREGROUND" />
 		</state>
 		<state value="MOUSE_OVER">
-				<imagePainter method="buttonBackground" path="res/gradient.png" sourceInsets="10 10 10 10" />
+			<color value="#EEEEFF" type="BACKGROUND" />
+			<color value="#222222" type="FOREGROUND" />
 		</state>
 	</style>
 	
 	<style id="panelStyle">
+		<insets top="5" left="5" right="5" bottom="5" />
+	</style>
+	
+	<style id="backgroundPanelStyle">
 		<opaque value="TRUE" />
 		<insets top="5" left="5" right="5" bottom="5" />
 		<state>
-			<imagePainter method="buttonBackground" path="res/gradient.png" sourceInsets="10 10 10 10" />
-		</state>
+			<imagePainter method="panelBackground" path="gradient.png" sourceInsets="10 10 10 10 " />
+		</state> 
 	</style>
 	
 	<style id="listStyle">
@@ -39,4 +44,5 @@
 	<bind style="panelStyle" type="region" key="Panel" />
 	<bind style="listStyle" type="region" key="List" />
 	<bind style="toolbarButtonStyle" type="name" key="toolbarButton" />
+	<bind style="backgroundPanelStyle" type="name" key="backgroundPanel" />
 </synth>
