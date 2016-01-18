@@ -123,4 +123,8 @@ public class Lesson implements Serializable{
 	public void resetCurrentCard(){
 		currentCard = cards.get(0);
 	}
+	
+	public Stats getStats(){
+		return stats;
+	}
 }

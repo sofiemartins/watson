@@ -10,6 +10,6 @@ public class Interrogation{
 	
 	public Interrogation(Lesson lesson){
 		new ShowCardFrame(lesson);
-		lesson.incrementNumberOfTries();
+		lesson.startPractising();
 	}
 }

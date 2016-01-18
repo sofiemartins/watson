@@ -20,6 +20,8 @@ import javax.swing.SwingConstants;
 import javax.swing.SwingUtilities;
 import javax.swing.UIManager;
 import javax.swing.border.EmptyBorder;
+import javax.swing.event.ListSelectionEvent;
+import javax.swing.event.ListSelectionListener;
 import javax.swing.JOptionPane;
 import javax.swing.plaf.synth.SynthLookAndFeel;
 import javax.imageio.ImageIO;
@@ -41,6 +43,7 @@ import java.awt.Window;
 //local
 import util.Lesson;
 import io.FileManager;
+import stats.TimeOverview;
 
 public class LessonOverview extends JFrame{
 	
@@ -49,6 +52,7 @@ public class LessonOverview extends JFrame{
 	public static final long serialVersionUID = 5543266543547765465L;
 	
 	private OverviewList overviewList;
+	private JPanel overviewPanel;
 	private static final String TOOLBAR_BUTTON = "toolbarButton";
 	
 	public LessonOverview(){
@@ -96,7 +100,8 @@ public class LessonOverview extends JFrame{
 		setDefaultCloseOperation(DISPOSE_ON_CLOSE);
 		setExtendedState(JFrame.MAXIMIZED_BOTH);
 		setLayout(new BorderLayout());
-		add(getOverview(), CENTER);
+		overviewPanel = getOverview();
+		add(overviewPanel, CENTER);
 		add(getButtonPanel(), EAST);
 		setVisible(true);
 	}
@@ -261,7 +266,7 @@ public class LessonOverview extends JFrame{
 		JPanel subcontainer = new JPanel();
 		subcontainer.setBorder(BorderFactory.createLineBorder(new Color(200, 200, 200), 1, true));
 		subcontainer.setLayout(new BorderLayout());
-		subcontainer.add(getOverviewList());
+		subcontainer.add(getOverviewList(), CENTER);
 		container.add(subcontainer);
 		return container;
 	}
@@ -274,6 +279,14 @@ public class LessonOverview extends JFrame{
 			@Override
 			public void actionPerformed(ActionEvent e){
 				startInterrogation();
+			}
+		});
+		overviewList.addListSelectionListener(new ListSelectionListener(){
+			@Override
+			public void valueChanged(ListSelectionEvent e){
+				overviewPanel.add(new TimeOverview(overviewList.getSelectedValue()), SOUTH);
+				LessonOverview.this.validate();
+				LessonOverview.this.repaint();
 			}
 		});
 		return new JScrollPane(overviewList);
