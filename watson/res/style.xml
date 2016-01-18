@@ -15,6 +15,10 @@
 	
 	<style id="panelStyle">
 		<insets top="5" left="5" right="5" bottom="5" />
+		<state>
+			<color value="WHITE" type="BACKGROUND" />
+			<color value="#222222" type="FOREGROUND" />
+		</state>
 	</style>
 	
 	<style id="backgroundPanelStyle">

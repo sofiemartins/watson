@@ -4,6 +4,7 @@ import javax.swing.JPanel;
 
 import java.awt.Dimension;
 import java.awt.Font;
+import java.awt.BasicStroke;
 import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
@@ -25,6 +26,7 @@ public class TimeOverview extends JPanel{
 		lesson = displayedLesson;
 		statistics = displayedLesson.getStats();
 		setPreferredSize(new Dimension(200, 200));
+		setBackground(Color.white);
 	}
 	
 	@Override
@@ -66,18 +68,22 @@ public class TimeOverview extends JPanel{
 		}
 	}
 	
+	private int imageResolution = 2000;
+	
 	private void plotWrongAnswers(Graphics2D graphics){
-		BufferedImage plot = new BufferedImage(500, 500, BufferedImage.TYPE_INT_ARGB);
-		Graphics g = plot.createGraphics();
+		BufferedImage plot = new BufferedImage(imageResolution, imageResolution, BufferedImage.TYPE_INT_ARGB);
+		Graphics2D g = plot.createGraphics();
+		g.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
 		StatsSet lastSet = null;
 		for(StatsSet set : statistics.getStatsList()){
 			if(lastSet!=null){
+				g.setStroke(new BasicStroke(5, BasicStroke.CAP_ROUND, BasicStroke.JOIN_MITER));
 				g.setColor(Color.red);
 				//TODO: clean this up ...
 				g.drawLine((int)(timeAxisValue(lastSet.getTimestamp().getTime())*timestampImageRatio()), 
-							500-(int)(lastSet.getNumberOfWrongAnswers()*wrongAnswerImageRatio()), 
+							imageResolution-(int)(lastSet.getNumberOfWrongAnswers()*wrongAnswerImageRatio()), 
 							(int)(timeAxisValue(set.getTimestamp().getTime())*timestampImageRatio()), 
-							500-(int)(set.getNumberOfWrongAnswers()*wrongAnswerImageRatio()));
+							imageResolution-(int)(set.getNumberOfWrongAnswers()*wrongAnswerImageRatio()));
 			}
 			lastSet = set;
 		}
@@ -85,7 +91,7 @@ public class TimeOverview extends JPanel{
 	}
 	
 	private double timestampImageRatio(){
-		return 500.0 / timestampDifference();
+		return imageResolution / timestampDifference();
 	}
 
 	private long timeAxisValue(long timestamp){
@@ -102,7 +108,7 @@ public class TimeOverview extends JPanel{
 	}
 	
 	private double wrongAnswerImageRatio(){
-		return 500.0 / maxNumberOfWrongAnswers();
+		return imageResolution / maxNumberOfWrongAnswers();
 	}
 	
 	private int maxNumberOfWrongAnswers(){

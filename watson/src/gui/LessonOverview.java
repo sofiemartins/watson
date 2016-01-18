@@ -55,6 +55,7 @@ public class LessonOverview extends JFrame{
 	private OverviewList overviewList;
 	private JPanel overviewPanel;
 	private JPanel statsPanel = new JPanel();
+	private JPanel overviewListSubcontainer;
 	private static final String TOOLBAR_BUTTON = "toolbarButton";
 	
 	public LessonOverview(){
@@ -68,11 +69,15 @@ public class LessonOverview extends JFrame{
 		try{
 			lookAndFeel.load(ClassLoader.getSystemClassLoader().getResourceAsStream("style.xml"), LessonOverview.class);
 			UIManager.setLookAndFeel(lookAndFeel);
-			for(Window window : JFrame.getWindows()){
-				SwingUtilities.updateComponentTreeUI(window);
-			}
+			updateDesign();
 		}catch(Exception e){
 			e.printStackTrace();//TODO: better exception handling
+		}
+	}
+	
+	private void updateDesign(){
+		for(Window window : JFrame.getWindows()){
+			SwingUtilities.updateComponentTreeUI(window);
 		}
 	}
 	
@@ -272,12 +277,17 @@ public class LessonOverview extends JFrame{
 	private JPanel getOverview(){
 		JPanel container = new JPanel();
 		container.setLayout(new BorderLayout());
+		overviewListSubcontainer = getOverviewListSubcontainer();
+		container.add(overviewListSubcontainer);
+		return container;
+	}
+	
+	private JPanel getOverviewListSubcontainer(){
 		JPanel subcontainer = new JPanel();
 		subcontainer.setBorder(BorderFactory.createLineBorder(new Color(200, 200, 200), 1, true));
 		subcontainer.setLayout(new BorderLayout());
 		subcontainer.add(getOverviewList(), CENTER);
-		container.add(subcontainer);
-		return container;
+		return subcontainer;
 	}
 	
 	
@@ -295,8 +305,9 @@ public class LessonOverview extends JFrame{
 			public void valueChanged(ListSelectionEvent e){
 				reloadStatsPanel();
 				if(statsPanel.getParent()==null){
-					overviewPanel.add(statsPanel, SOUTH);
+					overviewListSubcontainer.add(statsPanel, SOUTH);
 				}
+				updateDesign();
 				LessonOverview.this.validate();
 				LessonOverview.this.repaint();
 			}
@@ -306,8 +317,30 @@ public class LessonOverview extends JFrame{
 	
 	private void reloadStatsPanel(){
 		statsPanel.removeAll();
-		statsPanel.add(new TimeOverview(overviewList.getSelectedValue()));
-		statsPanel.add(new AnswerOverview(overviewList.getSelectedValue()));
+		statsPanel.add(getTimeOverview());
+		statsPanel.add(getAnswerOverview());
+	}
+	
+	private JPanel getTimeOverview(){
+		JPanel container = new JPanel();
+		container.setLayout(new GridLayout(1,1));
+		JPanel subcontainer = new JPanel();
+		subcontainer.setLayout(new GridLayout(1,1));
+		subcontainer.setBorder(BorderFactory.createLineBorder(new Color(200, 200, 200), 1, true));
+		subcontainer.add(new TimeOverview(overviewList.getSelectedValue()));
+		container.add(subcontainer);
+		return container;
+	}
+	
+	private JPanel getAnswerOverview(){
+		JPanel container = new JPanel();
+		container.setLayout(new GridLayout(1,1));
+		JPanel subcontainer = new JPanel();
+		subcontainer.setLayout(new GridLayout(1,1));
+		subcontainer.setBorder(BorderFactory.createLineBorder(new Color(200, 200, 200), 1, true));
+		subcontainer.add(new AnswerOverview(overviewList.getSelectedValue()));
+		container.add(subcontainer);
+		return container;
 	}
 	
 	private void startInterrogation(){
