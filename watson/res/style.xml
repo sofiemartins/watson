@@ -21,7 +21,7 @@
 		<opaque value="TRUE" />
 		<insets top="5" left="5" right="5" bottom="5" />
 		<state>
-			<imagePainter method="panelBackground" path="gradient.png" sourceInsets="10 10 10 10 " />
+			<imagePainter method="frameBackground" path="gradient.png" sourceInsets="10 10 10 10 " />
 		</state> 
 	</style>
 	
@@ -44,5 +44,5 @@
 	<bind style="panelStyle" type="region" key="Panel" />
 	<bind style="listStyle" type="region" key="List" />
 	<bind style="toolbarButtonStyle" type="name" key="toolbarButton" />
-	<bind style="backgroundPanelStyle" type="name" key="backgroundPanel" />
+	<bind style="backgroundPanelStyle" type="name" key="Frame" />
 </synth>
