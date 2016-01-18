@@ -73,29 +73,36 @@ public class TimeOverview extends JPanel{
 		for(StatsSet set : statistics.getStatsList()){
 			if(lastSet!=null){
 				g.setColor(Color.red);
-				g.drawLine((int)(lastSet.getTimestamp().getTime()*timestampImageRatio()), 
-							getHeight()-(int)(lastSet.getNumberOfWrongAnswers()*wrongAnswerImageRatio()), 
-							(int)(set.getTimestamp().getTime()*timestampImageRatio()), 
-							getHeight()-(int)(set.getNumberOfWrongAnswers()*wrongAnswerImageRatio()));
+				//TODO: clean this up ...
+				g.drawLine((int)(timeAxisValue(lastSet.getTimestamp().getTime())*timestampImageRatio()), 
+							500-(int)(lastSet.getNumberOfWrongAnswers()*wrongAnswerImageRatio()), 
+							(int)(timeAxisValue(set.getTimestamp().getTime())*timestampImageRatio()), 
+							500-(int)(set.getNumberOfWrongAnswers()*wrongAnswerImageRatio()));
 			}
 			lastSet = set;
 		}
-		graphics.drawImage(plot, 5, 5, null);
+		graphics.drawImage(plot, 10, 20, getWidth()-20, getHeight()-40, null);
 	}
 	
-	private long timestampImageRatio(){
-		return 500 / timestampDifference();
+	private double timestampImageRatio(){
+		return 500.0 / timestampDifference();
+	}
+
+	private long timeAxisValue(long timestamp){
+		LinkedList<StatsSet> stats = statistics.getStatsList();
+		long firstTryTimestamp = stats.getFirst().getTimestamp().getTime();
+		return timestamp - firstTryTimestamp;
 	}
 	
-	private long timestampDifference(){
+	private double timestampDifference(){
 		LinkedList<StatsSet> stats = statistics.getStatsList();
 		long firstTryTimestamp = stats.getFirst().getTimestamp().getTime();
 		long lastTryTimestamp = stats.getLast().getTimestamp().getTime();
 		return lastTryTimestamp - firstTryTimestamp;
 	}
 	
-	private long wrongAnswerImageRatio(){
-		return 500 / maxNumberOfWrongAnswers();
+	private double wrongAnswerImageRatio(){
+		return 500.0 / maxNumberOfWrongAnswers();
 	}
 	
 	private int maxNumberOfWrongAnswers(){
