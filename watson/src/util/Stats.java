@@ -16,4 +16,8 @@ public class Stats implements Serializable{
 	public StatsSet getCurrentStatsSet(){
 		return statsList.getLast();
 	} 
+	
+	public LinkedList<StatsSet> getStatsList(){//TODO: better encapsulation
+		return statsList;
+	}
 }
