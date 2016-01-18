@@ -5,7 +5,6 @@ import javax.swing.JPanel;
 import editor.Toolbar;
 
 import java.awt.Polygon;
-import java.awt.AlphaComposite;
 import java.awt.BasicStroke;
 import java.awt.Color;
 import java.awt.Font;
@@ -16,13 +15,13 @@ import java.awt.image.BufferedImage;
 
 import util.Lesson;
 
-public class AnswerOverview extends JPanel{
+public class PiChartAnswerOverview extends JPanel{
 	
 	public static final long serialVersionUID = 4665763454224365432L;
 	
 	Lesson lesson;
 	
-	public AnswerOverview(Lesson lessonDisplayed){
+	public PiChartAnswerOverview(Lesson lessonDisplayed){
 		lesson = lessonDisplayed;
 	}
 	
@@ -31,7 +30,13 @@ public class AnswerOverview extends JPanel{
 		super.paintComponent(graphics);
 		Graphics2D g = (Graphics2D)graphics;
 		g.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
+		drawCaption(g);
 		drawDataIfPresent(g);
+	}
+	
+	private void drawCaption(Graphics g){
+		g.setFont(new Font("Times New Roman", Font.BOLD, 10));
+		g.drawString("Percentage of Wrong Answers", 30, 15);
 	}
 	
 	private void drawDataIfPresent(Graphics2D g){
@@ -64,9 +69,9 @@ public class AnswerOverview extends JPanel{
 		imageGraphics.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
 		fillCircle(lesson.getStats().getTotalNumberOfWrongAnswers()*anglePerAnswer(), imageGraphics);
 		if(getHeight()>=getWidth()){
-			g.drawImage(plot, 0, 0, getWidth()-20, getWidth()-20, null);
+			g.drawImage(plot, 20, (getHeight()-getWidth())/2, getWidth()-30, getWidth()-30, null);
 		}else{
-			g.drawImage(plot, 0, 0, getHeight()-20, getHeight()-20, null);
+			g.drawImage(plot, (getWidth()-getHeight())/2, 20, getHeight()-30, getHeight()-30, null);
 		}
 	}
 	

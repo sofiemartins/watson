@@ -15,6 +15,7 @@ import java.util.LinkedList;
 import util.Stats;
 import util.StatsSet;
 import util.Lesson;
+import editor.Toolbar;
 
 public class TimeOverview extends JPanel{
 	
@@ -34,6 +35,7 @@ public class TimeOverview extends JPanel{
 		super.paintComponent(graphics);
 		Graphics2D g = (Graphics2D)graphics;
 		antialiasing(g);
+		drawCaption(g);
 		plotDataIfPresent(g);
 	}
 	
@@ -41,10 +43,16 @@ public class TimeOverview extends JPanel{
 		g.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
 	}
 	
+	private void drawCaption(Graphics g){
+		g.setFont(new Font("Times New Roman", Font.BOLD, 10));
+		g.drawString("Number of wrong answers in the last tries", 200, 15);
+	}
+	
 	private void drawTimeAxis(Graphics g){
 		g.drawLine(2, getHeight()-20, getWidth()-10, getHeight()-20);
 		g.drawLine(getWidth()-10, getHeight()-20, getWidth()-12, getHeight()-22);
 		g.drawLine(getWidth()-10, getHeight()-20, getWidth()-12, getHeight()-18);
+		g.setFont(new Font("Times New Roman", Font.PLAIN, 10));
 		g.drawString("time", getWidth()-30, getHeight()-2);
 	}
 	
@@ -52,6 +60,7 @@ public class TimeOverview extends JPanel{
 		g.drawLine(5, 5, 5, getHeight()-15);
 		g.drawLine(5, 5, 7, 7);
 		g.drawLine(5, 5, 3, 7);
+		g.setFont(new Font("Times New Roman", Font.PLAIN, 10));
 		g.drawString("number of wrong answers", 10, 15);
 	}
 	
@@ -61,7 +70,7 @@ public class TimeOverview extends JPanel{
 			g.setFont(new Font("Times New Roman", Font.PLAIN, 20));
 			g.drawString("No data present", 5, 30);
 		}else{
-			g.setColor(new Color(80, 80, 80));
+			g.setColor(Toolbar.black);
 			drawTimeAxis(g);
 			drawYAxis(g);
 			plotWrongAnswers(g);
@@ -78,7 +87,7 @@ public class TimeOverview extends JPanel{
 		for(StatsSet set : statistics.getStatsList()){
 			if(lastSet!=null){
 				g.setStroke(new BasicStroke(5, BasicStroke.CAP_ROUND, BasicStroke.JOIN_MITER));
-				g.setColor(Color.red);
+				g.setColor(Toolbar.red);
 				//TODO: clean this up ...
 				g.drawLine((int)(timeAxisValue(lastSet.getTimestamp().getTime())*timestampImageRatio()), 
 							imageResolution-(int)(lastSet.getNumberOfWrongAnswers()*wrongAnswerImageRatio()), 

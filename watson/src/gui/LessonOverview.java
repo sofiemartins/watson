@@ -44,7 +44,8 @@ import java.awt.Window;
 import util.Lesson;
 import io.FileManager;
 import stats.TimeOverview;
-import stats.AnswerOverview;
+import stats.PiChartAnswerOverview;
+import stats.AbsoluteAnswerOverview;
 
 public class LessonOverview extends JFrame{
 	
@@ -338,8 +339,16 @@ public class LessonOverview extends JFrame{
 		JPanel subcontainer = new JPanel();
 		subcontainer.setLayout(new GridLayout(1,1));
 		subcontainer.setBorder(BorderFactory.createLineBorder(new Color(200, 200, 200), 1, true));
-		subcontainer.add(new AnswerOverview(overviewList.getSelectedValue()));
+		subcontainer.add(absolutesPanel());
 		container.add(subcontainer);
+		return container;
+	}
+	
+	private JPanel absolutesPanel(){
+		JPanel container = new JPanel();
+		container.setLayout(new GridLayout(1,2));
+		container.add(new PiChartAnswerOverview(overviewList.getSelectedValue()));
+		container.add(new AbsoluteAnswerOverview(overviewList.getSelectedValue()));
 		return container;
 	}
 	
