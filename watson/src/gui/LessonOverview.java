@@ -44,6 +44,7 @@ import java.awt.Window;
 import util.Lesson;
 import io.FileManager;
 import stats.TimeOverview;
+import stats.AnswerOverview;
 
 public class LessonOverview extends JFrame{
 	
@@ -52,7 +53,7 @@ public class LessonOverview extends JFrame{
 	public static final long serialVersionUID = 5543266543547765465L;
 	
 	private OverviewList overviewList;
-	private JPanel overviewPanel;
+	private JPanel overviewPanel, statsPanel;
 	private static final String TOOLBAR_BUTTON = "toolbarButton";
 	
 	public LessonOverview(){
@@ -284,12 +285,20 @@ public class LessonOverview extends JFrame{
 		overviewList.addListSelectionListener(new ListSelectionListener(){
 			@Override
 			public void valueChanged(ListSelectionEvent e){
-				overviewPanel.add(new TimeOverview(overviewList.getSelectedValue()), SOUTH);
+				reloadStatsPanel();
+				overviewPanel.add(statsPanel, SOUTH);
 				LessonOverview.this.validate();
 				LessonOverview.this.repaint();
 			}
 		});
 		return new JScrollPane(overviewList);
+	}
+	
+	private void reloadStatsPanel(){
+		statsPanel = new JPanel();
+		statsPanel.setLayout(new GridLayout(1, 2));
+		statsPanel.add(new TimeOverview(overviewList.getSelectedValue()));
+		statsPanel.add(new AnswerOverview(overviewList.getSelectedValue()));
 	}
 	
 	private void startInterrogation(){

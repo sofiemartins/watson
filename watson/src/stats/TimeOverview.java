@@ -5,6 +5,7 @@ import javax.swing.JPanel;
 import java.awt.Dimension;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
+import java.awt.RenderingHints;
 import java.awt.image.BufferedImage;
 import java.util.LinkedList;
 
@@ -25,11 +26,17 @@ public class TimeOverview extends JPanel{
 	}
 	
 	@Override
-	public void paintComponent(Graphics g){
-		super.paintComponent(g);
+	public void paintComponent(Graphics graphics){
+		super.paintComponent(graphics);
+		Graphics2D g = (Graphics2D)graphics;
+		antialiasing(g);
 		drawTimeAxis(g);
 		drawYAxis(g);
 		//plotWrongAnswers((Graphics2D)g);
+	}
+	
+	private void antialiasing(Graphics2D g){
+		g.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
 	}
 	
 	private void drawTimeAxis(Graphics g){

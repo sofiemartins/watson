@@ -12,7 +12,7 @@ public class Lesson implements Serializable{
 	private String title;
 	protected ArrayList<Card> cards;
 	private Card currentCard;
-	private Stats stats;
+	private Stats stats = new Stats();
 	
 	public Lesson(){
 		cards = new ArrayList<Card>();

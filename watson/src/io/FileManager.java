@@ -39,6 +39,7 @@ public class FileManager {
 			lessons = (ArrayList<Lesson>) objectInputStream.readObject(); // TODO:Fix this so the warning disappears
 			objectInputStream.close();
 			for(Lesson lesson : lessons){
+				System.out.println("Reading lesson " + lesson.toString());//TODO
 				lesson.resetCurrentCard();
 				for(Card card : lesson.getCards()){
 					int cardIndex = lesson.getCards().indexOf(card);
@@ -73,7 +74,9 @@ public class FileManager {
 		makeSureFileExists();
 		File file = new File(filename);
 		file.delete();
+		makeSureFileExists();
 		for(Lesson lesson : lessons){
+			System.out.println("Writing lesson " + lesson.toString());//TODO
 			for(Card card : lesson.getCards()){
 				int cardIndex = lesson.getCards().indexOf(card);
 				ImageIO.write(card.getFirstSide(), "png", new File("img_data/"+lesson.toString()+"-"+cardIndex+"-A"));

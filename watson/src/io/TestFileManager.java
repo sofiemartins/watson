@@ -109,4 +109,23 @@ public class TestFileManager {
 			fail("Unexpected exception");
 		}
 	}
+	
+	@Test
+	public void testTwoLessonsCanBeSaved(){
+		Lesson.allLessons.add(new Lesson());
+		try{
+			FileManager.save(Lesson.allLessons);
+		}catch(IOException e){
+			fail("Exception thrown while saving.");
+		}
+		Lesson.allLessons = new ArrayList<Lesson>();
+		try{
+			Lesson.allLessons = FileManager.getLessons();
+		}catch(Exception e){
+			fail("Exception thrown while loading.");
+		}
+		assertEquals(1, Lesson.allLessons.size());
+		Lesson.allLessons.add(new Lesson());
+		assertEquals(2, Lesson.allLessons.size());
+	}
 }
