@@ -2,6 +2,8 @@ package stats;
 
 import javax.swing.JPanel;
 
+import editor.Toolbar;
+
 import java.awt.Polygon;
 import java.awt.AlphaComposite;
 import java.awt.BasicStroke;
@@ -44,11 +46,11 @@ public class AnswerOverview extends JPanel{
 	
 	private void fillCircle(double angleOfColorChange, Graphics2D g){
 		g.setStroke(new BasicStroke(2, BasicStroke.CAP_ROUND, BasicStroke.JOIN_ROUND));
-		g.setColor(Color.red);
+		g.setColor(Toolbar.red);
 		for(double phi = 0; phi < angleOfColorChange; phi+=0.005*Math.PI){
 			fillCircleSegment(phi, 0.006*Math.PI, g);
 		}
-		g.setColor(Color.green);
+		g.setColor(Toolbar.green);
 		for(double phi = angleOfColorChange; phi < 2*Math.PI; phi+=0.005*Math.PI){
 			fillCircleSegment(phi, 0.006*Math.PI, g);
 		}
@@ -62,9 +64,9 @@ public class AnswerOverview extends JPanel{
 		imageGraphics.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
 		fillCircle(lesson.getStats().getTotalNumberOfWrongAnswers()*anglePerAnswer(), imageGraphics);
 		if(getHeight()>=getWidth()){
-			g.drawImage(plot, 0, 0, getWidth(), getWidth(), null);
+			g.drawImage(plot, 0, 0, getWidth()-20, getWidth()-20, null);
 		}else{
-			g.drawImage(plot, 0, 0, getHeight(), getHeight(), null);
+			g.drawImage(plot, 0, 0, getHeight()-20, getHeight()-20, null);
 		}
 	}
 	

@@ -35,6 +35,14 @@ public class Toolbar extends JPanel{
 	private ActionListener actionListener;
 	private static final String TOOLBAR_BUTTON = "toolbarButton";
 	
+	/**
+	 * Colors 
+	 */
+	public static final Color black = new Color(80, 80, 80);
+	public static final Color green = new Color(123, 181, 166);
+	public static final Color blue = new Color(66, 133, 244);
+	public static final Color red = new Color(238, 128, 110);
+			
 	public Toolbar(){
 		addComponents();
 	}
@@ -384,10 +392,10 @@ public class Toolbar extends JPanel{
 		}
 	}
 	
-	private ColorButton colorButton1 = getColorButton(new Color(80, 80, 80));
-	private ColorButton colorButton2 = getColorButton(new Color(123, 181, 166));
-	private ColorButton colorButton3 = getColorButton(new Color(66, 133, 244));
-	private ColorButton colorButton4 = getColorButton(new Color(238, 128, 110));
+	private ColorButton colorButton1 = getColorButton(black);
+	private ColorButton colorButton2 = getColorButton(green);
+	private ColorButton colorButton3 = getColorButton(blue);
+	private ColorButton colorButton4 = getColorButton(red);
 		
 	private ColorButton getColorButton(Color color){
 		ColorButton button = new ColorButton(color);
