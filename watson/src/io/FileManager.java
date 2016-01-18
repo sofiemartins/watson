@@ -29,6 +29,7 @@ public class FileManager {
 	// default filename that can be saved for testing the program without destroying data.
 	protected static String filename = "lessons.watson"; 
 	
+	@SuppressWarnings("unchecked")
 	public static ArrayList<Lesson> getLessons() throws Exception{
 		makeSureFileExists();
 		ArrayList<Lesson> lessons;

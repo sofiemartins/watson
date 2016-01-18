@@ -11,6 +11,7 @@ import java.util.ArrayList;
 
 import util.Card;
 import util.Lesson;
+import util.StatsSet;
 
 public class ShowCardFrame extends JFrame{
 	
@@ -28,6 +29,7 @@ public class ShowCardFrame extends JFrame{
 		currentLesson = lesson;
 		currentLesson.resetCurrentCard();
 		cardDisplayed = lesson.getCurrentCard();
+		lesson.getStats().startPractising();
 		setUpFrame();
 	}
 	
@@ -68,7 +70,7 @@ public class ShowCardFrame extends JFrame{
 	}
 	
 	private AnswerPanel getAnswerPanel(){
-		AnswerPanel panel = new AnswerPanel();
+		AnswerPanel panel = new AnswerPanel(currentLesson);
 		panel.addActionListener(new ActionListener(){
 			@Override
 			public void actionPerformed(ActionEvent e){

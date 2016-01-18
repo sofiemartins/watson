@@ -8,6 +8,8 @@ import java.awt.event.ActionEvent;
 import java.awt.GridLayout;
 import java.awt.KeyboardFocusManager;
 
+import util.Lesson;
+
 public class AnswerPanel extends JPanel{
 	
 	private class Dispatcher implements KeyEventDispatcher{
@@ -44,12 +46,15 @@ public class AnswerPanel extends JPanel{
 	private Dispatcher keyEventDispatcher = new Dispatcher();
 	private KeyboardFocusManager manager = KeyboardFocusManager.getCurrentKeyboardFocusManager();
 	
-	public AnswerPanel(){
+	private Lesson lesson;
+	
+	public AnswerPanel(Lesson currentLesson){
 		setLayout(new GridLayout(1,2));
 		setSize(800,500);
 		add(rightButton);
 		add(wrongButton);
 		manager.addKeyEventDispatcher(keyEventDispatcher);
+		lesson = currentLesson;
 		setVisible(true);
 	}
 	
@@ -69,6 +74,7 @@ public class AnswerPanel extends JPanel{
 	}
 	
 	private void answerRight(){
+		lesson.answeredRight();
 		actionListener.actionPerformed(new AnswerEvent(this, ActionEvent.ACTION_PERFORMED, "Question has been answered.", true));
 
 	}
@@ -85,6 +91,7 @@ public class AnswerPanel extends JPanel{
 	}
 	
 	private void answerWrong(){
+		lesson.answeredWrong();
 		actionListener.actionPerformed(new AnswerEvent(this, ActionEvent.ACTION_PERFORMED, "Question has been answered.", false));
 	}
 	

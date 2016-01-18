@@ -42,4 +42,8 @@ public class Stats implements Serializable{
 	public int getTotalNumberOfAnswers(){ //TODO: use something bigger than int
 		return getTotalNumberOfWrongAnswers() + getTotalNumberOfRightAnswers();
 	}
+	
+	public void startPractising(){
+		statsList.add(new StatsSet());
+	}
 }

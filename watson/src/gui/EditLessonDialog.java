@@ -180,7 +180,6 @@ public class EditLessonDialog extends JFrame implements KeyListener{
 		button.addActionListener(new ActionListener(){
 			@Override
 			public void actionPerformed(ActionEvent e){
-				showLessonOverview();
 				saveAndCloseDialog();
 			}
 		});
@@ -199,6 +198,7 @@ public class EditLessonDialog extends JFrame implements KeyListener{
 			JOptionPane.showMessageDialog(EditLessonDialog.this, 
 					"An error occurred while reading the file. Please check file permissions or reinstall.");
 		}
+		showLessonOverview();
 		EditLessonDialog.this.dispose();
 	}
 	
@@ -208,6 +208,7 @@ public class EditLessonDialog extends JFrame implements KeyListener{
 			if(lesson.toString().equals(newLesson.toString())){
 				int index = Lesson.allLessons.indexOf(lesson);
 				Lesson.allLessons.set(index, newLesson);
+				System.out.println("replacing lesson " + lesson.toString() + " with lesson " + newLesson.toString());//TODO:
 				hasBeenReplaced = true;
 			}
 		}

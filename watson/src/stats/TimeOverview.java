@@ -3,6 +3,8 @@ package stats;
 import javax.swing.JPanel;
 
 import java.awt.Dimension;
+import java.awt.Font;
+import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.RenderingHints;
@@ -30,9 +32,7 @@ public class TimeOverview extends JPanel{
 		super.paintComponent(graphics);
 		Graphics2D g = (Graphics2D)graphics;
 		antialiasing(g);
-		drawTimeAxis(g);
-		drawYAxis(g);
-		//plotWrongAnswers((Graphics2D)g);
+		plotDataIfPresent(g);
 	}
 	
 	private void antialiasing(Graphics2D g){
@@ -51,6 +51,18 @@ public class TimeOverview extends JPanel{
 		g.drawLine(5, 5, 7, 7);
 		g.drawLine(5, 5, 3, 7);
 		g.drawString("number of wrong answers", 10, 15);
+	}
+	
+	private void plotDataIfPresent(Graphics2D g){
+		if(lesson.getStats().getStatsList().isEmpty()){
+			g.setColor(new Color(180, 180, 180));
+			g.setFont(new Font("Times New Roman", Font.PLAIN, 20));
+			g.drawString("No data present", 5, 30);
+		}else{
+			drawTimeAxis(g);
+			drawYAxis(g);
+			plotWrongAnswers(g);
+		}
 	}
 	
 	private void plotWrongAnswers(Graphics2D graphics){
