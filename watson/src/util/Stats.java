@@ -13,7 +13,7 @@ public class Stats implements Serializable{
 		statsList.add(stats);
 	}
 	
-	public LinkedList<StatsSet> getStats(){
-		return statsList;
-	}
+	public StatsSet getCurrentStatsSet(){
+		return statsList.getLast();
+	} 
 }

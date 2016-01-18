@@ -12,7 +12,7 @@ public class Lesson implements Serializable{
 	private String title;
 	protected ArrayList<Card> cards;
 	private Card currentCard;
-	private int tries = 0;
+	private Stats stats;
 	
 	public Lesson(){
 		cards = new ArrayList<Card>();
@@ -33,7 +33,7 @@ public class Lesson implements Serializable{
 	}
 	
 	public String toString(){
-		return "(" + tries + ") " + title;
+		return title;
 	}
 	
 	public Card getCurrentCard(){
@@ -108,8 +108,16 @@ public class Lesson implements Serializable{
 		return cards;
 	}
 	
-	public void incrementNumberOfTries(){
-		tries++;
+	public void startPractising(){
+		stats.addStats(new StatsSet());
+	}
+	
+	public void answeredRight(){
+		stats.getCurrentStatsSet().answeredRight();
+	}
+	
+	public void answeredWrong(){
+		stats.getCurrentStatsSet().answeredWrong();
 	}
 	
 	public void resetCurrentCard(){
