@@ -53,7 +53,8 @@ public class LessonOverview extends JFrame{
 	public static final long serialVersionUID = 5543266543547765465L;
 	
 	private OverviewList overviewList;
-	private JPanel overviewPanel, statsPanel;
+	private JPanel overviewPanel;
+	private JPanel statsPanel = new JPanel();
 	private static final String TOOLBAR_BUTTON = "toolbarButton";
 	
 	public LessonOverview(){
@@ -105,7 +106,13 @@ public class LessonOverview extends JFrame{
 		overviewPanel = getOverview();
 		add(overviewPanel, CENTER);
 		add(getButtonPanel(), EAST);
+		setUpStatsPanel();
 		setVisible(true);
+	}
+	
+	private void setUpStatsPanel(){
+		statsPanel = new JPanel();
+		statsPanel.setLayout(new GridLayout(1, 2));
 	}
 	
 	private JPanel getButtonPanel(){
@@ -287,7 +294,9 @@ public class LessonOverview extends JFrame{
 			@Override
 			public void valueChanged(ListSelectionEvent e){
 				reloadStatsPanel();
-				overviewPanel.add(statsPanel, SOUTH);
+				if(statsPanel.getParent()==null){
+					overviewPanel.add(statsPanel, SOUTH);
+				}
 				LessonOverview.this.validate();
 				LessonOverview.this.repaint();
 			}
@@ -296,8 +305,7 @@ public class LessonOverview extends JFrame{
 	}
 	
 	private void reloadStatsPanel(){
-		statsPanel = new JPanel();
-		statsPanel.setLayout(new GridLayout(1, 2));
+		statsPanel.removeAll();
 		statsPanel.add(new TimeOverview(overviewList.getSelectedValue()));
 		statsPanel.add(new AnswerOverview(overviewList.getSelectedValue()));
 	}

@@ -59,6 +59,7 @@ public class TimeOverview extends JPanel{
 			g.setFont(new Font("Times New Roman", Font.PLAIN, 20));
 			g.drawString("No data present", 5, 30);
 		}else{
+			g.setColor(new Color(80, 80, 80));
 			drawTimeAxis(g);
 			drawYAxis(g);
 			plotWrongAnswers(g);
@@ -71,6 +72,7 @@ public class TimeOverview extends JPanel{
 		StatsSet lastSet = null;
 		for(StatsSet set : statistics.getStatsList()){
 			if(lastSet!=null){
+				g.setColor(Color.red);
 				g.drawLine((int)(lastSet.getTimestamp().getTime()*timestampImageRatio()), 
 							getHeight()-(int)(lastSet.getNumberOfWrongAnswers()*wrongAnswerImageRatio()), 
 							(int)(set.getTimestamp().getTime()*timestampImageRatio()), 
