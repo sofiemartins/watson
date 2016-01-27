@@ -127,4 +127,8 @@ public class Lesson implements Serializable{
 	public Stats getStats(){
 		return stats;
 	}
+	
+	public double getRightAnswerRatio(){
+		return ((double)stats.getTotalNumberOfRightAnswers()/(double)stats.getTotalNumberOfAnswers());
+	}
 }
