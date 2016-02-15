@@ -354,5 +354,6 @@ public class LessonOverview extends JFrame{
 	private void startInterrogation(){
 		Lesson selectedLesson = overviewList.getSelectedValue();
 		new Interrogation(selectedLesson);
+		LessonOverview.super.dispose();
 	}
 }

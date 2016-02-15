@@ -11,7 +11,7 @@ import java.util.ArrayList;
 
 import util.Card;
 import util.Lesson;
-import util.StatsSet;
+import gui.LessonOverview;
 
 public class ShowCardFrame extends JFrame{
 	
@@ -78,6 +78,7 @@ public class ShowCardFrame extends JFrame{
 				answers.add(new Boolean(event.getAnswer()));
 				if(interrogationEnd()){
 					ShowCardFrame.this.dispose();
+					new LessonOverview();
 				}else if(isLastCardOnStack()){
 					currentLesson = getSubLessonFromWrongAnswers();
 					answers = new ArrayList<Boolean>();
