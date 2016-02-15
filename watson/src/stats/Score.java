@@ -21,7 +21,6 @@ public class Score implements Serializable{
 	public void lessonPractised(Lesson lesson){
 		long additionalScore = getAdditionalScore(lesson);
 		additionalScore = getLessonPractisedOnExtra(new Date(), lesson, additionalScore);//TODO: this is bad design
-		System.out.println(additionalScore);//TODO
 		score +=additionalScore;
 		lastPractised = new Date();
 	}

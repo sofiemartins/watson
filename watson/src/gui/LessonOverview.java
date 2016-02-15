@@ -85,7 +85,6 @@ public class LessonOverview extends JFrame{
 	protected void loadLessons(){
 		try{
 			Lesson.allLessons = FileManager.getLessons();
-			System.out.println("Lessons were loaded. The number of currently loaded lessons is: " + Lesson.allLessons.size());
 		}catch(Exception e){
 			e.printStackTrace();
 			JOptionPane.showMessageDialog(this, "A severe error occurred. To fix this, please reinstall the program.", 

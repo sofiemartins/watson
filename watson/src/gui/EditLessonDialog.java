@@ -208,7 +208,6 @@ public class EditLessonDialog extends JFrame implements KeyListener{
 			if(lesson.toString().equals(newLesson.toString())){
 				int index = Lesson.allLessons.indexOf(lesson);
 				Lesson.allLessons.set(index, newLesson);
-				System.out.println("replacing lesson " + lesson.toString() + " with lesson " + newLesson.toString());//TODO:
 				hasBeenReplaced = true;
 			}
 		}
