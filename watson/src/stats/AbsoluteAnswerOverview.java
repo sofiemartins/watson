@@ -1,14 +1,15 @@
 package stats;
 
 import javax.swing.JPanel;
-import java.awt.Graphics;
-import java.awt.Graphics2D;
-import java.awt.RenderingHints;
+import javax.swing.JLabel;
 import java.awt.Font;
+import java.awt.GridLayout;
+import java.awt.event.ComponentListener;
+import java.awt.event.ComponentEvent;
 
 import util.Lesson;
 
-public class AbsoluteAnswerOverview extends JPanel{
+public class AbsoluteAnswerOverview extends JPanel implements ComponentListener{
 	
 	public static final long serialVersionUID = 2665437768845653425L;
 	
@@ -16,20 +17,95 @@ public class AbsoluteAnswerOverview extends JPanel{
 	
 	public AbsoluteAnswerOverview(Lesson lessonDisplayed){
 		lesson = lessonDisplayed;
+		addComponentListener(this);
+		addLabels();
 	}
 	
-	@Override
-	public void paintComponent(Graphics graphics){
-		super.paintComponent(graphics);
-		Graphics2D g = (Graphics2D)graphics;
-		g.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
-		g.setFont(new Font("Times New Roman", Font.BOLD, 15));
-		g.drawString("Absolute values:", 10, 15);
-		g.setFont(new Font("Times New Roman", Font.PLAIN, 15));
-		g.drawString("Times practised: " + lesson.getStats().getStatsList().size(), 10, 35);
-		g.drawString("Number of Right Answers: " + lesson.getStats().getTotalNumberOfRightAnswers(), 10, 55);
-		g.drawString("Number of Wrong Answers: " + lesson.getStats().getTotalNumberOfWrongAnswers(), 10, 75);
-		g.drawString("Score: ", 10, 95);
+	private void addLabels(){
+		setLayout(new GridLayout(5, 1));
+		add(getCaptionLabel());
+		add(getTimesPractisedLabel());
+		add(getRightAnswersLabel());
+		add(getWrongAnswersLabel());
+		add(getScoreLabel());
+	}
+	
+	private JLabel getCaptionLabel(){
+		String label;
+		if(getWidth()<100){
+			label = "<html>Absolute<br>Values</html>";
+		}else{
+			label = "Absolute Value";
+		}
+		JLabel caption = new JLabel(label);
+		caption.setFont(new Font("Times New Roman", Font.PLAIN, 10));
+		return caption;
+	}
+	
+	private JLabel getTimesPractisedLabel(){
+		String label;
+		if(getWidth()<100){
+			label = "<html>Times<br>Practised<br>" + lesson.getStats().getStatsList().size() + "</html>";
+		}else{
+			label = "Times Practised " + lesson.getStats().getStatsList().size();
+		}
+		JLabel timesPractised = new JLabel(label);
+		timesPractised.setFont(new Font("Times New Roman", Font.PLAIN, 10));
+		return timesPractised;
+	}
+	
+	private JLabel getRightAnswersLabel(){
+		String label;
+		if(getWidth()<100){
+			label = "<html>Right<br>Answers:<br>" + lesson.getStats().getTotalNumberOfRightAnswers() + "</html>";
+		}else{
+			label = "Right Answers: " + lesson.getStats().getTotalNumberOfRightAnswers();
+		}
+		JLabel rightAnswers = new JLabel(label);
+		rightAnswers.setFont(new Font("Times New Roman", Font.PLAIN, 10));
+		return rightAnswers;
+	}
+	
+	private JLabel getWrongAnswersLabel(){
+		String label;
+		if(getWidth()<100){
+			label = "<html>Wrong<br>Answers:<br>" + lesson.getStats().getTotalNumberOfWrongAnswers() + "</html>";
+		}else{
+			label = "Wrong Answers: " + lesson.getStats().getTotalNumberOfWrongAnswers();
+		}
+		JLabel wrongAnswers = new JLabel(label);
+		wrongAnswers.setFont(new Font("Times New Roman", Font.PLAIN, 10));
+		return wrongAnswers;
+	}
+	
+	private JLabel getScoreLabel(){
+		String label;
+		if(getWidth()<100){
+			label = "<html>Score:</html>";
+		}else{
+			label = "Score: ";
+		}
+		JLabel score = new JLabel(label);
+		score.setFont(new Font("Times New Roman", Font.PLAIN, 10));
+		return score;
 	}
 
+	@Override
+	public void componentHidden(ComponentEvent e) {}
+
+	@Override
+	public void componentMoved(ComponentEvent e) {}
+
+	@Override
+	public void componentResized(ComponentEvent e) {
+		removeAll();
+		addLabels();
+		revalidate();
+		repaint();
+	}
+
+	@Override
+	public void componentShown(ComponentEvent e) {}
+	
+	
 }
