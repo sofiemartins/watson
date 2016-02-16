@@ -43,8 +43,9 @@ public class PiChartAnswerOverview extends JPanel{
 	}
 	
 	private void drawCaption(Graphics g){
+		g.setColor(new Color(50, 50, 50));
 		g.setFont(new Font("Times New Roman", Font.BOLD, 10));
-		g.drawString("Percentage of Wrong Answers", 30, 15);
+		g.drawString("Percentage of Wrong Answers", 10, 10);
 	}
 	
 	private void drawDataIfPresent(Graphics2D g){
