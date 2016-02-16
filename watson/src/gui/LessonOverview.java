@@ -39,6 +39,8 @@ import static java.awt.BorderLayout.*;
 import java.awt.GridLayout;
 import java.awt.Image;
 import java.awt.Window;
+import java.awt.event.ComponentListener;
+import java.awt.event.ComponentEvent;
 
 //local
 import util.Lesson;
@@ -47,7 +49,7 @@ import stats.TimeOverview;
 import stats.PiChartAnswerOverview;
 import stats.AbsoluteAnswerOverview;
 
-public class LessonOverview extends JFrame{
+public class LessonOverview extends JFrame implements ComponentListener{
 	
 	//TODO: Make it possible to maximize the frame!
 	
@@ -63,6 +65,7 @@ public class LessonOverview extends JFrame{
 		loadLessons();
 		setupFrameLayout();
 		initLookAndFeel();
+		addComponentListener(this);
 	}
 	
 	private void initLookAndFeel(){
@@ -146,6 +149,7 @@ public class LessonOverview extends JFrame{
 		button.setName(TOOLBAR_BUTTON);
 		button.setVerticalTextPosition(SwingConstants.BOTTOM);
 		button.setHorizontalTextPosition(SwingConstants.CENTER);
+		button.setSize(100, 100);
 		setIcon(button, "add.png");
 		button.addActionListener(new ActionListener(){
 			@Override
@@ -319,7 +323,9 @@ public class LessonOverview extends JFrame{
 	
 	private void reloadStatsPanel(){
 		statsPanel.removeAll();
-		statsPanel.add(getTimeOverview());
+		if(getWidth()>600){
+			statsPanel.add(getTimeOverview());
+		}
 		statsPanel.add(getAnswerOverview());
 	}
 	
@@ -348,7 +354,9 @@ public class LessonOverview extends JFrame{
 	private JPanel absolutesPanel(){
 		JPanel container = new JPanel();
 		container.setLayout(new GridLayout(1,2));
-		container.add(new PiChartAnswerOverview(overviewList.getSelectedValue()));
+		if(getWidth()>400){
+			container.add(new PiChartAnswerOverview(overviewList.getSelectedValue()));
+		}
 		container.add(new AbsoluteAnswerOverview(overviewList.getSelectedValue()));
 		return container;
 	}
@@ -358,4 +366,23 @@ public class LessonOverview extends JFrame{
 		new Interrogation(selectedLesson);
 		LessonOverview.super.dispose();
 	}
+
+	@Override
+	public void componentHidden(ComponentEvent e) {}
+
+	@Override
+	public void componentMoved(ComponentEvent e) {}
+
+	@Override
+	public void componentResized(ComponentEvent e) {
+		if(statsPanel.isValid()){
+			reloadStatsPanel();
+			repaint();
+			revalidate();
+		}
+	}
+
+	@Override
+	public void componentShown(ComponentEvent e) {}
+	
 }
