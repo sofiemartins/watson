@@ -150,8 +150,8 @@ public class LessonOverview extends JFrame{
 		button.addActionListener(new ActionListener(){
 			@Override
 			public void actionPerformed(ActionEvent e){
-				createNewLesson();
-				LessonOverview.super.dispose();
+				if(createNewLesson())
+					LessonOverview.super.dispose();
 			}
 		});
 		container.add(button);
@@ -180,11 +180,13 @@ public class LessonOverview extends JFrame{
 		return container;
 	}
 	
-	protected static void createNewLesson(){
+	protected static boolean createNewLesson(){
 		String validTitle = getValidTitle();
 		if(!validTitle.equals("-1")){//TODO: find a better way for dealing with the cancel button!
 			new EditLessonDialog(new Lesson(validTitle));
+			return true;
 		}
+		return false;
 	}
 	
 	//TODO: clean up
