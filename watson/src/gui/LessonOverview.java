@@ -34,6 +34,7 @@ import java.io.IOException;
 import java.awt.event.ActionEvent;
 import java.awt.BorderLayout;
 import java.awt.Color;
+import java.awt.Dimension;
 
 import static java.awt.BorderLayout.*;
 import java.awt.GridLayout;
@@ -108,6 +109,7 @@ public class LessonOverview extends JFrame implements ComponentListener{
 	
 	private void setupFrameLayout(){
 		setSize(500, 500);
+		setMinimumSize(new Dimension(300, 400));
 		setDefaultCloseOperation(DISPOSE_ON_CLOSE);
 		//setExtendedState(JFrame.MAXIMIZED_BOTH);
 		setLayout(new BorderLayout());
