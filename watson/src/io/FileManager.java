@@ -35,6 +35,7 @@ public class FileManager {
 		waitForUnlock();
 		lockFile();
 		makeSureFileExists();
+		makeSureDirectoryExists();
 		ArrayList<Lesson> lessons;
 		if(isFileEmpty()){
 			lessons = new ArrayList<Lesson>();
@@ -94,14 +95,22 @@ public class FileManager {
 		}
 	}
 	
+	private static void makeSureDirectoryExists() {
+		File dir = new File("img_data");
+		if(!dir.exists()){
+			dir.mkdir();
+		}
+	}
+	
 	public static void save(ArrayList<Lesson> lessons) throws IOException{
 		waitForUnlock();
 		lockFile();
-		//save all images to img_data
-		makeSureFileExists();
 		File file = new File(filename);
-		file.delete();
+		if(file.exists()){ file.delete(); }
+		File dir = new File("img_data");
+		if(dir.exists()){ dir.delete(); }
 		makeSureFileExists();
+		makeSureDirectoryExists();
 		for(Lesson lesson : lessons){
 			for(Card card : lesson.getCards()){
 				int cardIndex = lesson.getCards().indexOf(card);
