@@ -128,4 +128,18 @@ public class TestFileManager {
 		Lesson.allLessons.add(new Lesson());
 		assertEquals(2, Lesson.allLessons.size());
 	}
+	
+	@Test 
+	public void testLock(){
+		try{
+			FileManager.makeSureFileExists();
+		}catch(IOException e){
+			fail("File could not be created.");
+		}
+		assertFalse(FileManager.isFileLocked());
+		FileManager.lockFile();
+		assertTrue(FileManager.isFileLocked());
+		FileManager.unlockFile();
+		assertFalse(FileManager.isFileLocked());
+	}
 }

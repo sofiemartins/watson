@@ -104,9 +104,9 @@ public class LessonOverview extends JFrame{
 	}
 	
 	private void setupFrameLayout(){
-		setSize(800,500);
+		setSize(500, 500);
 		setDefaultCloseOperation(DISPOSE_ON_CLOSE);
-		setExtendedState(JFrame.MAXIMIZED_BOTH);
+		//setExtendedState(JFrame.MAXIMIZED_BOTH);
 		setLayout(new BorderLayout());
 		overviewPanel = getOverview();
 		add(overviewPanel, CENTER);

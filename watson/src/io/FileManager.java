@@ -28,13 +28,17 @@ public class FileManager {
 	
 	// default filename that can be saved for testing the program without destroying data.
 	protected static String filename = "lessons.watson"; 
+	private static File lockFile = new File("watson.lock");
 	
 	@SuppressWarnings("unchecked")
 	public static ArrayList<Lesson> getLessons() throws Exception{
+		waitForUnlock();
+		lockFile();
 		makeSureFileExists();
 		ArrayList<Lesson> lessons;
 		if(isFileEmpty()){
 			lessons = new ArrayList<Lesson>();
+			System.out.println("File was empty");//TODO
 		}else{
 			ObjectInputStream objectInputStream = new ObjectInputStream(new FileInputStream(filename));
 			lessons = (ArrayList<Lesson>) objectInputStream.readObject(); // TODO:Fix this so the warning disappears
@@ -49,7 +53,30 @@ public class FileManager {
 				}
 			}
 		}
+		System.out.println("Number of loaded lessons: " + lessons.size()); //TODO
+		unlockFile();
 		return lessons;
+	}
+	
+	private static void waitForUnlock(){
+		Thread waiting = new Thread(){
+			@Override
+			public void run(){
+				while(isFileLocked()){
+					try{
+						Thread.sleep(1000);
+					}catch(InterruptedException e){
+						e.printStackTrace();//TODO: Exception handling
+					}
+				}
+			}
+		};
+		waiting.start();
+		try{
+			waiting.join();
+		}catch(InterruptedException e){
+			e.printStackTrace();//TODO: Exception handling
+		}
 	}
 	
 	protected static boolean isFileEmpty() throws IOException, FileNotFoundException{// TODO: More exception handling
@@ -70,6 +97,8 @@ public class FileManager {
 	}
 	
 	public static void save(ArrayList<Lesson> lessons) throws IOException{
+		waitForUnlock();
+		lockFile();
 		//save all images to img_data
 		makeSureFileExists();
 		File file = new File(filename);
@@ -85,6 +114,8 @@ public class FileManager {
 		ObjectOutputStream stream = new ObjectOutputStream(new FileOutputStream(filename));
 		stream.writeObject(lessons);
 		stream.close();
+		System.out.println("Saving finished");//TODO
+		unlockFile();
 	}
 	
 	/**
@@ -92,5 +123,23 @@ public class FileManager {
 	 */
 	public static void dryRun(){
 		filename = "test.watson";
+	}
+	
+	
+	//TODO: suppress warnings, channel will be closed somewhere else!
+	protected static void lockFile(){
+		try{
+			lockFile.createNewFile();
+		}catch(IOException e){
+			e.printStackTrace();//Exception handling
+		}
+	}
+	
+	protected static void unlockFile(){
+		lockFile.delete();
+	}
+	
+	protected static boolean isFileLocked(){
+		return lockFile.exists();
 	}
 }
