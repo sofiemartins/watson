@@ -1,7 +1,5 @@
 package editor;
 
-import javax.swing.JToggleButton;
-
 import gui.Editor;
 
 import java.awt.Graphics;
@@ -10,7 +8,7 @@ import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
 import static java.awt.event.ActionEvent.ACTION_PERFORMED;
 
-public class PenSizeButton extends JToggleButton implements ActionListener{
+public class PenSizeButton extends ToolbarButton implements ActionListener{
 	
 	public static final long serialVersionUID = 948886739228574838L;
 	

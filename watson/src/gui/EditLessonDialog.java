@@ -2,18 +2,17 @@ package gui;
 
 import javax.swing.JFrame;
 import javax.swing.JPanel;
-import javax.swing.JToggleButton;
 import javax.swing.JButton;
 import javax.imageio.ImageIO;
 import javax.swing.BorderFactory;
 import javax.swing.ImageIcon;
-import javax.swing.border.EmptyBorder;
 import javax.swing.JOptionPane;
 import static java.awt.BorderLayout.*;
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.GridLayout;
 import java.awt.Image;
+import java.awt.Dimension;
 import java.awt.event.KeyListener;
 import java.awt.image.BufferedImage;
 import java.awt.event.KeyEvent;
@@ -78,6 +77,7 @@ public class EditLessonDialog extends JFrame implements KeyListener{
 	
 	private void basicFrameSetup(){
 		setSize(800,500);
+		setMinimumSize(new Dimension(400,400));
 		setDefaultCloseOperation(DISPOSE_ON_CLOSE);
 		setLayout(new BorderLayout());
 		setExtendedState(JFrame.MAXIMIZED_BOTH);

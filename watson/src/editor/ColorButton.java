@@ -1,7 +1,5 @@
 package editor;
 
-import javax.swing.JToggleButton;
-
 import gui.Editor;
 
 import java.awt.Color;
@@ -10,7 +8,7 @@ import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
 import static java.awt.event.ActionEvent.ACTION_PERFORMED;
 
-public class ColorButton extends JToggleButton implements ActionListener{
+public class ColorButton extends ToolbarButton implements ActionListener{
 	
 	public static final long serialVersionUID = 366547611232432597L;
 	private ActionListener actionListener;

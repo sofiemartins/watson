@@ -1,7 +1,6 @@
 package editor;
 
 import javax.swing.JPanel;
-import javax.swing.JToggleButton;
 import javax.swing.SwingConstants;
 import javax.imageio.ImageIO;
 import javax.swing.BorderFactory;
@@ -14,8 +13,6 @@ import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.FlowLayout;
 import java.awt.Font;
-
-import static java.awt.Color.*;
 
 import java.awt.BorderLayout;
 import java.awt.Graphics;
@@ -179,8 +176,8 @@ public class Toolbar extends JPanel{
 	}
 	
 	private void addButtonsToPenTypePanel(JPanel container){
-		JToggleButton buttons[] = { penButton, eraserButton, markerButton };
-		for(JToggleButton button : buttons){
+		ToolbarButton buttons[] = { penButton, eraserButton, markerButton };
+		for(ToolbarButton button : buttons){
 			JPanel buttonContainer = new JPanel();
 			buttonContainer.setLayout(new GridLayout(1,1));
 			buttonContainer.add(button);
@@ -188,11 +185,11 @@ public class Toolbar extends JPanel{
 		}
 	}
 	
-	private JToggleButton penButton = getPenButton();
-	private JToggleButton eraserButton = getEraserButton();
-	private JToggleButton markerButton = getMarkerButton();
+	private ToolbarButton penButton = getPenButton();
+	private ToolbarButton eraserButton = getEraserButton();
+	private ToolbarButton markerButton = getMarkerButton();
 	
-	private void setIcon(JToggleButton button, String filepath){
+	private void setIcon(ToolbarButton button, String filepath){
 		BufferedImage image = null;
 		try{
 			image = ImageIO.read(new File(filepath));
@@ -202,13 +199,12 @@ public class Toolbar extends JPanel{
 		button.setIcon(new ImageIcon(image.getScaledInstance(25, 25, Image.SCALE_SMOOTH)));
 	}
 	
-	private JToggleButton getPenButton(){
-		JToggleButton button = new JToggleButton("Pen");
+	private ToolbarButton getPenButton(){
+		ToolbarButton button = new ToolbarButton("Pen");
 		button.setVerticalTextPosition(SwingConstants.BOTTOM);
 		button.setHorizontalTextPosition(SwingConstants.CENTER);
 		button.setPreferredSize(new Dimension(60, 60));
 		button.setBorder(new EmptyBorder(8, 4, 8, 8));
-		button.setName(TOOLBAR_BUTTON);
 		setIcon(button, "res/pen.png");
 		button.addActionListener(new ActionListener(){
 			@Override
@@ -224,13 +220,12 @@ public class Toolbar extends JPanel{
 		return button;
 	}
 	
-	private JToggleButton getEraserButton(){
-		JToggleButton button = new JToggleButton("Eraser");
+	private ToolbarButton getEraserButton(){
+		ToolbarButton button = new ToolbarButton("Eraser");
 		button.setVerticalTextPosition(SwingConstants.BOTTOM);
 		button.setHorizontalTextPosition(SwingConstants.CENTER);
 		button.setPreferredSize(new Dimension(60, 60));		
 		button.setBorder(new EmptyBorder(8, 4, 8, 4));
-		button.setName(TOOLBAR_BUTTON);
 		setIcon(button, "res/eraser.png");
 		button.addActionListener(new ActionListener(){
 			@Override
@@ -246,13 +241,12 @@ public class Toolbar extends JPanel{
 		return button;
 	}
 	
-	private JToggleButton getMarkerButton(){
-		JToggleButton button = new JToggleButton("Marker");
+	private ToolbarButton getMarkerButton(){
+		ToolbarButton button = new ToolbarButton("Marker");
 		button.setVerticalTextPosition(SwingConstants.BOTTOM);
 		button.setHorizontalTextPosition(SwingConstants.CENTER);
 		button.setPreferredSize(new Dimension(60, 60));		
 		button.setBorder(new EmptyBorder(8, 8, 8, 4));
-		button.setName(TOOLBAR_BUTTON);
 		setIcon(button, "res/marker.png");
 		button.addActionListener(new ActionListener(){
 			@Override
@@ -286,8 +280,8 @@ public class Toolbar extends JPanel{
 	}
 	
 	private void addButtonsToPenModePanel(JPanel container){
-		JToggleButton buttons[] = { rulerButton, rectangleButton };
-		for(JToggleButton button : buttons){
+		ToolbarButton buttons[] = { rulerButton, rectangleButton };
+		for(ToolbarButton button : buttons){
 			JPanel buttonContainer = new JPanel();
 			buttonContainer.setLayout(new GridLayout(1,1));
 			buttonContainer.add(button);
@@ -295,14 +289,13 @@ public class Toolbar extends JPanel{
 		}
 	}
 	
-	private JToggleButton rulerButton = getRulerButton();
-	private JToggleButton rectangleButton = getRectangleButton();
+	private ToolbarButton rulerButton = getRulerButton();
+	private ToolbarButton rectangleButton = getRectangleButton();
 	
-	private JToggleButton getRulerButton(){
-		JToggleButton button = new JToggleButton();
+	private ToolbarButton getRulerButton(){
+		ToolbarButton button = new ToolbarButton();
 		button.setPreferredSize(new Dimension(60, 60));
 		button.setBorder(new EmptyBorder(8, 4, 8, 8));
-		button.setName(TOOLBAR_BUTTON);
 		button.setIcon(new ImageIcon(getClass().getResource("ruler.png")));
 		button.addActionListener(new ActionListener(){
 			@Override
@@ -328,8 +321,8 @@ public class Toolbar extends JPanel{
 		return button;
 	}
 	
-	private JToggleButton getRectangleButton(){
-		JToggleButton button = new JToggleButton(){
+	private ToolbarButton getRectangleButton(){
+		ToolbarButton button = new ToolbarButton(){
 			public static final long serialVersionUID = 995847386758473869L;
 			
 			@Override
@@ -341,7 +334,6 @@ public class Toolbar extends JPanel{
 		};
 		button.setPreferredSize(new Dimension(60, 60));		
 		button.setBorder(new EmptyBorder(8, 8, 8, 4));
-		button.setName(TOOLBAR_BUTTON);
 		button.addActionListener(new ActionListener(){
 			@Override
 			public void actionPerformed(ActionEvent e){
@@ -383,8 +375,8 @@ public class Toolbar extends JPanel{
 	}
 	
 	private void addButtonsToColorPanel(JPanel container){
-		JToggleButton buttons[] = { colorButton1, colorButton2, colorButton3, colorButton4 };
-		for(JToggleButton button : buttons){
+		ToolbarButton buttons[] = { colorButton1, colorButton2, colorButton3, colorButton4 };
+		for(ToolbarButton button : buttons){
 			JPanel buttonPanel = new JPanel();
 			buttonPanel.setLayout(new GridLayout(1,1));
 			buttonPanel.add(button);
@@ -401,7 +393,6 @@ public class Toolbar extends JPanel{
 		ColorButton button = new ColorButton(color);
 		button.setPreferredSize(new Dimension(60, 60));
 		button.setBorder(new EmptyBorder(8, 8, 8, 8));
-		button.setName(TOOLBAR_BUTTON);
 		button.addActionListener(new ActionListener(){
 			@Override
 			public void actionPerformed(ActionEvent e){
@@ -437,8 +428,8 @@ public class Toolbar extends JPanel{
 	}
 	
 	private void addButtonsToPenSizePanel(JPanel container){
-		JToggleButton buttons[] = { fineButton, mediumButton, thickButton };
-		for(JToggleButton button : buttons){
+		ToolbarButton buttons[] = { fineButton, mediumButton, thickButton };
+		for(ToolbarButton button : buttons){
 			JPanel buttonPanel = new JPanel();
 			buttonPanel.setLayout(new GridLayout(1,1));
 			buttonPanel.add(button);
@@ -462,7 +453,6 @@ public class Toolbar extends JPanel{
 		PenSizeButton button = new PenSizeButton(penSize);
 		button.setPreferredSize(new Dimension(60, 60));
 		button.setBorder(new EmptyBorder(8, 8, 8, 8));
-		button.setName(TOOLBAR_BUTTON);
 		button.addActionListener(new ActionListener(){
 			@Override
 			public void actionPerformed(ActionEvent e){
