@@ -18,6 +18,8 @@ import java.awt.BasicStroke;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.awt.event.MouseMotionListener;
+import java.awt.event.ComponentListener;
+import java.awt.event.ComponentEvent;
 import java.awt.image.BufferedImage;
 import java.awt.image.ColorModel;
 import java.awt.image.WritableRaster;
@@ -26,7 +28,7 @@ import java.util.LinkedList;
 
 import static editor.PenMode.*;
 
-public class PaintingArea extends JPanel implements MouseListener, MouseMotionListener{
+public class PaintingArea extends JPanel implements MouseListener, MouseMotionListener, ComponentListener{
 	
 	public static final long serialVersionUID = 960493968771821243L;
 	public static final String UNDO = "undo";
@@ -62,6 +64,7 @@ public class PaintingArea extends JPanel implements MouseListener, MouseMotionLi
 		show(bufferedImage);
 		setUpPanel();
 		setUpImageGraphics();
+		addComponentListener(this);
 	}
 	
 	private void setUpPanel(){
@@ -378,4 +381,38 @@ public class PaintingArea extends JPanel implements MouseListener, MouseMotionLi
 			imagePanelHeightRatio = ((double)image.getHeight()/(double)getHeight());
 		}
 	}
+
+	@Override
+	public void componentHidden(ComponentEvent e) {}
+
+	@Override
+	public void componentMoved(ComponentEvent e) {}
+
+	@Override
+	public void componentResized(ComponentEvent e) {
+		BufferedImage resizedImage = new BufferedImage(getWidth(), getHeight(), BufferedImage.TYPE_INT_ARGB);
+		Graphics2D graphics = resizedImage.createGraphics();
+		LinkedList<BufferedImage> newSnapshotClipboard = new LinkedList<BufferedImage>();
+		for(BufferedImage img : snapshotClipboard){
+			graphics.drawImage(img, 0, 0, getWidth(), getHeight(), null);
+			newSnapshotClipboard.add(resizedImage);
+			resizedImage = new BufferedImage(getWidth(), getHeight(), BufferedImage.TYPE_INT_ARGB);
+			graphics = resizedImage.createGraphics();
+		}
+		snapshotClipboard = newSnapshotClipboard;
+		LinkedList<BufferedImage> newRedoClipboard = new LinkedList<BufferedImage>();
+		for(BufferedImage img : redoClipboard){
+			graphics.drawImage(img, 0, 0, getWidth(), getHeight(), null);
+			newRedoClipboard.add(resizedImage);
+			resizedImage = new BufferedImage(getWidth(), getHeight(), BufferedImage.TYPE_INT_ARGB);
+			graphics = resizedImage.createGraphics();
+		}
+		redoClipboard = newRedoClipboard;
+		graphics.drawImage(image, 0, 0, getWidth(), getHeight(), null);
+		image = resizedImage;
+		imageGraphics = image.createGraphics();
+	}
+	
+	@Override
+	public void componentShown(ComponentEvent e) {}
 }
