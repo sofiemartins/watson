@@ -35,8 +35,17 @@ public class TimeOverview extends JPanel{
 		super.paintComponent(graphics);
 		Graphics2D g = (Graphics2D)graphics;
 		antialiasing(g);
+		drawContent(g);
+	}
+	
+	private void drawContent(Graphics2D graphics){
+		BufferedImage layer = new BufferedImage(getWidth()+10, getHeight()+10, BufferedImage.TYPE_INT_ARGB);
+		Graphics2D g = layer.createGraphics();
+		antialiasing(g);
+		g.setColor(new Color(50, 50, 50));
 		drawCaption(g);
 		plotDataIfPresent(g);
+		graphics.drawImage(layer, 0, 0, getWidth(), getHeight(), null);
 	}
 	
 	private void antialiasing(Graphics2D g){
@@ -45,26 +54,29 @@ public class TimeOverview extends JPanel{
 	
 	private void drawCaption(Graphics g){
 		g.setFont(new Font("Times New Roman", Font.BOLD, 10));
-		g.drawString("Number of wrong answers in the last tries", 200, 15);
+		g.drawString("Number of wrong answers in the last tries", 10, 10);
 	}
 	
 	private void drawTimeAxis(Graphics g){
 		g.drawLine(2, getHeight()-20, getWidth()-10, getHeight()-20);
 		g.drawLine(getWidth()-10, getHeight()-20, getWidth()-12, getHeight()-22);
 		g.drawLine(getWidth()-10, getHeight()-20, getWidth()-12, getHeight()-18);
-		g.setFont(new Font("Times New Roman", Font.PLAIN, 10));
-		g.drawString("time", getWidth()-30, getHeight()-2);
+		g.setFont(new Font("Times New Roman", Font.PLAIN, 12));
+		g.drawString("time", getWidth()-30, getHeight()-4);
 	}
 	
 	private void drawYAxis(Graphics g){
 		g.drawLine(5, 5, 5, getHeight()-15);
 		g.drawLine(5, 5, 7, 7);
 		g.drawLine(5, 5, 3, 7);
-		g.setFont(new Font("Times New Roman", Font.PLAIN, 10));
-		g.drawString("number of wrong answers", 10, 15);
+		g.setFont(new Font("Times New Roman", Font.PLAIN, 12));
+		g.drawString("number of wrong answers", 10, 20);
 	}
 	
-	private void plotDataIfPresent(Graphics2D g){
+	private void plotDataIfPresent(Graphics2D graphics){
+		BufferedImage plot = new BufferedImage(getWidth(), getHeight(), BufferedImage.TYPE_INT_ARGB);
+		Graphics2D g = plot.createGraphics();
+		antialiasing(g);
 		if(lesson.getStats().getStatsList().isEmpty()){
 			g.setColor(new Color(180, 180, 180));
 			g.setFont(new Font("Times New Roman", Font.PLAIN, 20));
@@ -75,6 +87,8 @@ public class TimeOverview extends JPanel{
 			drawYAxis(g);
 			plotWrongAnswers(g);
 		}
+		int distanceToTop = 30;
+		graphics.drawImage(plot, (int)(distanceToTop/2), distanceToTop, getWidth()-(int)(distanceToTop/2), getHeight()-distanceToTop, null);
 	}
 	
 	private int imageResolution = 2000;
@@ -86,7 +100,7 @@ public class TimeOverview extends JPanel{
 		StatsSet lastSet = null;
 		for(StatsSet set : statistics.getStatsList()){
 			if(lastSet!=null){
-				g.setStroke(new BasicStroke(5, BasicStroke.CAP_ROUND, BasicStroke.JOIN_MITER));
+				g.setStroke(new BasicStroke(8, BasicStroke.CAP_ROUND, BasicStroke.JOIN_MITER));
 				g.setColor(Toolbar.red);
 				//TODO: clean this up ...
 				g.drawLine((int)(timeAxisValue(lastSet.getTimestamp().getTime())*timestampImageRatio()), 
