@@ -41,6 +41,11 @@ public class OverviewList extends JList<Lesson> implements MouseListener, KeyLis
 		setModel(listModel);
 	}
 	
+	public void update(){
+		addElements();
+		revalidate();
+	}
+	
 	public void addActionListener(ActionListener al){
 		actionListener = al;
 	}

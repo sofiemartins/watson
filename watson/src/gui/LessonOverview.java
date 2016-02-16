@@ -240,11 +240,24 @@ public class LessonOverview extends JFrame implements ComponentListener{
 		button.addActionListener(new ActionListener(){
 			@Override
 			public void actionPerformed(ActionEvent e){
-				//TODO: remove
+				removeSelectedLesson();
 			}
 		});
 		container.add(button);
 		return container;
+	}
+	
+	private void removeSelectedLesson(){
+		Lesson lesson = overviewList.getSelectedValue();
+		if(lesson!=null){
+			Lesson.allLessons.remove(lesson);
+			try{
+				FileManager.save(Lesson.allLessons);
+			}catch(IOException e){
+				e.printStackTrace();//Exception handling
+			}
+			overviewList.update();
+		}
 	}
 	
 	private JPanel getEditButton(){
@@ -324,11 +337,15 @@ public class LessonOverview extends JFrame implements ComponentListener{
 	}
 	
 	private void reloadStatsPanel(){
-		statsPanel.removeAll();
-		if(getWidth()>600){
-			statsPanel.add(getTimeOverview());
+		if(overviewList.isSelectionEmpty()){
+			statsPanel.setVisible(false);
+		}else{
+			statsPanel.removeAll();
+			if(getWidth()>600){
+				statsPanel.add(getTimeOverview());
+			}
+			statsPanel.add(getAnswerOverview());
 		}
-		statsPanel.add(getAnswerOverview());
 	}
 	
 	private JPanel getTimeOverview(){

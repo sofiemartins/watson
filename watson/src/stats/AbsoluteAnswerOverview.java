@@ -44,11 +44,14 @@ public class AbsoluteAnswerOverview extends JPanel implements ComponentListener{
 	
 	private JLabel getTimesPractisedLabel(){
 		String label;
-		if(getWidth()<100){
-			label = "<html>Times<br>Practised<br>" + lesson.getStats().getStatsList().size() + "</html>";
-		}else{
-			label = "Times Practised " + lesson.getStats().getStatsList().size();
-		}
+		if(lesson!=null){
+			if(getWidth()<100){
+				label = "<html>Times<br>Practised<br>" + lesson.getStats().getStatsList().size() + "</html>";
+			}else{
+				label = "Times Practised " + lesson.getStats().getStatsList().size();
+			}
+			
+		}else{ label = " "; }
 		JLabel timesPractised = new JLabel(label);
 		timesPractised.setFont(new Font("Times New Roman", Font.PLAIN, 10));
 		return timesPractised;
