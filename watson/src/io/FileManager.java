@@ -38,7 +38,6 @@ public class FileManager {
 		ArrayList<Lesson> lessons;
 		if(isFileEmpty()){
 			lessons = new ArrayList<Lesson>();
-			System.out.println("File was empty");//TODO
 		}else{
 			ObjectInputStream objectInputStream = new ObjectInputStream(new FileInputStream(filename));
 			lessons = (ArrayList<Lesson>) objectInputStream.readObject(); // TODO:Fix this so the warning disappears
@@ -53,7 +52,6 @@ public class FileManager {
 				}
 			}
 		}
-		System.out.println("Number of loaded lessons: " + lessons.size()); //TODO
 		unlockFile();
 		return lessons;
 	}
@@ -114,7 +112,6 @@ public class FileManager {
 		ObjectOutputStream stream = new ObjectOutputStream(new FileOutputStream(filename));
 		stream.writeObject(lessons);
 		stream.close();
-		System.out.println("Saving finished");//TODO
 		unlockFile();
 	}
 	
