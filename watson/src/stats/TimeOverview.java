@@ -117,7 +117,11 @@ public class TimeOverview extends JPanel{
 	}
 	
 	private double wrongAnswerImageRatio(){
-		return imageResolution / maxNumberOfWrongAnswers();
+		if(maxNumberOfWrongAnswers()==0){
+			return 1;
+		}else{
+			return imageResolution / maxNumberOfWrongAnswers();
+		}
 	}
 	
 	private int maxNumberOfWrongAnswers(){

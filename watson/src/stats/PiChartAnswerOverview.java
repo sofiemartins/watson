@@ -30,8 +30,16 @@ public class PiChartAnswerOverview extends JPanel{
 		super.paintComponent(graphics);
 		Graphics2D g = (Graphics2D)graphics;
 		g.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
+		paintContent(g);
+	}
+	
+	private void paintContent(Graphics2D graphics){
+		BufferedImage image = new BufferedImage(getWidth(), getHeight(), BufferedImage.TYPE_INT_ARGB);
+		Graphics2D g = image.createGraphics();
+		g.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
 		drawCaption(g);
 		drawDataIfPresent(g);
+		graphics.drawImage(image, 0, 0, getWidth(), getHeight(), null);
 	}
 	
 	private void drawCaption(Graphics g){

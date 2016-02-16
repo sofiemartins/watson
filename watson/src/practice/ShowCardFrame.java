@@ -1,5 +1,7 @@
 package practice;
 
+import io.FileManager;
+
 import javax.swing.JFrame;
 import javax.swing.BorderFactory;
 import javax.swing.JButton;
@@ -7,6 +9,7 @@ import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
 import java.awt.BorderLayout;
 import java.awt.Color;
+import java.io.IOException;
 import java.util.ArrayList;
 
 import util.Card;
@@ -77,8 +80,7 @@ public class ShowCardFrame extends JFrame{
 				AnswerEvent event = (AnswerEvent)e;
 				answers.add(new Boolean(event.getAnswer()));
 				if(interrogationEnd()){
-					ShowCardFrame.this.dispose();
-					new LessonOverview();
+					changeToLessonOverview();
 				}else if(isLastCardOnStack()){
 					currentLesson = getSubLessonFromWrongAnswers();
 					answers = new ArrayList<Boolean>();
@@ -99,6 +101,16 @@ public class ShowCardFrame extends JFrame{
 			}
 		}else{
 			return false;
+		}
+	}
+	
+	private void changeToLessonOverview(){
+		try{
+			FileManager.save(Lesson.allLessons);
+			new LessonOverview();
+			dispose();
+		}catch(IOException e){
+			e.printStackTrace();//TODO: Exception handling
 		}
 	}
 	
