@@ -43,9 +43,27 @@ public class PiChartAnswerOverview extends JPanel{
 	}
 	
 	private void drawCaption(Graphics g){
+		setUpPen(g);
+		drawStringScaling(g);
+	}
+	
+	private void setUpPen(Graphics g){
 		g.setColor(new Color(50, 50, 50));
 		g.setFont(new Font("Times New Roman", Font.BOLD, 10));
-		g.drawString("Percentage of Wrong Answers", 10, 10);
+	}
+	
+	private void drawStringScaling(Graphics g){
+		if(getWidth()<100){
+			g.drawString("Percentage", 10, 10);
+			g.drawString("of", 10, 20);
+			g.drawString("Wrong", 10, 30);
+			g.drawString("Answers", 10, 40);
+		}else if(getWidth()>=100 && getWidth()<200){
+			g.drawString("Percentage of", 10, 10);
+			g.drawString("Wrong Answers", 10, 20);
+		}else if(getWidth()>200){
+			g.drawString("Percentage of Wrong Answers", 10, 10);
+		}
 	}
 	
 	private void drawDataIfPresent(Graphics2D g){
@@ -78,7 +96,7 @@ public class PiChartAnswerOverview extends JPanel{
 		imageGraphics.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
 		fillCircle(lesson.getStats().getTotalNumberOfWrongAnswers()*anglePerAnswer(), imageGraphics);
 		if(getHeight()>=getWidth()){
-			g.drawImage(plot, 20, (getHeight()-getWidth())/2, getWidth()-30, getWidth()-30, null);
+			g.drawImage(plot, 20, ((getHeight()-getWidth())/2)+20, getWidth()-30, getWidth()-30, null);
 		}else{
 			g.drawImage(plot, (getWidth()-getHeight())/2, 20, getHeight()-30, getHeight()-30, null);
 		}
