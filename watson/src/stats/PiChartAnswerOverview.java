@@ -37,14 +37,8 @@ public class PiChartAnswerOverview extends JPanel{
 		BufferedImage image = new BufferedImage(getWidth(), getHeight(), BufferedImage.TYPE_INT_ARGB);
 		Graphics2D g = image.createGraphics();
 		g.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
-		drawCaption(g);
 		drawDataIfPresent(g);
 		graphics.drawImage(image, 0, 0, getWidth(), getHeight(), null);
-	}
-	
-	private void drawCaption(Graphics g){
-		setUpPen(g);
-		drawStringScaling(g);
 	}
 	
 	private void setUpPen(Graphics g){

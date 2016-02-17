@@ -43,18 +43,12 @@ public class TimeOverview extends JPanel{
 		Graphics2D g = layer.createGraphics();
 		antialiasing(g);
 		g.setColor(new Color(50, 50, 50));
-		drawCaption(g);
 		plotDataIfPresent(g);
 		graphics.drawImage(layer, 0, 0, getWidth(), getHeight(), null);
 	}
 	
 	private void antialiasing(Graphics2D g){
 		g.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
-	}
-	
-	private void drawCaption(Graphics g){
-		g.setFont(new Font("Times New Roman", Font.BOLD, 10));
-		g.drawString("Number of wrong answers in the last tries", 10, 10);
 	}
 	
 	private void drawTimeAxis(Graphics g){
@@ -88,7 +82,7 @@ public class TimeOverview extends JPanel{
 			drawYAxis(g);
 			plotWrongAnswers(g);
 			int distanceToTop = 30;
-			graphics.drawImage(plot, (int)(distanceToTop/2), distanceToTop, getWidth()-(int)(distanceToTop/2), getHeight()-distanceToTop, null);
+			graphics.drawImage(plot, 0, 0, getWidth(), getHeight(), null);
 
 		}
 	}
@@ -96,27 +90,27 @@ public class TimeOverview extends JPanel{
 	private int imageResolution = 500;
 	
 	private void plotWrongAnswers(Graphics2D graphics){
-		BufferedImage plot = new BufferedImage(imageResolution, imageResolution, BufferedImage.TYPE_INT_ARGB);
+		BufferedImage plot = new BufferedImage(getWidth(), getHeight(), BufferedImage.TYPE_INT_ARGB);
 		Graphics2D g = plot.createGraphics();
 		g.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
 		StatsSet lastSet = null;
 		for(StatsSet set : statistics.getStatsList()){
 			if(lastSet!=null){
-				g.setStroke(new BasicStroke(8, BasicStroke.CAP_ROUND, BasicStroke.JOIN_MITER));
+				g.setStroke(new BasicStroke(5, BasicStroke.CAP_ROUND, BasicStroke.JOIN_ROUND));
 				g.setColor(Toolbar.red);
 				//TODO: clean this up ...
 				g.drawLine((int)(timeAxisValue(lastSet.getTimestamp().getTime())*timestampImageRatio()), 
-							imageResolution-(int)(lastSet.getNumberOfWrongAnswers()*wrongAnswerImageRatio()), 
+							getHeight()-(int)(lastSet.getNumberOfWrongAnswers()*wrongAnswerImageRatio()), 
 							(int)(timeAxisValue(set.getTimestamp().getTime())*timestampImageRatio()), 
-							imageResolution-(int)(set.getNumberOfWrongAnswers()*wrongAnswerImageRatio()));
+							getHeight()-(int)(set.getNumberOfWrongAnswers()*wrongAnswerImageRatio()));
 			}
 			lastSet = set;
 		}
-		graphics.drawImage(plot, 10, 20, getWidth()-20, getHeight()-40, null);
+		graphics.drawImage(plot, 10, 20, getWidth()-40, getHeight()-40, null);
 	}
 	
 	private double timestampImageRatio(){
-		return imageResolution / timestampDifference();
+		return ((getWidth()*1.0d) / timestampDifference());
 	}
 
 	private long timeAxisValue(long timestamp){
@@ -133,20 +127,10 @@ public class TimeOverview extends JPanel{
 	}
 	
 	private double wrongAnswerImageRatio(){
-		if(maxNumberOfWrongAnswers()==0){
-			return 1;
-		}else{
-			return imageResolution / maxNumberOfWrongAnswers();
-		}
+		return ((getHeight()*1.0d)/maxNumberOfWrongAnswers());
 	}
 	
 	private int maxNumberOfWrongAnswers(){
-		int currentMax = 0;
-		for(StatsSet set : statistics.getStatsList()){
-			if(set.getNumberOfWrongAnswers()>currentMax){
-				currentMax = set.getNumberOfWrongAnswers();
-			}
-		}
-		return currentMax;
+		return lesson.getCards().size();
 	}
 }

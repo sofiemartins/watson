@@ -27,6 +27,9 @@ import javax.swing.plaf.synth.SynthLookAndFeel;
 import javax.imageio.ImageIO;
 import javax.swing.BorderFactory;
 import javax.swing.ImageIcon;
+
+import editor.Toolbar;
+
 import java.awt.event.ActionListener;
 import java.awt.image.BufferedImage;
 import java.io.File;
@@ -355,7 +358,7 @@ public class LessonOverview extends JFrame implements ComponentListener{
 		container.setLayout(new GridLayout(1,1));
 		JPanel subcontainer = new JPanel();
 		subcontainer.setLayout(new GridLayout(1,1));
-		subcontainer.setBorder(BorderFactory.createLineBorder(new Color(200, 200, 200), 1, true));
+		subcontainer.setBorder(BorderFactory.createTitledBorder(BorderFactory.createLineBorder(Toolbar.lightGray, 1, true), "Wrong Answers Over Time"));
 		subcontainer.add(new TimeOverview(overviewList.getSelectedValue()));
 		container.add(subcontainer);
 		return container;
@@ -366,7 +369,7 @@ public class LessonOverview extends JFrame implements ComponentListener{
 		container.setLayout(new GridLayout(1,1));
 		JPanel subcontainer = new JPanel();
 		subcontainer.setLayout(new GridLayout(1,1));
-		subcontainer.setBorder(BorderFactory.createLineBorder(new Color(200, 200, 200), 1, true));
+		subcontainer.setBorder(BorderFactory.createTitledBorder(BorderFactory.createLineBorder(Toolbar.lightGray, 1, true), "Answer Composition"));//TODO; Better captions
 		subcontainer.add(absolutesPanel());
 		container.add(subcontainer);
 		return container;

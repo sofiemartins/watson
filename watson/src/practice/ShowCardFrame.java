@@ -12,6 +12,7 @@ import java.awt.Color;
 import java.io.IOException;
 import java.util.ArrayList;
 
+import static util.Main.*;
 import util.Card;
 import util.Lesson;
 import gui.LessonOverview;
@@ -37,7 +38,8 @@ public class ShowCardFrame extends JFrame{
 	}
 	
 	private void setUpFrame(){
-		setLayout(new BorderLayout());
+		setTitle(currentLesson.toString() + " - " + applicationTitle);
+		setLayout(new BorderLayout()); 
 		setSize(800,500);
 		setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 		setExtendedState(JFrame.MAXIMIZED_BOTH);
