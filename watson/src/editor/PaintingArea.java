@@ -116,14 +116,13 @@ public class PaintingArea extends JPanel implements MouseListener, MouseMotionLi
 		Point pointOnImage = getPointOnImage(e.getPoint());
 		makeFollowingStepUndoable();
 		updatePen();
-		savePaintingData(e, pointOnImage);
+		saveInterpolationData(pointOnImage);
 		drawDependingOnPen(pointOnImage);
 		repaint();
 	}
 	
-	private void savePaintingData(MouseEvent e, Point pointOnImage){
+	private void saveInterpolationData(Point pointOnImage){
 		saveLastDrawnPoint(pointOnImage); // interpolation is drawn on the image, so image coordinates
-		saveStartingPoint(e.getPoint()); //Preview is drawn on the panel, so panel coordinates
 	}
 	
 	private void makeFollowingStepUndoable(){
@@ -140,7 +139,7 @@ public class PaintingArea extends JPanel implements MouseListener, MouseMotionLi
 	
 	private void drawDependingOnPen(Point point){
 		if(isRuler() || isInRectangleMode()){
-			//Do nothing, because only preview is drawn here TODO: make this better
+			paintToPreview(point); 
 		}else if(isEraser()){
 			erase(point);
 		}else if(isMarker()){
@@ -150,7 +149,7 @@ public class PaintingArea extends JPanel implements MouseListener, MouseMotionLi
 		}
 	}
 	
-	private void saveStartingPoint(Point point){
+	private void paintToPreview(Point point){
 		if(isRuler() || isInRectangleMode()){
 			previewStart = point;
 		}
@@ -378,29 +377,27 @@ public class PaintingArea extends JPanel implements MouseListener, MouseMotionLi
 
 	@Override
 	public void componentResized(ComponentEvent e) {
-		BufferedImage resizedImage = new BufferedImage(getWidth(), getHeight(), BufferedImage.TYPE_INT_ARGB);
-		Graphics2D graphics = resizedImage.createGraphics();
-		LinkedList<BufferedImage> newSnapshotClipboard = new LinkedList<BufferedImage>();
-		for(BufferedImage img : snapshotClipboard){
-			graphics.drawImage(img, 0, 0, getWidth(), getHeight(), null);
-			newSnapshotClipboard.add(resizedImage);
-			resizedImage = new BufferedImage(getWidth(), getHeight(), BufferedImage.TYPE_INT_ARGB);
-			graphics = resizedImage.createGraphics();
-		}
-		snapshotClipboard = newSnapshotClipboard;
-		LinkedList<BufferedImage> newRedoClipboard = new LinkedList<BufferedImage>();
-		for(BufferedImage img : redoClipboard){
-			graphics.drawImage(img, 0, 0, getWidth(), getHeight(), null);
-			newRedoClipboard.add(resizedImage);
-			resizedImage = new BufferedImage(getWidth(), getHeight(), BufferedImage.TYPE_INT_ARGB);
-			graphics = resizedImage.createGraphics();
-		}
-		redoClipboard = newRedoClipboard;
-		graphics.drawImage(image, 0, 0, getWidth(), getHeight(), null);
-		image = resizedImage;
+		snapshotClipboard = getResizedClipboard(snapshotClipboard);
+		redoClipboard = getResizedClipboard(redoClipboard);
+		image = getResizedImage(image);
 		imageGraphics = image.createGraphics();
 		revalidate();
 		repaint();
+	}
+	
+	private LinkedList<BufferedImage> getResizedClipboard(LinkedList<BufferedImage> clipboard){
+		LinkedList<BufferedImage> newClipboard = new LinkedList<BufferedImage>();
+		for(BufferedImage oldImage : clipboard){
+			newClipboard.add(getResizedImage(oldImage));
+		}
+		return newClipboard;
+	}
+	
+	private BufferedImage getResizedImage(BufferedImage oldImage){
+		BufferedImage resizedImage = new BufferedImage(getWidth(), getHeight(), BufferedImage.TYPE_INT_ARGB);
+		Graphics2D g = resizedImage.createGraphics();
+		g.drawImage(oldImage, 0, 0, getWidth(), getHeight(), null);
+		return resizedImage;
 	}
 	
 	@Override
