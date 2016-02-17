@@ -3,6 +3,8 @@ package util;
 import java.io.Serializable;
 import java.util.ArrayList;
 
+import stats.Score;
+
 public class Lesson implements Serializable{
 	
 	public static final long serialVersionUID = 996887968500987365L;
@@ -13,6 +15,7 @@ public class Lesson implements Serializable{
 	protected ArrayList<Card> cards;
 	private Card currentCard;
 	private Stats stats = new Stats();
+	private Score score = new Score();
 	
 	public Lesson(){
 		cards = new ArrayList<Card>();
@@ -112,6 +115,10 @@ public class Lesson implements Serializable{
 		stats.addStats(new StatsSet());
 	}
 	
+	public void finishPractising(){
+		score.lessonPractised(this);
+	}
+	
 	public void answeredRight(){
 		stats.getCurrentStatsSet().answeredRight();
 	}
@@ -130,5 +137,9 @@ public class Lesson implements Serializable{
 	
 	public double getRightAnswerRatio(){
 		return ((double)stats.getTotalNumberOfRightAnswers()/(double)stats.getTotalNumberOfAnswers());
+	}
+	
+	public long getScore(){
+		return score.getScore();
 	}
 }

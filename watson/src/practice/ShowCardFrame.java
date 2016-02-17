@@ -82,6 +82,7 @@ public class ShowCardFrame extends JFrame{
 				AnswerEvent event = (AnswerEvent)e;
 				answers.add(new Boolean(event.getAnswer()));
 				if(interrogationEnd()){
+					currentLesson.finishPractising();
 					changeToLessonOverview();
 				}else if(isLastCardOnStack()){
 					currentLesson = getSubLessonFromWrongAnswers();

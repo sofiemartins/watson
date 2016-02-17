@@ -32,7 +32,7 @@ public class Score implements Serializable{
 	}
 	
 	protected long getLessonPractisedOnExtra(Date currentDate, Lesson lesson, long additionalScore){
-		if(lesson.getStats().getStatsList().size()<40){
+		if(lesson.getStats().getStatsList().size()<(lesson.getCards().size()*20)){
 			return procedureForNewLessons(currentDate, additionalScore);
 		}else{
 			return procedureForOldLessons(currentDate, additionalScore);
@@ -53,7 +53,10 @@ public class Score implements Serializable{
 	
 	private long procedureForOldLessons(Date currentDate, long additionalScore){
 		long timeDifference = currentDate.getTime()-lastPractised.getTime();
-		return 0;
+		if(timeDifference > A_MONTH_IN_MS){
+			return additionalScore * 100;
+		}
+		return additionalScore;
 	}
 	
 	public void lessonCreated(Lesson lesson){

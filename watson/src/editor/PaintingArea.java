@@ -370,8 +370,8 @@ public class PaintingArea extends JPanel implements MouseListener, MouseMotionLi
 	
 	private Point getPointOnImage(Point pointOnScreen){
 		calculatePanelImageRatios(); 
-		int xOnImage = (int)(pointOnScreen.getX()*imagePanelWidthRatio);//Intercept theorem, or at least similar
-		int yOnImage = (int)(pointOnScreen.getY()*imagePanelHeightRatio);
+		int xOnImage = (int)(pointOnScreen.getX()*((double)image.getWidth()/(double)getWidth()));//Intercept theorem, or at least similar
+		int yOnImage = (int)(pointOnScreen.getY()*((double)image.getHeight()/(double)getHeight()));
 		return new Point(xOnImage, yOnImage);
  	}
 	
@@ -390,6 +390,7 @@ public class PaintingArea extends JPanel implements MouseListener, MouseMotionLi
 
 	@Override
 	public void componentResized(ComponentEvent e) {
+		System.out.println("Marke1: " + getWidth());//TODO
 		BufferedImage resizedImage = new BufferedImage(getWidth(), getHeight(), BufferedImage.TYPE_INT_ARGB);
 		Graphics2D graphics = resizedImage.createGraphics();
 		LinkedList<BufferedImage> newSnapshotClipboard = new LinkedList<BufferedImage>();
@@ -411,6 +412,9 @@ public class PaintingArea extends JPanel implements MouseListener, MouseMotionLi
 		graphics.drawImage(image, 0, 0, getWidth(), getHeight(), null);
 		image = resizedImage;
 		imageGraphics = image.createGraphics();
+		calculatePanelImageRatios();
+		revalidate();
+		repaint();
 	}
 	
 	@Override

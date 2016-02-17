@@ -84,9 +84,9 @@ public class AbsoluteAnswerOverview extends JPanel implements ComponentListener{
 	private JLabel getScoreLabel(){
 		String label;
 		if(getWidth()<100){
-			label = "<html>Score:</html>";
+			label = "<html>Score:<br>" + lesson.getScore() + "</html>";
 		}else{
-			label = "Score: ";
+			label = "Score: " + lesson.getScore();
 		}
 		JLabel score = new JLabel(label);
 		score.setFont(new Font("Times New Roman", Font.PLAIN, 14));
