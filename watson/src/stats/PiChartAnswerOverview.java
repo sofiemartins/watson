@@ -69,7 +69,7 @@ public class PiChartAnswerOverview extends JPanel{
 	private void drawDataIfPresent(Graphics2D g){
 		if(lesson.getStats().getStatsList().isEmpty()){
 			g.setColor(new Color(180, 180, 180));
-			g.setFont(new Font("Times New Roman", Font.PLAIN, 20));
+			g.setFont(new Font("Times New Roman", Font.PLAIN, 10));
 			g.drawString("No data present", 5, 30);
 		}else{
 			drawPlot(g);
@@ -77,14 +77,14 @@ public class PiChartAnswerOverview extends JPanel{
 	}
 	
 	private void fillCircle(double angleOfColorChange, Graphics2D g){
-		g.setStroke(new BasicStroke(2, BasicStroke.CAP_ROUND, BasicStroke.JOIN_ROUND));
+		g.setStroke(new BasicStroke(2, BasicStroke.CAP_BUTT, BasicStroke.JOIN_ROUND));
 		g.setColor(Toolbar.red);
-		for(double phi = 0; phi < angleOfColorChange; phi+=0.005*Math.PI){
-			fillCircleSegment(phi, 0.006*Math.PI, g);
+		for(double phi = 0; phi < angleOfColorChange; phi+=0.05*Math.PI){
+			fillCircleSegment(phi, 0.051*Math.PI, g);
 		}
 		g.setColor(Toolbar.green);
-		for(double phi = angleOfColorChange; phi < 2*Math.PI; phi+=0.005*Math.PI){
-			fillCircleSegment(phi, 0.006*Math.PI, g);
+		for(double phi = angleOfColorChange; phi < 2*Math.PI; phi+=0.05*Math.PI){
+			fillCircleSegment(phi, 0.051*Math.PI, g);
 		}
 	}
 	

@@ -79,19 +79,21 @@ public class TimeOverview extends JPanel{
 		antialiasing(g);
 		if(lesson.getStats().getStatsList().isEmpty()){
 			g.setColor(new Color(180, 180, 180));
-			g.setFont(new Font("Times New Roman", Font.PLAIN, 20));
+			g.setFont(new Font("Times New Roman", Font.PLAIN, 10));
 			g.drawString("No data present", 5, 30);
+			graphics.drawImage(plot, 0, 0, getWidth(), getHeight(), null);
 		}else{
 			g.setColor(Toolbar.black);
 			drawTimeAxis(g);
 			drawYAxis(g);
 			plotWrongAnswers(g);
+			int distanceToTop = 30;
+			graphics.drawImage(plot, (int)(distanceToTop/2), distanceToTop, getWidth()-(int)(distanceToTop/2), getHeight()-distanceToTop, null);
+
 		}
-		int distanceToTop = 30;
-		graphics.drawImage(plot, (int)(distanceToTop/2), distanceToTop, getWidth()-(int)(distanceToTop/2), getHeight()-distanceToTop, null);
 	}
 	
-	private int imageResolution = 2000;
+	private int imageResolution = 500;
 	
 	private void plotWrongAnswers(Graphics2D graphics){
 		BufferedImage plot = new BufferedImage(imageResolution, imageResolution, BufferedImage.TYPE_INT_ARGB);

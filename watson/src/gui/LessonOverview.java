@@ -44,6 +44,7 @@ import java.awt.event.ComponentListener;
 import java.awt.event.ComponentEvent;
 
 //local
+import static util.Main.*;
 import util.Lesson;
 import io.FileManager;
 import stats.TimeOverview;
@@ -108,10 +109,11 @@ public class LessonOverview extends JFrame implements ComponentListener{
 	}
 	
 	private void setupFrameLayout(){
+		setTitle("Lessons - " + applicationTitle);
 		setSize(500, 500);
 		setMinimumSize(new Dimension(300, 400));
 		setDefaultCloseOperation(DISPOSE_ON_CLOSE);
-		//setExtendedState(JFrame.MAXIMIZED_BOTH);
+		setExtendedState(JFrame.MAXIMIZED_BOTH);
 		setLayout(new BorderLayout());
 		overviewPanel = getOverview();
 		add(overviewPanel, CENTER);
