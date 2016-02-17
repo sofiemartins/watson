@@ -31,21 +31,16 @@ import static editor.PenMode.*;
 public class PaintingArea extends JPanel implements MouseListener, MouseMotionListener, ComponentListener{
 	
 	public static final long serialVersionUID = 960493968771821243L;
+	
 	public static final String UNDO = "undo";
 	public static final String REDO = "redo";
 	
-	/**
-	 * the used images have a fixed size: It's a flashcard, if someone wants to create great artwork
-	 * or write multiple pages of information he/she chose the wrong software.
-	 * 
-	 * TODO: Maybe TYPE_INT_ARGB is overkill and we should use TYPE_4BYTE_AGBR
-	 * we definitely need alpha for the usage of yellow markers or similar.
-	 */
 	private BufferedImage image;
 	private Graphics2D imageGraphics;
 
 	private LinkedList<BufferedImage> snapshotClipboard = new LinkedList<BufferedImage>();
 	private LinkedList<BufferedImage> redoClipboard = new LinkedList<BufferedImage>();
+	
 	/**
 	 * Sometimes a shape shows up while drawing that shouldn't be on the image later
 	 */
@@ -54,7 +49,7 @@ public class PaintingArea extends JPanel implements MouseListener, MouseMotionLi
 	private Point lastDrawn; //Important for interpolating drawing gaps due to performance issues.
 	
 	/**
-	 * @param We need a composite for simple drawing and erasing things
+	 * @param We need a composite for simple drawing, erasing and marking things (marking draws to the background)
 	 */
 	private static final AlphaComposite drawing = AlphaComposite.SrcOver;
 	private static final AlphaComposite erasing = AlphaComposite.DstOut;
