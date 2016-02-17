@@ -377,10 +377,22 @@ public class PaintingArea extends JPanel implements MouseListener, MouseMotionLi
 
 	@Override
 	public void componentResized(ComponentEvent e) {
+		resizeClipboards();
+		resizeImage();
+		updatePanel();
+	}
+	
+	private void resizeClipboards(){
 		snapshotClipboard = getResizedClipboard(snapshotClipboard);
 		redoClipboard = getResizedClipboard(redoClipboard);
+	}
+	
+	private void resizeImage(){
 		image = getResizedImage(image);
 		imageGraphics = image.createGraphics();
+	}
+	
+	private void updatePanel(){
 		revalidate();
 		repaint();
 	}
