@@ -38,7 +38,7 @@ public class AbsoluteAnswerOverview extends JPanel implements ComponentListener{
 			label = "Absolute Value";
 		}
 		JLabel caption = new JLabel(label);
-		caption.setFont(new Font("Times New Roman", Font.PLAIN, 10));
+		caption.setFont(new Font("Times New Roman", Font.PLAIN, 14));
 		return caption;
 	}
 	
@@ -53,7 +53,7 @@ public class AbsoluteAnswerOverview extends JPanel implements ComponentListener{
 			
 		}else{ label = " "; }
 		JLabel timesPractised = new JLabel(label);
-		timesPractised.setFont(new Font("Times New Roman", Font.PLAIN, 10));
+		timesPractised.setFont(new Font("Times New Roman", Font.PLAIN, 14));
 		return timesPractised;
 	}
 	
@@ -65,7 +65,7 @@ public class AbsoluteAnswerOverview extends JPanel implements ComponentListener{
 			label = "Right Answers: " + lesson.getStats().getTotalNumberOfRightAnswers();
 		}
 		JLabel rightAnswers = new JLabel(label);
-		rightAnswers.setFont(new Font("Times New Roman", Font.PLAIN, 10));
+		rightAnswers.setFont(new Font("Times New Roman", Font.PLAIN, 14));
 		return rightAnswers;
 	}
 	
@@ -77,7 +77,7 @@ public class AbsoluteAnswerOverview extends JPanel implements ComponentListener{
 			label = "Wrong Answers: " + lesson.getStats().getTotalNumberOfWrongAnswers();
 		}
 		JLabel wrongAnswers = new JLabel(label);
-		wrongAnswers.setFont(new Font("Times New Roman", Font.PLAIN, 10));
+		wrongAnswers.setFont(new Font("Times New Roman", Font.PLAIN, 14));
 		return wrongAnswers;
 	}
 	
@@ -89,7 +89,7 @@ public class AbsoluteAnswerOverview extends JPanel implements ComponentListener{
 			label = "Score: ";
 		}
 		JLabel score = new JLabel(label);
-		score.setFont(new Font("Times New Roman", Font.PLAIN, 10));
+		score.setFont(new Font("Times New Roman", Font.PLAIN, 14));
 		return score;
 	}
 

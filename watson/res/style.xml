@@ -5,11 +5,9 @@
 		<insets top="10" left="10" right="10" bottom="10" />
 		<state>
 			<color value="WHITE" type="BACKGROUND" />
-			<color value="#444444" type="FOREGROUND" />
 		</state>
 		<state value="MOUSE_OVER">
 			<color value="#EEEEFF" type="BACKGROUND" />
-			<color value="#222222" type="FOREGROUND" />
 		</state>
 	</style>
 	
@@ -18,7 +16,6 @@
 		<insets top="0" left="0" right="0" bottom="0" />
 		<state>
 			<color value="WHITE" type="BACKGROUND" />
-			<color value="#444444" type="FOREGROUND" />
 		</state>
 	</style>
 	
@@ -26,7 +23,6 @@
 		<insets top="5" left="5" right="5" bottom="5" />
 		<state>
 			<color value="WHITE" type="BACKGROUND" />
-			<color value="#222222" type="FOREGROUND" />
 		</state>
 	</style>
 	
@@ -42,15 +38,14 @@
 		<opaque value="TRUE" />
 		<state>
 			<color value="WHITE" type="BACKGROUND" />
-			<color value="BLACK" type="FOREGROUND" />
 		</state>
 	</style>
 	
 	<style id="backingStyle">
 		<opaque value="TRUE" />
-		<font name="Dialog" size="14" />
 		<state>
 			<color value="WHITE" type="BACKGROUND" />
+			<color value="#666666" type="FOREGROUND" />
 		</state>
 	</style>
 	<bind style="backingStyle" type="region" key=".*" />
