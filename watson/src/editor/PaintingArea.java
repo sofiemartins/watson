@@ -116,10 +116,14 @@ public class PaintingArea extends JPanel implements MouseListener, MouseMotionLi
 		Point pointOnImage = getPointOnImage(e.getPoint());
 		makeFollowingStepUndoable();
 		updatePen();
-		saveLastDrawnPoint(pointOnImage); // interpolation is drawn on the image, so image coordinates
-		saveStartingPoint(e.getPoint()); //Preview is drawn on the panel, so panel coordinates
+		savePaintingData(e, pointOnImage);
 		drawDependingOnPen(pointOnImage);
 		repaint();
+	}
+	
+	private void savePaintingData(MouseEvent e, Point pointOnImage){
+		saveLastDrawnPoint(pointOnImage); // interpolation is drawn on the image, so image coordinates
+		saveStartingPoint(e.getPoint()); //Preview is drawn on the panel, so panel coordinates
 	}
 	
 	private void makeFollowingStepUndoable(){
