@@ -12,10 +12,10 @@ import java.awt.RenderingHints;
 import java.awt.image.BufferedImage;
 import java.util.LinkedList;
 
+import static util.Colors.*;
 import util.Stats;
 import util.StatsSet;
 import util.Lesson;
-import editor.Toolbar;
 
 public class TimeOverview extends JPanel{
 	
@@ -77,17 +77,13 @@ public class TimeOverview extends JPanel{
 			g.drawString("No data present", 5, 30);
 			graphics.drawImage(plot, 0, 0, getWidth(), getHeight(), null);
 		}else{
-			g.setColor(Toolbar.black);
+			g.setColor(black);
 			drawTimeAxis(g);
 			drawYAxis(g);
 			plotWrongAnswers(g);
-			int distanceToTop = 30;
 			graphics.drawImage(plot, 0, 0, getWidth(), getHeight(), null);
-
 		}
 	}
-	
-	private int imageResolution = 500;
 	
 	private void plotWrongAnswers(Graphics2D graphics){
 		BufferedImage plot = new BufferedImage(getWidth(), getHeight(), BufferedImage.TYPE_INT_ARGB);
@@ -97,7 +93,7 @@ public class TimeOverview extends JPanel{
 		for(StatsSet set : statistics.getStatsList()){
 			if(lastSet!=null){
 				g.setStroke(new BasicStroke(5, BasicStroke.CAP_ROUND, BasicStroke.JOIN_ROUND));
-				g.setColor(Toolbar.red);
+				g.setColor(red);
 				//TODO: clean this up ...
 				g.drawLine((int)(timeAxisValue(lastSet.getTimestamp().getTime())*timestampImageRatio()), 
 							getHeight()-(int)(lastSet.getNumberOfWrongAnswers()*wrongAnswerImageRatio()), 

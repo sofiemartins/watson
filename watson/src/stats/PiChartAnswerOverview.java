@@ -13,6 +13,7 @@ import java.awt.Graphics2D;
 import java.awt.RenderingHints;
 import java.awt.image.BufferedImage;
 
+import static util.Colors.*;
 import util.Lesson;
 
 public class PiChartAnswerOverview extends JPanel{
@@ -72,11 +73,11 @@ public class PiChartAnswerOverview extends JPanel{
 	
 	private void fillCircle(double angleOfColorChange, Graphics2D g){
 		g.setStroke(new BasicStroke(2, BasicStroke.CAP_BUTT, BasicStroke.JOIN_ROUND));
-		g.setColor(Toolbar.red);
+		g.setColor(red);
 		for(double phi = 0; phi < angleOfColorChange; phi+=0.05*Math.PI){
 			fillCircleSegment(phi, 0.051*Math.PI, g);
 		}
-		g.setColor(Toolbar.green);
+		g.setColor(green);
 		for(double phi = angleOfColorChange; phi < 2*Math.PI; phi+=0.05*Math.PI){
 			fillCircleSegment(phi, 0.051*Math.PI, g);
 		}

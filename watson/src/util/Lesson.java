@@ -21,6 +21,7 @@ public class Lesson implements Serializable{
 		cards = new ArrayList<Card>();
 		cards.add(new Card());
 		currentCard = cards.get(0);
+		score.lessonCreated(this);
 	}
 	
 	public Lesson(String lessonTitle){

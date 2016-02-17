@@ -48,6 +48,7 @@ import java.awt.event.ComponentEvent;
 
 //local
 import static util.Main.*;
+import static util.Colors.*;
 import util.Lesson;
 import io.FileManager;
 import stats.TimeOverview;
@@ -358,7 +359,7 @@ public class LessonOverview extends JFrame implements ComponentListener{
 		container.setLayout(new GridLayout(1,1));
 		JPanel subcontainer = new JPanel();
 		subcontainer.setLayout(new GridLayout(1,1));
-		subcontainer.setBorder(BorderFactory.createTitledBorder(BorderFactory.createLineBorder(Toolbar.lightGray, 1, true), "Wrong Answers Over Time"));
+		subcontainer.setBorder(BorderFactory.createTitledBorder(BorderFactory.createLineBorder(lightGray, 1, true), "Wrong Answers Over Time"));
 		subcontainer.add(new TimeOverview(overviewList.getSelectedValue()));
 		container.add(subcontainer);
 		return container;
@@ -369,7 +370,7 @@ public class LessonOverview extends JFrame implements ComponentListener{
 		container.setLayout(new GridLayout(1,1));
 		JPanel subcontainer = new JPanel();
 		subcontainer.setLayout(new GridLayout(1,1));
-		subcontainer.setBorder(BorderFactory.createTitledBorder(BorderFactory.createLineBorder(Toolbar.lightGray, 1, true), "Answer Composition"));//TODO; Better captions
+		subcontainer.setBorder(BorderFactory.createTitledBorder(BorderFactory.createLineBorder(lightGray, 1, true), "Answer Composition"));//TODO; Better captions
 		subcontainer.add(absolutesPanel());
 		container.add(subcontainer);
 		return container;
