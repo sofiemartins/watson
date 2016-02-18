@@ -21,6 +21,7 @@ import editor.Pen;
 import editor.PenType;
 import editor.Toolbar;
 import editor.ToolbarButton;
+import editor.ToolbarEvent;
 import gui.Editor;
 
 public class PenTypePanel extends JPanel{
@@ -30,6 +31,8 @@ public class PenTypePanel extends JPanel{
 	private ToolbarButton penButton = getPenButton();
 	private ToolbarButton eraserButton = getEraserButton();
 	private ToolbarButton markerButton = getMarkerButton();
+	
+	private ActionListener actionListener;
 	
 	public PenTypePanel(){
 		setLayout(new BorderLayout());
@@ -65,12 +68,14 @@ public class PenTypePanel extends JPanel{
 		button.addActionListener(new ActionListener(){
 			@Override
 			public void actionPerformed(ActionEvent e){
-//				Toolbar.this.actionListener.actionPerformed(new ToolbarEvent(this, 
-//						ActionEvent.ACTION_PERFORMED, 
-//						"change to standard pen",
-//						Pen.PEN)); // TODO: Let the user define their default pen oder change to last used pen
-//						eraserButton.setSelected(false);
-//						markerButton.setSelected(false);
+				if(actionListener!=null){
+					actionListener.actionPerformed(new ToolbarEvent(this, 
+							ActionEvent.ACTION_PERFORMED, 
+							"change to standard pen",
+							Pen.PEN)); // TODO: Let the user define their default pen oder change to last used pen
+							eraserButton.setSelected(false);
+							markerButton.setSelected(false);	
+				}
 			}
 		});
 		return button;
@@ -86,12 +91,14 @@ public class PenTypePanel extends JPanel{
 		button.addActionListener(new ActionListener(){
 			@Override
 			public void actionPerformed(ActionEvent e){
-//				Toolbar.this.actionListener.actionPerformed(new ToolbarEvent(this,
-//						ActionEvent.ACTION_PERFORMED,
-//						"change to eraser",
-//						Pen.ERASER));
-//						penButton.setSelected(false);
-//						markerButton.setSelected(false);
+				if(actionListener!=null){
+					actionListener.actionPerformed(new ToolbarEvent(this,
+							ActionEvent.ACTION_PERFORMED,
+							"change to eraser",
+							Pen.ERASER));
+							penButton.setSelected(false);
+							markerButton.setSelected(false);
+				}
 			}
 		});
 		return button;
@@ -107,12 +114,14 @@ public class PenTypePanel extends JPanel{
 		button.addActionListener(new ActionListener(){
 			@Override
 			public void actionPerformed(ActionEvent e){
-				//Toolbar.this.actionListener.actionPerformed(new ToolbarEvent(this,
-				//		ActionEvent.ACTION_PERFORMED,
-				//		"change to marker",
-				//		Pen.MARKER));
-				//		penButton.setSelected(false);
-				//		eraserButton.setSelected(false);
+				if(actionListener!=null){
+					actionListener.actionPerformed(new ToolbarEvent(this,
+							ActionEvent.ACTION_PERFORMED,
+							"change to marker",
+							Pen.MARKER));
+							penButton.setSelected(false);
+							eraserButton.setSelected(false);
+				}
 			}
 		});
 		return button;
@@ -159,5 +168,9 @@ public class PenTypePanel extends JPanel{
 	
 	public void update(){
 		checkType(Editor.currentPen);
+	}
+	
+	public void addActionListener(ActionListener al){
+		actionListener = al;
 	}
 }
