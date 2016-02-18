@@ -1,24 +1,17 @@
 package editor;
 
 import javax.swing.JPanel;
-import javax.swing.SwingConstants;
-import javax.imageio.ImageIO;
 import javax.swing.BorderFactory;
-import javax.swing.ImageIcon;
 import javax.swing.JLabel;
 import javax.swing.border.EmptyBorder;
 import java.awt.GridLayout;
-import java.awt.Image;
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.FlowLayout;
 import java.awt.Font;
 
 import java.awt.BorderLayout;
-import java.awt.Graphics;
 import java.awt.event.ActionListener;
-import java.awt.image.BufferedImage;
-import java.io.File;
 import java.awt.event.ActionEvent;
 
 import static util.Colors.*;
@@ -32,9 +25,9 @@ public class Toolbar extends JPanel{
 	public static final long serialVersionUID = 8724543215436543876L;
 	
 	private ActionListener actionListener;
-	private static final String TOOLBAR_BUTTON = "toolbarButton";
 	 
 	private PenTypePanel penTypePanel = new PenTypePanel();
+	private PenModePanel penModePanel = new PenModePanel();
 	
 	public Toolbar(){
 		addComponents();
@@ -44,7 +37,7 @@ public class Toolbar extends JPanel{
 		setLayout(new FlowLayout(FlowLayout.LEFT));
 		setBorder(new EmptyBorder(0,0,0,0));
 		add(penTypePanel);
-		add(getPenModePanel());
+		add(penModePanel);
 		add(getColorPanel());
 		add(getPenSizePanel());
 	}
@@ -55,7 +48,7 @@ public class Toolbar extends JPanel{
 	public void update(){
 		checkSize();
 		checkColor();
-		checkMode(getCurrentPen());
+		penModePanel.update();
 		penTypePanel.update();
 	}
 	
@@ -101,123 +94,6 @@ public class Toolbar extends JPanel{
 		}else if(hasColor(green)){
 			colorButton3.setSelected(true);
 		}
-	}
-	
-	private boolean isRuler(){
-		return getCurrentPen().getMode()==PenMode.RULER;
-	}
-	
-	private boolean isInRectangleMode(){
-		return getCurrentPen().getMode()==PenMode.SQUARE;
-	}
-	
-	private void setAllModeButtonsUnselected(){
-		rulerButton.setSelected(false);
-		rectangleButton.setSelected(false);
-	}
-	
-	private void checkMode(Pen currentPen){
-		setAllModeButtonsUnselected();
-		if(isRuler()){
-			rulerButton.setSelected(true);
-		}else if(isInRectangleMode()){
-			rectangleButton.setSelected(true);
-		}
-	}
-	
-	private JPanel getPenModePanel(){
-		JPanel container = new JPanel();
-		container.setLayout(new BorderLayout());
-		container.setBorder(new EmptyBorder(0,0,0,0));
-		container.add(getLabel("Pen Mode"), BorderLayout.NORTH);
-		JPanel subcontainer = new JPanel();
-		setUpPenModePanel(subcontainer);
-		addButtonsToPenModePanel(subcontainer);
-		container.add(subcontainer, BorderLayout.CENTER);
-		return container;
-	}
-	
-	private void setUpPenModePanel(JPanel container){
-		container.setLayout(new GridLayout(1,2));
-		container.setBorder(BorderFactory.createLineBorder(new Color(200, 200, 200), 1, true));
-	}
-	
-	private void addButtonsToPenModePanel(JPanel container){
-		ToolbarButton buttons[] = { rulerButton, rectangleButton };
-		for(ToolbarButton button : buttons){
-			JPanel buttonContainer = new JPanel();
-			buttonContainer.setLayout(new GridLayout(1,1));
-			buttonContainer.add(button);
-			container.add(buttonContainer);
-		}
-	}
-	
-	private ToolbarButton rulerButton = getRulerButton();
-	private ToolbarButton rectangleButton = getRectangleButton();
-	
-	private ToolbarButton getRulerButton(){
-		ToolbarButton button = new ToolbarButton();
-		button.setPreferredSize(new Dimension(60, 60));
-		button.setBorder(new EmptyBorder(8, 4, 8, 8));
-		button.setIcon(new ImageIcon(getClass().getResource("ruler.png")));
-		button.addActionListener(new ActionListener(){
-			@Override
-			public void actionPerformed(ActionEvent e){
-				rectangleButton.setSelected(false);
-				Pen currentPen = Editor.currentPen;
-				Pen newPen;
-				if(!rulerButton.isSelected()){
-					newPen = new Pen(currentPen.getSize(), currentPen.getColor(), PenMode.NONE, currentPen.getType());
-					Toolbar.this.actionListener.actionPerformed(new ToolbarEvent(this, 
-							ActionEvent.ACTION_PERFORMED,
-							"Disabled ruler", 
-							newPen));
-				}else{
-					newPen = new Pen(currentPen.getSize(), currentPen.getColor(), PenMode.RULER, currentPen.getType());
-					Toolbar.this.actionListener.actionPerformed(new ToolbarEvent(this,
-							ActionEvent.ACTION_PERFORMED,
-							"changed to ruler",
-							newPen));
-				}
-			}
-		});
-		return button;
-	}
-	
-	private ToolbarButton getRectangleButton(){
-		ToolbarButton button = new ToolbarButton(){
-			public static final long serialVersionUID = 995847386758473869L;
-			
-			@Override
-			public void paintComponent(Graphics g){
-				super.paintComponent(g);
-				g.setColor(Color.black);
-				g.drawRect(5,5,this.getWidth()-10, this.getHeight()-10);
-			}
-		};
-		button.setPreferredSize(new Dimension(60, 60));		
-		button.setBorder(new EmptyBorder(8, 8, 8, 4));
-		button.addActionListener(new ActionListener(){
-			@Override
-			public void actionPerformed(ActionEvent e){
-				rulerButton.setSelected(false);
-				Pen currentPen = Editor.currentPen;
-				Pen newPen;
-				if(!rectangleButton.isSelected()){
-					newPen = new Pen(currentPen.getSize(), currentPen.getColor(), PenMode.NONE, currentPen.getType());
-					Toolbar.this.actionListener.actionPerformed(new ToolbarEvent(this, ActionEvent.ACTION_PERFORMED, 
-							"Disabled rectangle mode.",
-							newPen));
-				}else{
-					newPen = new Pen(currentPen.getSize(), currentPen.getColor(), PenMode.SQUARE, currentPen.getType());//TODO: Refactor this to rect
-					Toolbar.this.actionListener.actionPerformed(new ToolbarEvent(this,
-							ActionEvent.ACTION_PERFORMED,
-							"changed to rectangle mode",
-							newPen));
-				}
-			}
-		});
-		return button;
 	}
 	
 	private JPanel getColorPanel(){
