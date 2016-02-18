@@ -1,7 +1,6 @@
 package toolbar;
 
 import java.awt.event.ActionListener;
-import javax.swing.JButton;
 import javax.swing.JPanel;
 
 public abstract class ToolbarPanel extends JPanel{
@@ -24,6 +23,4 @@ public abstract class ToolbarPanel extends JPanel{
 	
 	protected abstract void checkProperties();
 	
-	protected abstract JButton[] buttons();
-
 }
