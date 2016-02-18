@@ -25,6 +25,7 @@ import static util.Colors.*;
 import editor.ColorButton;
 import editor.PenSizeButton;
 import gui.Editor;
+import toolbar.*;
 
 public class Toolbar extends JPanel{
 	
@@ -32,12 +33,9 @@ public class Toolbar extends JPanel{
 	
 	private ActionListener actionListener;
 	private static final String TOOLBAR_BUTTON = "toolbarButton";
+	 
+	private PenTypePanel penTypePanel = new PenTypePanel();
 	
-	/**
-	 * Colors 
-	 */
-
-			
 	public Toolbar(){
 		addComponents();
 	}
@@ -45,7 +43,7 @@ public class Toolbar extends JPanel{
 	private void addComponents(){
 		setLayout(new FlowLayout(FlowLayout.LEFT));
 		setBorder(new EmptyBorder(0,0,0,0));
-		add(getPenTypePanel());
+		add(penTypePanel);
 		add(getPenModePanel());
 		add(getColorPanel());
 		add(getPenSizePanel());
@@ -58,7 +56,7 @@ public class Toolbar extends JPanel{
 		checkSize();
 		checkColor();
 		checkMode(getCurrentPen());
-		checkType(getCurrentPen());
+		penTypePanel.update();
 	}
 	
 	private Pen getCurrentPen(){
@@ -125,139 +123,6 @@ public class Toolbar extends JPanel{
 		}else if(isInRectangleMode()){
 			rectangleButton.setSelected(true);
 		}
-	}
-	
-	private boolean isDefaultPen(){
-		return getCurrentPen().getType()==PenType.PEN;
-	}
-	
-	private boolean isEraser(){
-		return getCurrentPen().getType()==PenType.ERASER;
-	}
-	
-	private boolean isMarker(){
-		return getCurrentPen().getType()==PenType.MARKER;
-	}
-	
-	private void setAllTypeButtonsUnselected(){
-		penButton.setSelected(false);
-		eraserButton.setSelected(false);
-		markerButton.setSelected(false);	
-	}
-	
-	private void checkType(Pen currentPen){
-		setAllTypeButtonsUnselected();
-		if(isDefaultPen()){
-			penButton.setSelected(true);
-		}else if(isEraser()){
-			eraserButton.setSelected(true);
-		}else if(isMarker()){
-			eraserButton.setSelected(true);
-		}
-	}
-
-	private JPanel getPenTypePanel(){
-		JPanel container = new JPanel();
-		container.setLayout(new BorderLayout());
-		container.setBorder(new EmptyBorder(0,0,0,0));
-		container.add(getLabel("Pen Type"), BorderLayout.NORTH);
-		JPanel subcontainer = new JPanel();
-		setupPenTypePanel(subcontainer);
-		addButtonsToPenTypePanel(subcontainer);
-		container.add(subcontainer, BorderLayout.CENTER);
-		return container;
-	}
-	
-	private void setupPenTypePanel(JPanel container){
-		container.setLayout(new GridLayout(1,3));
-		container.setBorder(BorderFactory.createLineBorder(new Color(200, 200, 200), 1, true));
-	}
-	
-	private void addButtonsToPenTypePanel(JPanel container){
-		ToolbarButton buttons[] = { penButton, eraserButton, markerButton };
-		for(ToolbarButton button : buttons){
-			JPanel buttonContainer = new JPanel();
-			buttonContainer.setLayout(new GridLayout(1,1));
-			buttonContainer.add(button);
-			container.add(buttonContainer);
-		}
-	}
-	
-	private ToolbarButton penButton = getPenButton();
-	private ToolbarButton eraserButton = getEraserButton();
-	private ToolbarButton markerButton = getMarkerButton();
-	
-	private void setIcon(ToolbarButton button, String filepath){
-		BufferedImage image = null;
-		try{
-			image = ImageIO.read(new File(filepath));
-		}catch(Exception e){
-			e.printStackTrace();//TODO: Exception handling
-		}
-		button.setIcon(new ImageIcon(image.getScaledInstance(25, 25, Image.SCALE_SMOOTH)));
-	}
-	
-	private ToolbarButton getPenButton(){
-		ToolbarButton button = new ToolbarButton("Pen");
-		button.setVerticalTextPosition(SwingConstants.BOTTOM);
-		button.setHorizontalTextPosition(SwingConstants.CENTER);
-		button.setPreferredSize(new Dimension(60, 60));
-		button.setBorder(new EmptyBorder(8, 4, 8, 8));
-		setIcon(button, "res/pen.png");
-		button.addActionListener(new ActionListener(){
-			@Override
-			public void actionPerformed(ActionEvent e){
-				Toolbar.this.actionListener.actionPerformed(new ToolbarEvent(this, 
-						ActionEvent.ACTION_PERFORMED, 
-						"change to standard pen",
-						Pen.PEN)); // TODO: Let the user define their default pen oder change to last used pen
-						eraserButton.setSelected(false);
-						markerButton.setSelected(false);
-			}
-		});
-		return button;
-	}
-	
-	private ToolbarButton getEraserButton(){
-		ToolbarButton button = new ToolbarButton("Eraser");
-		button.setVerticalTextPosition(SwingConstants.BOTTOM);
-		button.setHorizontalTextPosition(SwingConstants.CENTER);
-		button.setPreferredSize(new Dimension(60, 60));		
-		button.setBorder(new EmptyBorder(8, 4, 8, 4));
-		setIcon(button, "res/eraser.png");
-		button.addActionListener(new ActionListener(){
-			@Override
-			public void actionPerformed(ActionEvent e){
-				Toolbar.this.actionListener.actionPerformed(new ToolbarEvent(this,
-						ActionEvent.ACTION_PERFORMED,
-						"change to eraser",
-						Pen.ERASER));
-						penButton.setSelected(false);
-						markerButton.setSelected(false);
-			}
-		});
-		return button;
-	}
-	
-	private ToolbarButton getMarkerButton(){
-		ToolbarButton button = new ToolbarButton("Marker");
-		button.setVerticalTextPosition(SwingConstants.BOTTOM);
-		button.setHorizontalTextPosition(SwingConstants.CENTER);
-		button.setPreferredSize(new Dimension(60, 60));		
-		button.setBorder(new EmptyBorder(8, 8, 8, 4));
-		setIcon(button, "res/marker.png");
-		button.addActionListener(new ActionListener(){
-			@Override
-			public void actionPerformed(ActionEvent e){
-				Toolbar.this.actionListener.actionPerformed(new ToolbarEvent(this,
-						ActionEvent.ACTION_PERFORMED,
-						"change to marker",
-						Pen.MARKER));
-						penButton.setSelected(false);
-						eraserButton.setSelected(false);
-			}
-		});
-		return button;
 	}
 	
 	private JPanel getPenModePanel(){
@@ -435,7 +300,7 @@ public class Toolbar extends JPanel{
 		}
 	}
 	
-	private JLabel getLabel(String string){
+	public static JLabel getLabel(String string){
 		JLabel label = new JLabel(string);
 		label.setBorder(new EmptyBorder(5, 5, 5, 5));
 		label.setHorizontalAlignment(JLabel.CENTER);
