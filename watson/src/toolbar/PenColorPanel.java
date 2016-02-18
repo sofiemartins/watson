@@ -15,17 +15,16 @@ import javax.swing.border.EmptyBorder;
 
 import editor.ColorButton;
 import editor.Toolbar;
-import editor.ToolbarButton;
 import gui.Editor;
 
 public class PenColorPanel extends JPanel{
 	
 	public static final long serialVersionUID = 5587623465197685476L;
 	
-	private ColorButton colorButton1 = getColorButton(black);
-	private ColorButton colorButton2 = getColorButton(green);
-	private ColorButton colorButton3 = getColorButton(blue);
-	private ColorButton colorButton4 = getColorButton(red);
+	private ColorButton[] buttons = { getColorButton(black), 
+										getColorButton(green), 
+										getColorButton(blue), 
+										getColorButton(red) };
 	
 	private ActionListener actionListener;
 	
@@ -37,20 +36,20 @@ public class PenColorPanel extends JPanel{
 		addButtonsToColorPanel(subcontainer);
 	}
 	
-	private boolean hasColor(Color color){
-		return Editor.currentPen.getColor()==color;
+	private boolean buttonSelected(ColorButton button){
+		return Editor.currentPen.getColor()==button.getButtonColor();
 	}
 	
+	/*
+	 * Sometimes the color of the pens changes on a different way than the button clicked, this checks button
+	 * color from time to time
+	 */
 	private void checkColor(){
 		resetAllColorButtons();
-		if(hasColor(black)){
-			colorButton1.setSelected(true);
-		}else if(hasColor(blue)){
-			colorButton2.setSelected(true);
-		}else if(hasColor(red)){
-			colorButton4.setSelected(true);
-		}else if(hasColor(green)){
-			colorButton3.setSelected(true);
+		for(ColorButton button : buttons){
+			if(buttonSelected(button)){
+				button.setSelected(true);
+			}
 		}
 	}
 	
@@ -60,13 +59,16 @@ public class PenColorPanel extends JPanel{
 	}
 	
 	private void addButtonsToColorPanel(JPanel container){
-		ToolbarButton buttons[] = { colorButton1, colorButton2, colorButton3, colorButton4 };
-		for(ToolbarButton button : buttons){
-			JPanel buttonPanel = new JPanel();
-			buttonPanel.setLayout(new GridLayout(1,1));
-			buttonPanel.add(button);
-			container.add(buttonPanel);
+		for(ColorButton button : buttons){
+			container.add(getButtonPanel(button));
 		}
+	}
+	
+	private JPanel getButtonPanel(ColorButton button){
+		JPanel buttonPanel = new JPanel();
+		buttonPanel.setLayout(new GridLayout(1,1));
+		buttonPanel.add(button);
+		return buttonPanel;
 	}
 		
 	private ColorButton getColorButton(Color color){
@@ -76,8 +78,8 @@ public class PenColorPanel extends JPanel{
 		button.addActionListener(new ActionListener(){
 			@Override
 			public void actionPerformed(ActionEvent e){
+				resetAllColorButtons();
 				if(actionListener!=null){
-					resetAllColorButtons();
 					actionListener.actionPerformed(e);
 				}
 			}
@@ -86,10 +88,9 @@ public class PenColorPanel extends JPanel{
 	}
 	
 	protected void resetAllColorButtons(){
-		colorButton1.setSelected(false);
-		colorButton2.setSelected(false);
-		colorButton4.setSelected(false);
-		colorButton3.setSelected(false);
+		for(ColorButton button : buttons){
+			button.setSelected(false);
+		}
 	}
 	
 	public void addActionListener(ActionListener al){

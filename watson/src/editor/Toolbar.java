@@ -26,47 +26,56 @@ public class Toolbar extends JPanel{
 	
 	private ActionListener actionListener;
 	 
-	private JPanel[] panels = { new PenTypePanel(), new PenModePanel(), new PenColorPanel() };
+	private ToolbarPanel[] panels = { new PenTypePanel(), new PenModePanel(), new PenColorPanel(), new PenSizePanel() };
 	
 	public Toolbar(){
+		setupLayout();
 		addComponents();
 	}
 	
-	private void addComponents(){
+	private void setupLayout(){
 		setLayout(new FlowLayout(FlowLayout.LEFT));
 		setBorder(new EmptyBorder(0,0,0,0));
+	}
+	
+	private void addComponents(){
+		addActionListeners();
 		for(JPanel panel : panels){
 			add(panel);
 		}
-		add(getPenSizePanel());
-		//TODO add actionListeners
+	}
+	
+	private void addActionListeners(){
+		for(ToolbarPanel panel : panels){
+			panel.addActionListener(new ActionListener(){
+				@Override
+				public void actionPerformed(ActionEvent e){
+					actionListener.actionPerformed(e);
+				}
+				
+			});
+		}
 	}
 	
 	/**
 	 * Checks whether the editor pen variable is in sync with the toolbar.
 	 */
 	public void update(){
-		checkSize();
-		checkColor();
-		penModePanel.update();
-		penTypePanel.update();
+		for(ToolbarPanel panel : panels){
+			panel.update();
+		}
 	}
 	
 	private Pen getCurrentPen(){
 		return Editor.currentPen;
 	}
 	
-	
-	
 	public static JLabel getLabel(String string){
 		JLabel label = new JLabel(string);
 		label.setBorder(new EmptyBorder(5, 5, 5, 5));
 		label.setHorizontalAlignment(JLabel.CENTER);
-		label.setFont(new Font("Times New Roman", Font.PLAIN, 12));
 		return label;
 	}
-	
-	
 	
 	public void addActionListener(ActionListener al){
 		actionListener = al;
