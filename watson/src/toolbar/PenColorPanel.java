@@ -17,7 +17,7 @@ import editor.ColorButton;
 import editor.Toolbar;
 import gui.Editor;
 
-public class PenColorPanel extends JPanel{
+public class PenColorPanel extends ToolbarPanel{
 	
 	public static final long serialVersionUID = 5587623465197685476L;
 	
@@ -40,19 +40,6 @@ public class PenColorPanel extends JPanel{
 		return Editor.currentPen.getColor()==button.getButtonColor();
 	}
 	
-	/*
-	 * Sometimes the color of the pens changes on a different way than the button clicked, this checks button
-	 * color from time to time
-	 */
-	private void checkColor(){
-		resetAllColorButtons();
-		for(ColorButton button : buttons){
-			if(buttonSelected(button)){
-				button.setSelected(true);
-			}
-		}
-	}
-	
 	private void setUpColorPanel(JPanel container){
 		container.setLayout(new GridLayout(1,4));
 		container.setBorder(BorderFactory.createLineBorder(new Color(200, 200, 200), 1, true));
@@ -73,8 +60,7 @@ public class PenColorPanel extends JPanel{
 		
 	private ColorButton getColorButton(Color color){
 		ColorButton button = new ColorButton(color);
-		button.setPreferredSize(new Dimension(60, 60));
-		button.setBorder(new EmptyBorder(8, 8, 8, 8));
+		setUpButtonLayout(button);
 		button.addActionListener(new ActionListener(){
 			@Override
 			public void actionPerformed(ActionEvent e){
@@ -87,6 +73,11 @@ public class PenColorPanel extends JPanel{
 		return button;
 	}
 	
+	private void setUpButtonLayout(ColorButton button){
+		button.setPreferredSize(new Dimension(60, 60));
+		button.setBorder(new EmptyBorder(8, 8, 8, 8));
+	}
+	
 	protected void resetAllColorButtons(){
 		for(ColorButton button : buttons){
 			button.setSelected(false);
@@ -97,8 +88,14 @@ public class PenColorPanel extends JPanel{
 		actionListener = al;
 	}
 	
-	public void update(){
-		checkColor();
+	@Override
+	protected void checkProperties() {
+		resetAllColorButtons();
+		for(ColorButton button : buttons){
+			if(buttonSelected(button)){
+				button.setSelected(true);
+			}
+		}
 	}
 
 }

@@ -17,24 +17,32 @@ import editor.Toolbar;
 import editor.ToolbarButton;
 import gui.Editor;
 
-public class PenSizePanel extends JPanel{
+public class PenSizePanel extends ToolbarPanel{
 	
 	public static final long serialVersionUID = 6334254366548907865L;
 	
-	private PenSizeButton fineButton = getPenSizeButton(PenSize.FINE);
-	private PenSizeButton mediumButton = getPenSizeButton(PenSize.MEDIUM);
-	private PenSizeButton thickButton = getPenSizeButton(PenSize.THICK);
+	private PenSizeButton buttons[] = { getPenSizeButton(PenSize.FINE), 
+										getPenSizeButton(PenSize.MEDIUM),
+										getPenSizeButton(PenSize.THICK),
+										getPenSizeButton(PenSize.FINE)};
 	
 	private ActionListener actionListener;
 	
 	public PenSizePanel(){
+		setUpPanelLayout();
+		add(getSubcontainer(), BorderLayout.CENTER);
+	}
+	
+	private void setUpPanelLayout(){
 		setLayout(new BorderLayout());
 		add(Toolbar.getLabel("Pen Size"), BorderLayout.NORTH);
+	}
+	
+	private JPanel getSubcontainer(){
 		JPanel subcontainer = new JPanel();
 		setUpPenSizePanel(subcontainer);
 		addButtonsToPenSizePanel(subcontainer);
-		add(subcontainer, BorderLayout.CENTER);
-		
+		return subcontainer;
 	}
 	
 	private boolean isFine(){
@@ -49,24 +57,12 @@ public class PenSizePanel extends JPanel{
 		return Editor.currentPen.getSize()==PenSize.THICK;
 	}
 	
-	private void checkSize(){
-		resetAllPenSizeButtons();
-		if(isFine()){
-			fineButton.setSelected(true);
-		}else if(isMedium()){
-			mediumButton.setSelected(true);
-		}else if(isThick()){
-			thickButton.setSelected(true);
-		}
-	}
-	
 	private void setUpPenSizePanel(JPanel container){
 		container.setLayout(new GridLayout(1,3));
 		container.setBorder(BorderFactory.createLineBorder(new Color(200, 200, 200), 1, true));
 	}
 	
 	private void addButtonsToPenSizePanel(JPanel container){
-		ToolbarButton buttons[] = { fineButton, mediumButton, thickButton };
 		for(ToolbarButton button : buttons){
 			JPanel buttonPanel = new JPanel();
 			buttonPanel.setLayout(new GridLayout(1,1));
@@ -77,8 +73,7 @@ public class PenSizePanel extends JPanel{
 	
 	private PenSizeButton getPenSizeButton(PenSize penSize){
 		PenSizeButton button = new PenSizeButton(penSize);
-		button.setPreferredSize(new Dimension(60, 60));
-		button.setBorder(new EmptyBorder(8, 8, 8, 8));
+		setupButtonLayout(button);
 		button.addActionListener(new ActionListener(){
 			@Override
 			public void actionPerformed(ActionEvent e){
@@ -92,18 +87,31 @@ public class PenSizePanel extends JPanel{
 		return button;
 	}
 	
+	private void setupButtonLayout(ToolbarButton button){
+		button.setPreferredSize(new Dimension(60, 60));
+		button.setBorder(new EmptyBorder(8, 8, 8, 8));
+	}
+	
 	private void resetAllPenSizeButtons(){
-		fineButton.setSelected(false);
-		mediumButton.setSelected(false);
-		thickButton.setSelected(false);
+		for(ToolbarButton button : buttons){
+			button.setSelected(false);
+		}
 	}
 	
 	public void addActionListener(ActionListener al){
 		actionListener = al;
 	}
 	
-	public void update(){
-		checkSize();
+	@Override
+	protected void checkProperties() {
+		resetAllPenSizeButtons();
+		if(isFine()){
+			buttons[0].setSelected(true);
+		}else if(isMedium()){
+			buttons[1].setSelected(true);
+		}else if(isThick()){
+			buttons[2].setSelected(true);
+		}
 	}
 
 }
