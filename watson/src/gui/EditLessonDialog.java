@@ -13,7 +13,6 @@ import java.awt.Color;
 import java.awt.GridLayout;
 import java.awt.Image;
 import java.awt.Dimension;
-import java.awt.event.KeyListener;
 import java.awt.image.BufferedImage;
 import java.awt.event.KeyEvent;
 import java.awt.event.ActionListener;
@@ -26,6 +25,10 @@ import java.io.IOException;
 import util.Lesson;
 import util.Card;
 import io.FileManager;
+
+import panel.NavigationPanel;
+import panel.NavigationEvent;
+import static panel.NavigationEventType.*;
 
 public class EditLessonDialog extends JFrame{
 	
@@ -114,18 +117,46 @@ public class EditLessonDialog extends JFrame{
 		return container;
 	}
 	
-	private JPanel getNavigationPanel(){
-		JPanel container = new JPanel();
-		setBorder(container);
-	
-		return container;
+	private NavigationPanel getNavigationPanel(){
+		NavigationPanel panel = new NavigationPanel();
+		panel.addActionListener(new ActionListener(){
+			@Override
+			public void actionPerformed(ActionEvent e){
+				NavigationEvent navigationEvent = (NavigationEvent)e;
+				if(navigationEvent.getType()==NEXT){
+					showNextCard();
+				}else if(navigationEvent.getType()==BACK){
+					showPreviousCard();
+				}else if(navigationEvent.getType()==TURN){
+					turnAround();
+				}else if(navigationEvent.getType()==SAVE){
+					saveAndCloseDialog();
+				}else;
+			}
+		});
+		return panel;
 	}
 	
+	private void showPreviousCard(){
+		editor.open(lesson.getPreviousCard().getSideNumber(currentSide));
+	}
 	
+	private void showNextCard(){
+		editor.open(lesson.getNextCard().getSideNumber(currentSide));
+	}
 	
+	private void turnAround(){
+		currentSide = cycle(currentSide);
+		editor.open(lesson.getCurrentCard().getSideNumber(currentSide));
+	}
 	
-	
-	
+	private int cycle(int sideNumber){
+		if(sideNumber == 1){
+			return 2;
+		}else{
+			return 1;
+		}
+	}
 	
 	private void showLessonOverview(){
 		new LessonOverview();
@@ -199,9 +230,7 @@ public class EditLessonDialog extends JFrame{
 		return button;
 	}
 	
-	private void showPreviousCard(){
-		editor.open(lesson.getPreviousCard().getSideNumber(currentSide));
-	}
+	
 
 	//TODO: this is needed a lot, put this somewhere central??
 	private void setIcon(JButton button, String filepath){

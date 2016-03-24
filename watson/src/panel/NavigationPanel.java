@@ -2,21 +2,16 @@ package panel;
 
 import java.awt.Color;
 import java.awt.GridLayout;
-import java.awt.Image;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.awt.image.BufferedImage;
-import java.io.File;
 
-import javax.imageio.ImageIO;
 import javax.swing.BorderFactory;
-import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JPanel;
 
 import static panel.NavigationEventType.*;
 
-public class NavigationPanel extends JPanel{
+public class NavigationPanel extends Panel{
 	
 	public static final long serialVersionUID = 6998365766487650987L;
 	
@@ -133,16 +128,6 @@ public class NavigationPanel extends JPanel{
 				actionListener.actionPerformed(new NavigationEvent(SAVE));
 			}
 		});
-	}
-	
-	private void setIcon(JButton button, String filepath){
-		BufferedImage image = null;
-		try{
-			image = ImageIO.read(new File("res/" + filepath));
-		}catch(Exception e){
-			e.printStackTrace();//TODO: Exception handling
-		}
-		button.setIcon(new ImageIcon(image.getScaledInstance(25, 25, Image.SCALE_SMOOTH)));
 	}
 	
 	public void addActionListener(ActionListener al){
