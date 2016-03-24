@@ -27,7 +27,7 @@ import util.Lesson;
 import util.Card;
 import io.FileManager;
 
-public class EditLessonDialog extends JFrame implements KeyListener{
+public class EditLessonDialog extends JFrame{
 	
 	private class Dispatcher implements KeyEventDispatcher{
 		@Override
@@ -61,26 +61,42 @@ public class EditLessonDialog extends JFrame implements KeyListener{
 	private KeyboardFocusManager manager = KeyboardFocusManager.getCurrentKeyboardFocusManager();
 	
 	public EditLessonDialog(Lesson l){
+		setUpLesson(l);
+		prepareKeyListener();
+		setUpFrame();
+	}
+	
+	private void setUpLesson(Lesson l){
 		lesson = l;
 		lesson.resetCurrentCard();
-		addKeyListener(this);
+	}
+	
+	private void prepareKeyListener(){
+		manager.addKeyEventDispatcher(keyEventDispatcher);
+	}
+	
+	private void setUpFrame(){
 		basicFrameSetup();
 		addComponents();
-		manager.addKeyEventDispatcher(keyEventDispatcher);
 		setVisible(true);
 	}
 	
+	@Override
 	public void dispose(){
 		manager.removeKeyEventDispatcher(keyEventDispatcher);
 		super.dispose();
 	}
 	
 	private void basicFrameSetup(){
-		setSize(800,500);
-		setMinimumSize(new Dimension(400,400));
+		initSize();
 		setExtendedState(JFrame.MAXIMIZED_BOTH);
 		setDefaultCloseOperation(DISPOSE_ON_CLOSE);
 		setLayout(new BorderLayout());
+	}
+	
+	private void initSize(){
+		setSize(800,500);
+		setMinimumSize(new Dimension(400,400));
 	}
 	
 	private void addComponents(){
@@ -100,16 +116,23 @@ public class EditLessonDialog extends JFrame implements KeyListener{
 	
 	private JPanel getNavigationPanel(){
 		JPanel container = new JPanel();
+		setBorder(container);
+	
+		return container;
+	}
+	
+	private void setBorder(JPanel container){
 		container.setBorder(BorderFactory.createLineBorder(new Color(200, 200, 200), 1, true));
-		container.setLayout(new GridLayout(1,3));
+	}
+	
+	private void addButtonsToNavigationPanel(JPanel navigationPanel){
 		JButton buttons[] = { previousButton(), nextButton(), turnAroundButton(), getSaveButton() };
 		for(JButton button : buttons){
 			JPanel buttonPanel = new JPanel();
 			buttonPanel.setLayout(new GridLayout(1,1));
 			buttonPanel.add(button);
-			container.add(buttonPanel);
+			navigationPanel.add(buttonPanel);
 		}
-		return container;
 	}
 	
 	private JButton nextButton(){
@@ -258,17 +281,6 @@ public class EditLessonDialog extends JFrame implements KeyListener{
 		return button;
 	}
 
-	@Override
-	public void keyPressed(KeyEvent e) {}
-
-	@Override
-	public void keyReleased(KeyEvent e) {}
-
-	@Override
-	public void keyTyped(KeyEvent e) {
-		System.out.println("Hello World");
-	}
-	
 	private void setIcon(JButton button, String filepath){
 		BufferedImage image = null;
 		try{

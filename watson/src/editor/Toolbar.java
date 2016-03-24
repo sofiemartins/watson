@@ -1,23 +1,13 @@
 package editor;
 
 import javax.swing.JPanel;
-import javax.swing.BorderFactory;
 import javax.swing.JLabel;
 import javax.swing.border.EmptyBorder;
-import java.awt.GridLayout;
-import java.awt.Color;
-import java.awt.Dimension;
 import java.awt.FlowLayout;
-import java.awt.Font;
 
-import java.awt.BorderLayout;
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
 
-import static util.Colors.*;
-import editor.ColorButton;
-import editor.PenSizeButton;
-import gui.Editor;
 import toolbar.*;
 
 public class Toolbar extends JPanel{
@@ -64,10 +54,6 @@ public class Toolbar extends JPanel{
 		for(ToolbarPanel panel : panels){
 			panel.update();
 		}
-	}
-	
-	private Pen getCurrentPen(){
-		return Editor.currentPen;
 	}
 	
 	public static JLabel getLabel(String string){

@@ -5,7 +5,6 @@ import java.awt.event.ActionEvent;
  * 
  * @author Sofie A. Martins
  *
- *TODO: Maybe make this cleaner: There are a lot of things that aren't needed.
  */
 
 public class ToolbarEvent extends ActionEvent{
