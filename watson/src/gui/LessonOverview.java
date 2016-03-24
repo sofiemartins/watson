@@ -184,7 +184,9 @@ public class LessonOverview extends JFrame implements ComponentListener{
 		button.addActionListener(new ActionListener(){
 			@Override
 			public void actionPerformed(ActionEvent e){
-				startInterrogation();
+				if(!overviewList.isSelectionEmpty()){
+					startInterrogation();
+				}
 			}
 		});
 		subcontainer.add(button);
@@ -388,6 +390,7 @@ public class LessonOverview extends JFrame implements ComponentListener{
 	
 	private void startInterrogation(){
 		Lesson selectedLesson = overviewList.getSelectedValue();
+		selectedLesson.resetCurrentCard();
 		new Interrogation(selectedLesson);
 		LessonOverview.super.dispose();
 	}

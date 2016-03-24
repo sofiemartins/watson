@@ -5,11 +5,17 @@ import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Graphics;
 import java.awt.GridLayout;
+import java.awt.Image;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.image.BufferedImage;
+import java.io.File;
+import java.io.IOException;
 
+import javax.imageio.ImageIO;
 import javax.swing.BorderFactory;
 import javax.swing.ImageIcon;
+import javax.swing.JButton;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
 
@@ -66,7 +72,7 @@ public class PenModePanel extends ToolbarPanel{
 	private ToolbarButton getRulerButton(){
 		ToolbarButton button = new ToolbarButton();
 		setUpButtonLayout(button);
-		button.setIcon(new ImageIcon(getClass().getResource("ruler.png")));
+		setIcon(button, "ruler.png");
 		button.addActionListener(new ActionListener(){
 			@Override
 			public void actionPerformed(ActionEvent e){
@@ -194,6 +200,16 @@ public class PenModePanel extends ToolbarPanel{
 			buttons[0].setSelected(true);
 		}else if(isInRectangleMode()){
 			buttons[1].setSelected(true);
+		}
+	}
+	
+	private void setIcon(ToolbarButton button, String filepath){
+		BufferedImage icon = null;
+		try{
+			icon = ImageIO.read(new File("res/" + filepath));
+			button.setIcon(new ImageIcon(icon.getScaledInstance(25, 25, Image.SCALE_SMOOTH)));
+		}catch(IOException e){
+			e.printStackTrace(); //TODO: Exception handling
 		}
 	}
 
