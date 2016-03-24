@@ -121,93 +121,11 @@ public class EditLessonDialog extends JFrame{
 		return container;
 	}
 	
-	private void setBorder(JPanel container){
-		container.setBorder(BorderFactory.createLineBorder(new Color(200, 200, 200), 1, true));
-	}
 	
-	private void addButtonsToNavigationPanel(JPanel navigationPanel){
-		JButton buttons[] = { previousButton(), nextButton(), turnAroundButton(), getSaveButton() };
-		for(JButton button : buttons){
-			JPanel buttonPanel = new JPanel();
-			buttonPanel.setLayout(new GridLayout(1,1));
-			buttonPanel.add(button);
-			navigationPanel.add(buttonPanel);
-		}
-	}
 	
-	private JButton nextButton(){
-		JButton button = new JButton();
-		button.setName("toolbarButton");
-		setIcon(button, "next.png");
-		button.addActionListener(new ActionListener(){
-			@Override
-			public void actionPerformed(ActionEvent e){
-				showNextCard();
-			}
-		});
-		return button;
-	}
 	
-	private void showNextCard(){
-		editor.open(lesson.getNextCard().getSideNumber(currentSide));
-	}
 	
-	private JButton previousButton(){
-		JButton button = new JButton();
-		button.setName("toolbarButton");
-		setIcon(button, "back.png");
-		button.addActionListener(new ActionListener(){
-			@Override
-			public void actionPerformed(ActionEvent e){
-				showPreviousCard();
-			}
-		});
-		return button;
-	}
 	
-	private void showPreviousCard(){
-		editor.open(lesson.getPreviousCard().getSideNumber(currentSide));
-	}
-	
-	private JButton turnAroundButton(){
-		JButton button = new JButton();
-		button.setName("toolbarButton");
-		setIcon(button, "otherside.png");
-		button.addActionListener(new ActionListener(){
-			@Override
-			public void actionPerformed(ActionEvent e){
-				turnAround();
-			}
-		});
-		button.grabFocus();
-		return button;
-	}
-	
-	private void turnAround(){
-		currentSide = cycle(currentSide);
-		editor.open(lesson.getCurrentCard().getSideNumber(currentSide));
-	}
-	
-	private int cycle(int sideNumber){
-		if(sideNumber == 1){
-			return 2;
-		}else{
-			return 1;
-		}
-	}
-	
-	private JButton getSaveButton(){
-		JButton button = new JButton();
-		button.setName("toolbarButton");
-		setIcon(button, "save.png");
-		button.addActionListener(new ActionListener(){
-			@Override
-			public void actionPerformed(ActionEvent e){
-				saveAndCloseDialog();
-			}
-		});
-		return button;
-	}
 	
 	private void showLessonOverview(){
 		new LessonOverview();
@@ -280,7 +198,12 @@ public class EditLessonDialog extends JFrame{
 		});
 		return button;
 	}
+	
+	private void showPreviousCard(){
+		editor.open(lesson.getPreviousCard().getSideNumber(currentSide));
+	}
 
+	//TODO: this is needed a lot, put this somewhere central??
 	private void setIcon(JButton button, String filepath){
 		BufferedImage image = null;
 		try{
