@@ -54,6 +54,9 @@ import io.FileManager;
 import stats.TimeOverview;
 import stats.PiChartAnswerOverview;
 import stats.AbsoluteAnswerOverview;
+import panel.MainControlPanel;
+import panel.MainControlEvent;
+import static panel.MainControlEventType.*;
 
 public class LessonOverview extends JFrame implements ComponentListener{
 	
@@ -65,7 +68,6 @@ public class LessonOverview extends JFrame implements ComponentListener{
 	private JPanel overviewPanel;
 	private JPanel statsPanel = new JPanel();
 	private JPanel overviewListSubcontainer;
-	private static final String TOOLBAR_BUTTON = "toolbarButton";
 	
 	public LessonOverview(){
 		loadLessons();
@@ -126,73 +128,54 @@ public class LessonOverview extends JFrame implements ComponentListener{
 		setVisible(true);
 	}
 	
+	public MainControlPanel getButtonPanel(){
+		MainControlPanel panel = new MainControlPanel();
+		panel.addActionListener(new ActionListener(){
+			@Override
+			public void actionPerformed(ActionEvent e){
+				MainControlEvent ev = (MainControlEvent)e;
+				if(ev.getType()==NEW){
+					newLesson();
+				}else if(ev.getType()==DELETE){
+					delete();
+				}else if(ev.getType()==EDIT){
+					edit();
+				}else if(ev.getType()==START){
+					start();
+				}
+			}
+		});
+		
+	}
+	
+	private void newLesson(){
+		if(createNewLesson()){
+			LessonOverview.super.dispose();
+		}
+	}
+
+	private void start(){
+		if(!overviewList.isSelectionEmpty()){
+			startInterrogation();
+		}
+	}
+	
+	private void delete(){
+		removeSelectedLesson();
+	}
+	
+	private void edit(){
+		Lesson lesson = overviewList.getSelectedValue();
+		edit(lesson);
+		LessonOverview.super.dispose();
+	}
+	
 	private void setUpStatsPanel(){
 		statsPanel = new JPanel();
 		statsPanel.setLayout(new GridLayout(1, 2));
 	}
 	
-	private JPanel getButtonPanel(){
-		JPanel container = new JPanel();
-		container.setLayout(new BorderLayout());
-		container.add(getButtonPanelSubPanel(), NORTH);
-		container.add(getStartPractisingButton(), SOUTH);
-		return container;
-	}
 	
-	private JPanel getButtonPanelSubPanel(){
-		JPanel subcontainer = new JPanel();
-		subcontainer.setBorder(BorderFactory.createLineBorder(new Color(200, 200, 200), 1, true));
-		subcontainer.setLayout(new GridLayout(3,1));
-		subcontainer.add(getNewButton());
-		subcontainer.add(getRemoveButton());
-		subcontainer.add(getEditButton());
-		return subcontainer;
-	}
-		
-	private JPanel getNewButton(){
-		JPanel container = new JPanel();
-		container.setLayout(new GridLayout(1,1));
-		container.setBorder(new EmptyBorder(8, 8, 4, 8));
-		JButton button = new JButton("New");
-		button.setName(TOOLBAR_BUTTON);
-		button.setVerticalTextPosition(SwingConstants.BOTTOM);
-		button.setHorizontalTextPosition(SwingConstants.CENTER);
-		button.setSize(100, 100);
-		setIcon(button, "add.png");
-		button.addActionListener(new ActionListener(){
-			@Override
-			public void actionPerformed(ActionEvent e){
-				if(createNewLesson())
-					LessonOverview.super.dispose();
-			}
-		});
-		container.add(button);
-		return container;
-	}
-	
-	private JPanel getStartPractisingButton(){
-		JPanel container = new JPanel();
-		container.setBorder(BorderFactory.createLineBorder(new Color(200, 200, 200), 1, true));
-		container.setLayout(new GridLayout(1,1));
-		JPanel subcontainer = new JPanel();
-		subcontainer.setLayout(new GridLayout(1,1));
-		JButton button = new JButton("Start");
-		button.setName(TOOLBAR_BUTTON);
-		button.setVerticalTextPosition(SwingConstants.BOTTOM);
-		button.setHorizontalTextPosition(SwingConstants.CENTER);
-		setIcon(button, "add.png");
-		button.addActionListener(new ActionListener(){
-			@Override
-			public void actionPerformed(ActionEvent e){
-				if(!overviewList.isSelectionEmpty()){
-					startInterrogation();
-				}
-			}
-		});
-		subcontainer.add(button);
-		container.add(subcontainer);
-		return container;
-	}
 	
 	protected static boolean createNewLesson(){
 		String validTitle = getValidTitle();
@@ -236,24 +219,7 @@ public class LessonOverview extends JFrame implements ComponentListener{
 		return true;
 	}
 	
-	private JPanel getRemoveButton(){
-		JPanel container = new JPanel();
-		container.setLayout(new GridLayout(1,1));
-		container.setBorder(new EmptyBorder(4, 8, 4, 8));
-		JButton button = new JButton("Delete");
-		button.setName(TOOLBAR_BUTTON);
-		button.setVerticalTextPosition(SwingConstants.BOTTOM);
-		button.setHorizontalTextPosition(SwingConstants.CENTER);
-		setIcon(button, "remove.png");
-		button.addActionListener(new ActionListener(){
-			@Override
-			public void actionPerformed(ActionEvent e){
-				removeSelectedLesson();
-			}
-		});
-		container.add(button);
-		return container;
-	}
+
 	
 	private void removeSelectedLesson(){
 		Lesson lesson = overviewList.getSelectedValue();
@@ -268,39 +234,10 @@ public class LessonOverview extends JFrame implements ComponentListener{
 		}
 	}
 	
-	private JPanel getEditButton(){
-		JPanel container = new JPanel();
-		container.setLayout(new GridLayout(1,1));
-		container.setBorder(new EmptyBorder(4, 8, 8, 8));
-		JButton button = new JButton("Edit");
-		button.setName(TOOLBAR_BUTTON);
-		button.setVerticalTextPosition(SwingConstants.BOTTOM);
-		button.setHorizontalTextPosition(SwingConstants.CENTER);
-		setIcon(button, "edit.png");
-		button.addActionListener(new ActionListener(){
-			@Override
-			public void actionPerformed(ActionEvent e){
-				Lesson lesson = overviewList.getSelectedValue();
-				edit(lesson);
-				LessonOverview.super.dispose();
-			}
-		});
-		container.add(button);
-		return container;
-	}
+	
 	
 	protected static void edit(Lesson lesson){
 		new EditLessonDialog(lesson);
-	}
-	
-	private void setIcon(JButton button, String filepath){
-		BufferedImage icon = null;
-		try{
-			icon = ImageIO.read(new File("res/" + filepath));
-			button.setIcon(new ImageIcon(icon.getScaledInstance(25, 25, Image.SCALE_SMOOTH)));
-		}catch(IOException e){
-			e.printStackTrace(); //TODO: Exception handling
-		}
 	}
 	
 	private JPanel getOverview(){
