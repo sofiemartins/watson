@@ -14,25 +14,16 @@ package gui;
 // java lib
 import javax.swing.JFrame;
 import javax.swing.JPanel;
-import javax.swing.JButton;
 import javax.swing.JScrollPane;
-import javax.swing.SwingConstants;
 import javax.swing.SwingUtilities;
 import javax.swing.UIManager;
-import javax.swing.border.EmptyBorder;
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
 import javax.swing.JOptionPane;
 import javax.swing.plaf.synth.SynthLookAndFeel;
-import javax.imageio.ImageIO;
 import javax.swing.BorderFactory;
-import javax.swing.ImageIcon;
-
-import editor.Toolbar;
 
 import java.awt.event.ActionListener;
-import java.awt.image.BufferedImage;
-import java.io.File;
 import java.io.IOException;
 import java.awt.event.ActionEvent;
 import java.awt.BorderLayout;
@@ -41,7 +32,6 @@ import java.awt.Dimension;
 
 import static java.awt.BorderLayout.*;
 import java.awt.GridLayout;
-import java.awt.Image;
 import java.awt.Window;
 import java.awt.event.ComponentListener;
 import java.awt.event.ComponentEvent;
@@ -145,7 +135,7 @@ public class LessonOverview extends JFrame implements ComponentListener{
 				}
 			}
 		});
-		
+		return panel;
 	}
 	
 	private void newLesson(){
@@ -174,8 +164,6 @@ public class LessonOverview extends JFrame implements ComponentListener{
 		statsPanel = new JPanel();
 		statsPanel.setLayout(new GridLayout(1, 2));
 	}
-	
-	
 	
 	protected static boolean createNewLesson(){
 		String validTitle = getValidTitle();
@@ -219,8 +207,6 @@ public class LessonOverview extends JFrame implements ComponentListener{
 		return true;
 	}
 	
-
-	
 	private void removeSelectedLesson(){
 		Lesson lesson = overviewList.getSelectedValue();
 		if(lesson!=null){
@@ -233,8 +219,6 @@ public class LessonOverview extends JFrame implements ComponentListener{
 			overviewList.update();
 		}
 	}
-	
-	
 	
 	protected static void edit(Lesson lesson){
 		new EditLessonDialog(lesson);

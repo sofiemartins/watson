@@ -15,7 +15,6 @@ import javax.swing.JPanel;
 import javax.swing.SwingConstants;
 import javax.swing.border.EmptyBorder;
 
-import util.Lesson;
 import static panel.MainControlEventType.*;
 
 public class MainControlPanel extends Panel{
