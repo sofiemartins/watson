@@ -64,7 +64,9 @@ public class NavigationPanel extends Panel{
 		nextButton.addActionListener(new ActionListener(){
 			@Override
 			public void actionPerformed(ActionEvent e){
-				actionListener.actionPerformed(new NavigationEvent(NEXT));
+				if(actionListener!=null){
+					actionListener.actionPerformed(new NavigationEvent(NEXT));
+				}
 			}
 		});
 	}
@@ -84,7 +86,9 @@ public class NavigationPanel extends Panel{
 		previousButton.addActionListener(new ActionListener(){
 			@Override
 			public void actionPerformed(ActionEvent e){
-				actionListener.actionPerformed(new NavigationEvent(BACK));
+				if(actionListener!=null){
+					actionListener.actionPerformed(new NavigationEvent(BACK));	
+				}
 			}
 		});
 	}
@@ -105,7 +109,9 @@ public class NavigationPanel extends Panel{
 		turnAroundButton.addActionListener(new ActionListener(){
 			@Override
 			public void actionPerformed(ActionEvent e){
-				actionListener.actionPerformed(new NavigationEvent(TURN));
+				if(actionListener!=null){
+					actionListener.actionPerformed(new NavigationEvent(TURN));
+				}
 			}
 		});
 	}
@@ -125,7 +131,9 @@ public class NavigationPanel extends Panel{
 		saveButton.addActionListener(new ActionListener(){
 			@Override
 			public void actionPerformed(ActionEvent e){
-				actionListener.actionPerformed(new NavigationEvent(SAVE));
+				if(actionListener!=null){
+					actionListener.actionPerformed(new NavigationEvent(SAVE));
+				}
 			}
 		});
 	}

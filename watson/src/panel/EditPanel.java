@@ -63,7 +63,9 @@ public class EditPanel extends Panel{
 		deleteButton.addActionListener(new ActionListener(){
 			@Override
 			public void actionPerformed(ActionEvent e){
-				actionListener.actionPerformed(new EditEvent(DELETE));
+				if(actionListener!=null){
+					actionListener.actionPerformed(new EditEvent(DELETE));
+				}
 			}
 		});
 	}
