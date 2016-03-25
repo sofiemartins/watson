@@ -3,7 +3,6 @@ package gui;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
 import java.awt.BorderLayout;
-import java.awt.Dimension;
 
 import static java.awt.BorderLayout.*;
 import java.awt.event.ActionListener;
