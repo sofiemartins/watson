@@ -54,7 +54,7 @@ public class MainControlPanel extends Panel{
 			@Override
 			public void actionPerformed(ActionEvent e){
 				if(actionListener!=null){
-					actionListener.actionPerformed(new MainControlEvent(NEW));
+					actionListener.actionPerformed(new MainControlEvent(this, NEW));
 				}
 			}
 			
@@ -80,7 +80,7 @@ public class MainControlPanel extends Panel{
 			@Override
 			public void actionPerformed(ActionEvent e){
 				if(actionListener!=null){
-					actionListener.actionPerformed(new MainControlEvent(START));
+					actionListener.actionPerformed(new MainControlEvent(this, START));
 				}
 			}
 		});
@@ -102,7 +102,7 @@ public class MainControlPanel extends Panel{
 			@Override
 			public void actionPerformed(ActionEvent e){
 				if(actionListener!=null){
-					actionListener.actionPerformed(new MainControlEvent(DELETE));	
+					actionListener.actionPerformed(new MainControlEvent(this, DELETE));	
 				}
 			}
 		});
@@ -123,7 +123,7 @@ public class MainControlPanel extends Panel{
 			@Override
 			public void actionPerformed(ActionEvent e){
 				if(actionListener!=null){
-					actionListener.actionPerformed(new MainControlEvent(EDIT));
+					actionListener.actionPerformed(new MainControlEvent(this, EDIT));
 				}
 			}
 		});

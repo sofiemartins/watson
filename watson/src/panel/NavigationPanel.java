@@ -65,7 +65,7 @@ public class NavigationPanel extends Panel{
 			@Override
 			public void actionPerformed(ActionEvent e){
 				if(actionListener!=null){
-					actionListener.actionPerformed(new NavigationEvent(NEXT));
+					actionListener.actionPerformed(new NavigationEvent(this, NEXT));
 				}
 			}
 		});
@@ -87,7 +87,7 @@ public class NavigationPanel extends Panel{
 			@Override
 			public void actionPerformed(ActionEvent e){
 				if(actionListener!=null){
-					actionListener.actionPerformed(new NavigationEvent(BACK));	
+					actionListener.actionPerformed(new NavigationEvent(this, BACK));	
 				}
 			}
 		});
@@ -110,7 +110,7 @@ public class NavigationPanel extends Panel{
 			@Override
 			public void actionPerformed(ActionEvent e){
 				if(actionListener!=null){
-					actionListener.actionPerformed(new NavigationEvent(TURN));
+					actionListener.actionPerformed(new NavigationEvent(this, TURN));
 				}
 			}
 		});
@@ -132,7 +132,7 @@ public class NavigationPanel extends Panel{
 			@Override
 			public void actionPerformed(ActionEvent e){
 				if(actionListener!=null){
-					actionListener.actionPerformed(new NavigationEvent(SAVE));
+					actionListener.actionPerformed(new NavigationEvent(this, SAVE));
 				}
 			}
 		});

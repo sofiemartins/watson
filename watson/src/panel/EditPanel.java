@@ -64,7 +64,7 @@ public class EditPanel extends Panel{
 			@Override
 			public void actionPerformed(ActionEvent e){
 				if(actionListener!=null){
-					actionListener.actionPerformed(new EditEvent(DELETE));
+					actionListener.actionPerformed(new EditEvent(this, DELETE));
 				}
 			}
 		});
@@ -86,7 +86,7 @@ public class EditPanel extends Panel{
 			@Override
 			public void actionPerformed(ActionEvent e){
 				if(actionListener!=null){
-					actionListener.actionPerformed(new EditEvent(ADD));
+					actionListener.actionPerformed(new EditEvent(this, ADD));
 				}
 			}
 		});

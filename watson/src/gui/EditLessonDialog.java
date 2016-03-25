@@ -98,8 +98,8 @@ public class EditLessonDialog extends JFrame{
 	
 	private void addComponents(){
 		add(getBottomPanel(), SOUTH);
-		editor = new Editor(lesson.getCurrentCard().getSideNumber(currentSide));
 		currentSide = 1;
+		editor = new Editor(lesson.getCurrentCard().getSideNumber(currentSide));
 		add(editor, CENTER);
 	}
 	

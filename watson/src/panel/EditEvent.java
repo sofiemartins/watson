@@ -8,8 +8,8 @@ public class EditEvent extends ActionEvent{
 	
 	private EditType type;
 	
-	public EditEvent(EditType editType){
-		super(null, ActionEvent.ACTION_PERFORMED, "Edit");
+	public EditEvent(Object source, EditType editType){
+		super(source, ActionEvent.ACTION_PERFORMED, "Edit");
 		type = editType;
 	}
 	

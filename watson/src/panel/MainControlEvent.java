@@ -8,8 +8,8 @@ public class MainControlEvent extends ActionEvent{
 	
 	private MainControlEventType type;
 	
-	public MainControlEvent(MainControlEventType eventType){
-		super(null, ActionEvent.ACTION_PERFORMED, "main control");
+	public MainControlEvent(Object source, MainControlEventType eventType){
+		super(source, ActionEvent.ACTION_PERFORMED, "main control");
 		type = eventType;
 	}
 	
