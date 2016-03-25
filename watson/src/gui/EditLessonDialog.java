@@ -2,30 +2,24 @@ package gui;
 
 import javax.swing.JFrame;
 import javax.swing.JPanel;
-import javax.swing.JButton;
-import javax.imageio.ImageIO;
-import javax.swing.BorderFactory;
-import javax.swing.ImageIcon;
 import javax.swing.JOptionPane;
 import static java.awt.BorderLayout.*;
 import java.awt.BorderLayout;
-import java.awt.Color;
-import java.awt.GridLayout;
-import java.awt.Image;
 import java.awt.Dimension;
-import java.awt.image.BufferedImage;
 import java.awt.event.KeyEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
 import java.awt.KeyEventDispatcher;
 import java.awt.KeyboardFocusManager;
-import java.io.File;
 import java.io.IOException;
 
 import util.Lesson;
 import util.Card;
 import io.FileManager;
 
+import panel.EditPanel;
+import panel.EditEvent;
+import static panel.EditType.*;
 import panel.NavigationPanel;
 import panel.NavigationEvent;
 import static panel.NavigationEventType.*;
@@ -188,58 +182,30 @@ public class EditLessonDialog extends JFrame{
 		}
 	}
 	
-	private JPanel getEditPanel(){
-		JPanel container = new JPanel();
-		container.setBorder(BorderFactory.createLineBorder(new Color(200, 200, 200), 1, true));
-		container.setLayout(new GridLayout(1,2));
-		JButton buttons[] = { deleteButton(), addButton() };
-		for(JButton button : buttons){
-			JPanel buttonPanel = new JPanel();
-			buttonPanel.setLayout(new GridLayout(1,1));
-			buttonPanel.add(button);
-			container.add(buttonPanel);
-		}
-		return container;
-	}
-	
-	private JButton deleteButton(){
-		JButton button = new JButton();
-		button.setName("toolbarButton");
-		setIcon(button, "remove.png");
-		button.addActionListener(new ActionListener(){
+	private EditPanel getEditPanel(){
+		EditPanel panel = new EditPanel();
+		panel.addActionListener(new ActionListener(){
 			@Override
 			public void actionPerformed(ActionEvent e){
-				lesson.removeCurrentCard();
-				editor.open(lesson.getCurrentCard().getSideNumber(currentSide));
+				EditEvent ev = (EditEvent)e;
+				if(ev.getType()==DELETE){
+					delete();
+				}else if(ev.getType()==ADD){
+					add();
+				}
 			}
 		});
-		return button;
-	}
-	private JButton addButton(){
-		JButton button = new JButton();
-		button.setName("toolbarButton");
-		setIcon(button, "add.png");
-		button.addActionListener(new ActionListener(){
-			@Override
-			public void actionPerformed(ActionEvent e){
-				lesson.addCard(new Card());
-				currentSide = 1;
-				editor.open(lesson.getCurrentCard().getSideNumber(currentSide)); //Because the user always wants to write on the first side after clicking on "add"
-			}
-		});
-		return button;
+		return panel;
 	}
 	
+	private void delete(){
+		lesson.removeCurrentCard();
+		editor.open(lesson.getCurrentCard().getSideNumber(currentSide));
+	}
 	
-
-	//TODO: this is needed a lot, put this somewhere central??
-	private void setIcon(JButton button, String filepath){
-		BufferedImage image = null;
-		try{
-			image = ImageIO.read(new File("res/" + filepath));
-		}catch(Exception e){
-			e.printStackTrace();//TODO: Exception handling
-		}
-		button.setIcon(new ImageIcon(image.getScaledInstance(25, 25, Image.SCALE_SMOOTH)));
+	private void add(){
+		lesson.addCard(new Card());
+		currentSide = 1;
+		editor.open(lesson.getCurrentCard().getSideNumber(currentSide)); //Because the user always wants to write on the first side after clicking on "add"
 	}
 }

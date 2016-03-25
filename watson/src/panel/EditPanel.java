@@ -9,11 +9,14 @@ import javax.swing.BorderFactory;
 import javax.swing.JButton;
 import javax.swing.JPanel;
 
+import static panel.EditType.*;
+
 public class EditPanel extends Panel{
 	
 	public static final long serialVersionUID = 5599354632142532246L;
 	
 	private JButton deleteButton, addButton;
+	private ActionListener actionListener;
 	
 	public EditPanel(){
 		setLayout(new GridLayout(1,2));
@@ -60,7 +63,7 @@ public class EditPanel extends Panel{
 		deleteButton.addActionListener(new ActionListener(){
 			@Override
 			public void actionPerformed(ActionEvent e){
-			
+				actionListener.actionPerformed(new EditEvent(DELETE));
 			}
 		});
 	}
@@ -80,9 +83,14 @@ public class EditPanel extends Panel{
 		addButton.addActionListener(new ActionListener(){
 			@Override
 			public void actionPerformed(ActionEvent e){
-		
+				if(actionListener!=null){
+					actionListener.actionPerformed(new EditEvent(ADD));
+				}
 			}
 		});
-
+	}
+	
+	public void addActionListener(ActionListener al){
+		actionListener = al;
 	}
 }
