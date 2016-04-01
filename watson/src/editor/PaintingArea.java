@@ -56,7 +56,7 @@ public class PaintingArea extends JPanel implements MouseListener, MouseMotionLi
 	private static final AlphaComposite marking = AlphaComposite.DstOver;
 	
 	public PaintingArea(BufferedImage bufferedImage){
-		show(bufferedImage);
+		open(bufferedImage);
 		setUpPanel();
 		setUpImageGraphics();
 		addComponentListener(this);
