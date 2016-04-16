@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<synth>
+	<style id="toolbarButtonStyle">
+		<opaque value="TRUE" />
+		<insets top="10" left="10" right="10" bottom="10" />
+		<state>
+			<color value="WHITE" type="BACKGROUND" />
+		</state>
+		<state value="MOUSE_OVER">
+			<color value="#EEEEFF" type="BACKGROUND" />
+		</state>
+	</style>
+	
+	<style id="editorToolbarButtonStyle">
+		<opaque value="TRUE" />
+		<insets top="0" left="0" right="0" bottom="0" />
+		<state>
+			<color value="WHITE" type="BACKGROUND" />
+		</state>
+	</style>
+	
+	<style id="panelStyle">
+		<insets top="5" left="5" right="5" bottom="5" />
+		<state>
+			<color value="WHITE" type="BACKGROUND" />
+		</state>
+	</style>
+	
+	<style id="backgroundPanelStyle">
+		<opaque value="TRUE" />
+		<insets top="5" left="5" right="5" bottom="5" />
+		<state>
+			<imagePainter method="frameBackground" path="gradient.png" sourceInsets="10 10 10 10 " />
+		</state> 
+	</style>
+	
+	<style id="listStyle">
+		<opaque value="TRUE" />
+		<state>
+			<color value="WHITE" type="BACKGROUND" />
+		</state>
+	</style>
+	
+	<style id="backingStyle">
+		<opaque value="TRUE" />
+		<state>
+			<color value="WHITE" type="BACKGROUND" />
+			<color value="#666666" type="FOREGROUND" />
+		</state>
+	</style>
+	<bind style="backingStyle" type="region" key=".*" />
+	<bind style="panelStyle" type="region" key="Panel" />
+	<bind style="listStyle" type="region" key="List" />
+	<bind style="toolbarButtonStyle" type="name" key="toolbarButton" />
+	<bind style="editorToolbarButtonStyle" type="name" key="editorToolbarButton" />
+	<bind style="backgroundPanelStyle" type="name" key="Frame" />
+</synth>
